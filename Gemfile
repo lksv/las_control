@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.3.0'
+gem 'dotenv'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
@@ -35,6 +37,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
+  gem 'rspec', '~> 3.4'
 end
 
 group :development do
@@ -45,3 +51,9 @@ group :development do
   gem 'spring'
 end
 
+gem 'ruian_model',                path: '../ruian_model'
+gem 'local_administration_model', path: '../local_administration_model'
+gem 'sidekiq',                    '~> 4.0'
+
+gem 'haml'
+gem 'cancancan', '~> 1.10'
