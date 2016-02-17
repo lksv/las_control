@@ -55,5 +55,13 @@ gem 'ruian_model',                path: '../ruian_model'
 gem 'local_administration_model', path: '../local_administration_model'
 gem 'sidekiq',                    '~> 4.0'
 
+gem 'rails-i18n'
 gem 'haml'
+gem 'devise'
 gem 'cancancan', '~> 1.10'
+
+# currently last release of devise-i18n is 0.12.1 and it does not contains any
+#  views (current commit is f26a02454f5acfc2c39d91efcfd75b9068078e6f).
+gem 'devise-i18n', github: 'tigrish/devise-i18n', branch: 'master'
+
+
