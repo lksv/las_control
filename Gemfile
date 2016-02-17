@@ -64,4 +64,4 @@ gem 'cancancan', '~> 1.10'
 #  views (current commit is f26a02454f5acfc2c39d91efcfd75b9068078e6f).
 gem 'devise-i18n', github: 'tigrish/devise-i18n', branch: 'master'
 
-
+gem 'bootstrap-sass', '~> 3.3.6'
