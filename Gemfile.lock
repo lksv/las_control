@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/lksv/kaminari-i18n.git
+  revision: 6ede1ec431e7265385d47c08b950eb5bcb4f45fc
+  specs:
+    kaminari-i18n (0.3.2)
+      kaminari
+      rails
+
+GIT
   remote: git://github.com/tigrish/devise-i18n.git
   revision: f26a02454f5acfc2c39d91efcfd75b9068078e6f
   branch: master
@@ -142,6 +150,9 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
+    kaminari (0.16.3)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -260,6 +271,8 @@ DEPENDENCIES
   haml
   jbuilder (~> 2.0)
   jquery-rails
+  kaminari (~> 0.16.3)
+  kaminari-i18n!
   local_administration_model!
   rails (= 4.2.5.1)
   rails-i18n

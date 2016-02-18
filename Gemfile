@@ -59,6 +59,10 @@ gem 'rails-i18n'
 gem 'haml'
 gem 'devise'
 gem 'cancancan', '~> 1.10'
+gem 'kaminari', '~> 0.16.3'
+
+# TODO: remove `github` as soon as pullrequrest #28 will be merged
+gem 'kaminari-i18n', github: 'lksv/kaminari-i18n'
 
 # currently last release of devise-i18n is 0.12.1 and it does not contains any
 #  views (current commit is f26a02454f5acfc2c39d91efcfd75b9068078e6f).

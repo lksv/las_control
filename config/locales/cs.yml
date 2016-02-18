@@ -1,0 +1,46 @@
+cs:
+  attributes:
+    created_at: "Vytvořeno"
+    updated_at: "Aktualizováno"
+
+  activerecord:
+    models:
+      document:
+        one:          'Dokument'
+        other:        'Dokumenty'
+      user:
+        one:          'Uživatel'
+        other:        'Uživatelé'
+
+
+    attributes:
+
+      document:
+        title:        'Název'
+        url:          'URL'
+        reference_url: 'Dokument odkazovánk z'
+        state:        'Stav'
+        from_date:    'Původně načteno'
+        document_storage_size: 'Velikost orginálu'
+        parsed_at:    'Pársováno'
+        plain_text_at: 'Převedeno na text'
+
+      user:
+        email:        'E-mail'
+        password:     'Heslo'
+        remember_me:  'Zapamatovat si mě'
+        password_confirmation:    'Potvrzení hesla'
+        current_password: 'Současné heslo'
+
+  i18n:
+    inflections:
+      gender:
+        f:      "female"
+        m:      "male"
+        n:      "neuter"
+        man:    :@m
+        woman:  :@f
+        default: :@n
+  #exmaple:  "%{model} @{f:byla|m:byl|n:bylo|nic} @{f:vytvořena|m:vytvořen|n:vytvořeno}"
+
+
