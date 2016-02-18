@@ -1,6 +1,9 @@
 class DocumentsController < ApplicationController
   def index
-    @collection = Document.order(:created_at).page params[:page]
-    @collection = @collection.includes(local_administration_unit: :ruian_locable)
+    @q = Document.ransack(params[:q])
+    @collection = @q
+      .result
+      .includes(local_administration_unit: :ruian_locable)
+      .page params[:page]
   end
 end

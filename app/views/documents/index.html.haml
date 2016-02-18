@@ -10,8 +10,9 @@
   %thead
     %tr
       %th Zdroj
-      %th= @collection.human_attribute_name(:title)
-      %th= @collection.human_attribute_name(:from_date)
+      -# %th= sort_link @q, :local_administration_unit_ruian_locable_id
+      %th= sort_link @q, :title
+      %th= sort_link @q, :from_date #@collection.human_attribute_name(:from_date)
       - if show_actions
         %th=t '.actions', :default => t("helpers.actions")
   %tbody
