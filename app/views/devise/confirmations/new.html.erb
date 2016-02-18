@@ -1,0 +1,16 @@
+<div class="authform">
+
+  <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+    <h3><%= t('.resend_confirmation_instructions', :default => 'Resend confirmation instructions') %></h3>
+    <%= devise_error_messages! %>
+
+    <div class="form-group">
+      <%= f.label :email %>
+      <%= f.email_field :email, :autofocus => true, class: 'form-control'  %>
+    </div>
+
+    <%= f.submit t('.resend_confirmation_instructions', :default => 'Resend confirmation instructions'), :class => 'button right'  %></div>
+  <% end %>
+</div>
+
+<%= render "devise/shared/links" %>
