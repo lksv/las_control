@@ -1,5 +1,5 @@
 .page-header
-  %h1= @collection.model_name.human(count: 'other', default: @collection.model_name.human.pluralize)
+  %h1 Přehled územních samospráv
 
   %h3
     %ul.breadcrumb.span8
@@ -12,22 +12,31 @@
         %span.divider /
         = link_to lau.title, { parent: lau.id }
 
-
-%table.table.table-striped
-  %thead
-    %tr
-      %th= @parent ? @parent.title : 'Kraje'
-      %th= 'Počet dokumentů'
-      %th= 'Počet dokumentů nižších správních celků'
-      %th= 'Zpracováno za poslední týden'
-  %tbody
-    - week_ago = 7.days.ago.to_date
-    - @sorted_collection.each do |resource|
+- cache(@cache_key_local_administration_units) do
+  %table.table.table-striped
+    %thead
       %tr
-        %td= link_to_if((resource.ruian_locable_type != 'Momc' and resource.children.present?), resource.nazev, { parent: resource.id })
-        %td= link_to resource.documents.count, polymorphic_path(Document, 'q[local_administration_unit_id_eq]' => resource.id)
-        %td= Document.where('local_administration_unit_id IN (?)', resource.nested_ids).count
-        %td= link_to resource.documents.where('created_at > ?', week_ago).count,
-          polymorphic_path(Document,
-            'q[local_administration_unit_id_eq]' => resource.id,
-            'q[created_at_gt]' => week_ago)
+        %th= @parent ? @parent.title : 'Kraje'
+        %th= 'Počet dokumentů'
+        %th= 'Počet dokumentů nižších správních celků'
+        %th= 'Zpracováno za poslední týden'
+    %tbody
+      - week_ago = 7.days.ago.to_date
+      - @sorted_collection.each do |resource|
+        %tr
+          %td= link_to_if((resource.ruian_locable_type != 'Momc' and resource.children.present?), resource.nazev, { parent: resource.id })
+          %td
+            - resource_documents_count = resource.documents.count
+            - if resource.edesky_dashboard_id.nil? and resource_documents_count == 0
+              \-
+            - else
+              = link_to resource_documents_count, polymorphic_path(Document, 'q[local_administration_unit_id_eq]' => resource.id)
+          %td
+            - if resource.nested_ids.present?
+              = Document.where('local_administration_unit_id IN (?)', resource.nested_ids).count
+            - else
+              \-
+          %td= link_to resource.documents.where('created_at > ?', week_ago).count,
+            polymorphic_path(Document,
+              'q[local_administration_unit_id_eq]' => resource.id,
+              'q[created_at_gt]' => week_ago)

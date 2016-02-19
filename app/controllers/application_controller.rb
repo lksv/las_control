@@ -4,4 +4,14 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :authenticate_user!
+
+  def current_user_role_key
+    return 'anonymous' unless current_user
+    [
+      # current_user.role.to_s,
+      # current_user.local_administration_units_role.map do |laur|
+      #   "#{laur.local_administration_unit_id}:#{laur.role}"
+      # end
+    ].join('::')
+  end
 end
