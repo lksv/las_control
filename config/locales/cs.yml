@@ -43,4 +43,10 @@ cs:
         default: :@n
   #exmaple:  "%{model} @{f:byla|m:byl|n:bylo|nic} @{f:vytvořena|m:vytvořen|n:vytvořeno}"
 
-
+  las:
+    nav_bar:
+      user: 'Uživatel'
+      sign_up: 'Vytvořit účet'
+      sign_in: 'Přihlásit'
+      sign_out: 'Odhlásit'
+      edit_accoutn: 'Nastavení'

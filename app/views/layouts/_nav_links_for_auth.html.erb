@@ -1,0 +1,18 @@
+<li>
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+    <%= user_signed_in? ? current_user.email : t(:user, scope: [:las, :nav_bar], default: 'User') %>
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <% if user_signed_in? %>
+      <li><%= link_to icon('cog') + ' ' + t(:edit_accoutn, scope: [:las, :nav_bar], default: 'Edit account'), edit_user_registration_path %></li>
+      <li>
+        <%= link_to icon('sign-out') + ' ' + t(:sign_out, scope: [:las, :nav_bar], default: 'Sign out'), destroy_user_session_path, :method=>'delete' %>
+      </li>
+    <% else %>
+      <li><%= link_to t(:sign_up, scope: [:las, :nav_bar], default: 'Sign up'), new_user_registration_path %></li>
+      <li><%= link_to t(:sign_in, scope: [:las, :nav_bar], default: 'Sign in'), new_user_session_path %></li>
+      <li role="separator" class="divider"></li>
+    <% end %>
+  </ul>
+</li>

@@ -64,6 +64,7 @@ gem 'cancancan', '~> 1.10'
 gem 'kaminari', '~> 0.16.3'
 
 gem 'ransack', '~> 1.7'
+gem 'font-awesome-sass', '~> 4.5.0'
 
 # TODO: remove `github` as soon as pullrequrest #28 will be merged
 gem 'kaminari-i18n', github: 'lksv/kaminari-i18n'

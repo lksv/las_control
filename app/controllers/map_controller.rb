@@ -1,4 +1,4 @@
-class HomeController < ApplicationController
+class MapController < ApplicationController
   def index
     render layout: false
   end
