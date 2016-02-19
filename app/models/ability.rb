@@ -2,33 +2,32 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :manage, :all
-    cannot [:update, :destroy], Document
-    # Define abilities for the passed in user here. For example:
-    #
-    #   user ||= User.new # guest user (not logged in)
-    #   if user.admin?
-    #     can :manage, :all
-    #   else
-    #     can :read, :all
-    #   end
-    #
-    # The first argument to `can` is the action you are giving the user
-    # permission to do.
-    # If you pass :manage it will apply to every action. Other common actions
-    # here are :read, :create, :update and :destroy.
-    #
-    # The second argument is the resource the user can perform the action on.
-    # If you pass :all it will apply to every resource. Otherwise pass a Ruby
-    # class of the resource.
-    #
-    # The third argument is an optional hash of conditions to further filter the
-    # objects.
-    # For example, here the user can only update published articles.
-    #
-    #   can :update, Article, :published => true
-    #
-    # See the wiki for details:
-    # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+    if user.admin?
+      can :manage, :all
+    else
+      can [:read], Document # TODO, published: true
+      can [:update], User, id: user.id
+      can [:read], LocalAdministrationUnit
+
+      # LAU_admin can change domanis and emails for LAU
+      can [:update], LocalAdministrationUnit do |lau|
+        # Using another SQL search to keep the DBs separate
+        LocalAdministrationUnitAdmin.find_by(
+          local_administration_unit_id: lau,
+          role: 'admin'
+        )
+      end
+
+      # LAU operator and admin can see LocalAdministrationUnitAdmin for its LAU
+      can [:read],
+        LocalAdministrationUnitAdmin,
+        LocalAdministrationUnitAdmin.by_user(user) do
+          true
+        end
+      # LAU admin can change LAU admis for its LAU
+      can [:update],
+        LocalAdministrationUnitAdmin,
+        LocalAdministrationUnitAdmin.by_admin_user(user)
+    end
   end
 end

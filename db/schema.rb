@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217160729) do
+ActiveRecord::Schema.define(version: 20160219125710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,17 @@ ActiveRecord::Schema.define(version: 20160217160729) do
 
   add_index "events", ["source_type", "source_id"], name: "index_events_on_source_type_and_source_id", using: :btree
 
+  create_table "local_administration_unit_admins", force: :cascade do |t|
+    t.integer  "local_administration_unit_id"
+    t.integer  "user_id"
+    t.string   "role"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "local_administration_unit_admins", ["local_administration_unit_id"], name: "las_admins_on_las_id", using: :btree
+  add_index "local_administration_unit_admins", ["user_id"], name: "index_local_administration_unit_admins_on_user_id", using: :btree
+
   create_table "local_administration_units", force: :cascade do |t|
     t.integer  "ruian_locable_id"
     t.string   "ruian_locable_type"
@@ -122,6 +133,7 @@ ActiveRecord::Schema.define(version: 20160217160729) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.string   "role",                   default: "", null: false
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
   end
@@ -129,4 +141,6 @@ ActiveRecord::Schema.define(version: 20160217160729) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "local_administration_unit_admins", "local_administration_units"
+  add_foreign_key "local_administration_unit_admins", "users"
 end

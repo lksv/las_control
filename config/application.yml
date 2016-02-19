@@ -1,0 +1,15 @@
+defaults: &defaults
+  roles: [ public, admin ]
+  las_roles: [ admin, operator ]
+
+development:
+  <<: *defaults
+
+staging:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
