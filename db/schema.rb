@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219125710) do
+ActiveRecord::Schema.define(version: 20160222090932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,17 @@ ActiveRecord::Schema.define(version: 20160219125710) do
   end
 
   add_index "events", ["source_type", "source_id"], name: "index_events_on_source_type_and_source_id", using: :btree
+
+  create_table "income_email_addresses", force: :cascade do |t|
+    t.string   "email",                        null: false
+    t.integer  "created_by_id",                null: false
+    t.integer  "local_administration_unit_id"
+    t.text     "description"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "income_email_addresses", ["local_administration_unit_id"], name: "index_income_email_addresses_on_local_administration_unit_id", using: :btree
 
   create_table "local_administration_unit_admins", force: :cascade do |t|
     t.integer  "local_administration_unit_id"
@@ -141,6 +152,7 @@ ActiveRecord::Schema.define(version: 20160219125710) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "income_email_addresses", "local_administration_units"
   add_foreign_key "local_administration_unit_admins", "local_administration_units"
   add_foreign_key "local_administration_unit_admins", "users"
 end

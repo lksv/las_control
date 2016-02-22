@@ -3,28 +3,28 @@
 
   %h3
     %ul.breadcrumb.span8
-      - lau = @parent
+      - lau = resource
       - parents = []
       - while lau do parents << lau; lau = lau.parent end
       - parents.reverse!
       = link_to "Česká Republika", LocalAdministrationUnit
       - parents.each_with_index do |lau, idx|
         %span.divider /
-        = link_to lau.title, { parent: lau.id }
+        = link_to lau.title, lau
 
-- cache(@cache_key_local_administration_units) do
+- cache(cache_key_local_administration_units + 'x') do
   %table.table.table-striped
     %thead
       %tr
-        %th= @parent ? @parent.title : 'Kraje'
+        %th= resource ? resource.title : 'Kraje'
         %th= 'Počet dokumentů'
         %th= 'Počet dokumentů nižších správních celků'
         %th= 'Zpracováno za poslední týden'
     %tbody
       - week_ago = 7.days.ago.to_date
-      - @sorted_collection.each do |resource|
+      - collection.each do |resource|
         %tr
-          %td= link_to_if((resource.ruian_locable_type != 'Momc' and resource.children.present?), resource.nazev, { parent: resource.id })
+          %td= link_to_if((resource.ruian_locable_type != 'Momc' and resource.children.present?), resource.nazev, resource)
           %td
             - resource_documents_count = resource.documents.count
             - if resource.edesky_dashboard_id.nil? and resource_documents_count == 0
@@ -40,3 +40,13 @@
             polymorphic_path(Document,
               'q[local_administration_unit_id_eq]' => resource.id,
               'q[created_at_gt]' => week_ago)
+
+%br
+%hr
+
+= render 'lau_admins'
+
+%br
+%hr
+
+= render 'incomming_emails'

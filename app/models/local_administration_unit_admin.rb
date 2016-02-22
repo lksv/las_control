@@ -6,6 +6,8 @@ class LocalAdministrationUnitAdmin < ActiveRecord::Base
     :in => Settings.las_roles,
     message: 'invalid LAS role type'
   }
+  validates :user, presence: true
+  validates :user, uniqueness: { scope: :local_administration_unit_id }
 
   after_initialize :default_role
 
@@ -23,5 +25,13 @@ class LocalAdministrationUnitAdmin < ActiveRecord::Base
 
   def default_role
     self.role = 'admin' if role.blank?
+  end
+
+  def email
+    user&.email
+  end
+
+  def email=(email)
+    self.user = User.find_by(email: email)
   end
 end

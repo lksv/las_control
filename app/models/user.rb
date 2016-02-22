@@ -20,8 +20,10 @@ class User < ActiveRecord::Base
   end
 
   def lau_role(lau)
-    lau = local_administration_unit_admins.find(lau)
-    lau && lau.role
+    lau_admin = lau.local_administration_unit_admins.where(
+      user: self
+    ).first
+    lau_admin && lau_admin.role
   end
 
   def lau_admin?(lau)
