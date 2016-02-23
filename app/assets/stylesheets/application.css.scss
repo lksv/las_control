@@ -10,8 +10,14 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require_self
+ *x= xrequire_tree .
+ *x= xrequire_self
  */
+
+@import "application.scss";
+@import "1st_load_framework";
+
 @import "font-awesome-sprockets";
 @import "font-awesome";
+
+@import "map"

@@ -1,5 +1,7 @@
 class MapController < ApplicationController
+  skip_authorization_check only: [:index]
+
   def index
-    render layout: false
+    render layout: 'application-map'
   end
 end
