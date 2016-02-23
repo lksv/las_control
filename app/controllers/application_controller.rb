@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :authenticate_user!
-  check_authorization
+  check_authorization :unless => :devise_controller?
 
   def current_user_role_key
     return 'anonymous' unless current_user

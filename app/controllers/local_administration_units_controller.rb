@@ -5,7 +5,7 @@ class LocalAdministrationUnitsController < ApplicationController
     :create_incomming_email
   ]
 
-  load_and_authorize_resource
+  #load_and_authorize_resource
 
   helper_method :collection, :resource, :cache_key_local_administration_units
 
@@ -21,6 +21,8 @@ class LocalAdministrationUnitsController < ApplicationController
     @local_administration_unit_admin = @local_administration_unit
       .local_administration_unit_admins
       .build(local_administration_unit_admin_params)
+
+    authorize! :create, @local_administration_unit_admin
 
     if @local_administration_unit_admin.save
       redirect_to @local_administration_unit, notice: 'Oprávněný uživatel byl přidán do seznamu.'
@@ -42,13 +44,14 @@ class LocalAdministrationUnitsController < ApplicationController
       .build(income_email_address_params)
     @income_email_address.created_by = current_user
 
+    authorize! :create, @income_email_address
+
     if @income_email_address.save
       redirect_to @local_administration_unit, notice: 'E-mail byl přidán do seznamu.'
     else
       set_index
       render :index
     end
-
   end
 
   private
@@ -88,6 +91,11 @@ class LocalAdministrationUnitsController < ApplicationController
   def set_local_administration_unit
     @local_administration_unit = params[:id] ?
       LocalAdministrationUnit.find( params[:id]) : nil
+    if @local_administration_unit
+      authorize! :read, @local_administration_unit
+    else
+      authorize! :read, LocalAdministrationUnit
+    end
   end
 
   def resource
