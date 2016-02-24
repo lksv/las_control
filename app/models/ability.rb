@@ -5,7 +5,11 @@ class Ability
     if user.admin?
       can :manage, :all
     else
-      can [:read], Document # TODO, published: true
+      can [:read], Document, Document.lau_permitted(user) do |document|
+        document.published || (
+          user.lau_permitted?(document.local_administration_unit)
+        )
+      end
       can [:update], User, id: user.id
       can [:read], LocalAdministrationUnit
 
@@ -33,6 +37,16 @@ class Ability
         lau && lau.local_administration_unit_admins.where(
           user: user
         ).present?
+      end
+
+      can [:read], Event, Event.lau_permitted(user) do |event|
+        event.source && (
+          (
+            event.source.published && event.removed_by_id.nil?
+          ) || (
+            user.lau_permitted?(event.source.local_administration_unit)
+          )
+        )
       end
     end
   end

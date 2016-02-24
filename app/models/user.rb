@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
   end
 
   def lau_role(lau)
+    return nil if lau.nil?
     lau_admin = lau.local_administration_unit_admins.where(
       user: self
     ).first
@@ -34,6 +35,9 @@ class User < ActiveRecord::Base
     lau_role(lau) == 'operator'
   end
 
+  def lau_permitted?(lau)
+    lau_role(lau).in? %w(admin operator)
+  end
 
   private
 

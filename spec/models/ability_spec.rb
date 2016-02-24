@@ -3,16 +3,77 @@ require 'rails_helper'
 RSpec.describe Ability, type: :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:subject) { Ability.new(user) }
+
   context 'public access' do
+
+    let(:lau) { FactoryGirl.create(:local_administration_unit) }
+    let(:unpublished_document) do
+      document = Document.new(published: false, local_administration_unit: lau)
+      document.save!(validate: false)
+      document
+    end
+    let(:published_document) do
+      document = Document.new(published: true, local_administration_unit: lau)
+      document.save!(validate: false)
+      document
+    end
+
     describe Document do
-      it 'can :read' do
+      it 'can :read published document' do
+        published_document
         expect(subject.can? :read, Document).to be true
-        expect(subject.can? :read, Document.new).to be true
+        expect(subject.can? :read, published_document).to be true
+        expect(Document.all.accessible_by(subject)).to eq [published_document]
+      end
+      it 'cannot :read unpublished document' do
+        unpublished_document
+        expect(subject.cannot? :read, unpublished_document).to be true
+        expect(Document.all.accessible_by(subject)).to eq []
       end
       it 'cannot :create, :update, :destroy' do
         expect(subject.cannot? :create, Document).to be true
         expect(subject.cannot? :update, Document).to be true
         expect(subject.cannot? :destroy, Document).to be true
+      end
+    end
+
+    describe Event do
+
+      # due to inverse_of doesn't work with polymorfic,
+      # document has to be persisted in following tests
+
+      context 'when Document is published and event is not removed' do
+        it 'can :read' do
+          event = published_document.events.build
+          event.save!(validate: false)
+          expect(subject.can?(:read, event)).to be true
+          expect(Event.all.accessible_by(subject)).to eq [event]
+        end
+        it 'cannot :read, :create, :update, :destroy' do
+          event = unpublished_document.events.build
+          expect(subject.cannot?(:read, event)).to be true
+          expect(subject.cannot?(:create, event)).to be true
+          expect(subject.cannot?(:update, event)).to be true
+          expect(subject.cannot?(:destroy, event)).to be true
+        end
+      end
+
+      context 'when Document is not published' do
+        it 'cannot read' do
+          event = unpublished_document.events.build
+          event.save!(validate: false)
+          expect(subject.cannot?(:read, event)).to be true
+          expect(Event.all.accessible_by(subject)).to eq []
+        end
+      end
+
+      context 'when event is removed' do
+        it 'cannot :read' do
+          event = published_document.events.build(removed_by: user)
+          event.save!(validate: false)
+          expect(subject.cannot?(:read, event)).to be true
+          expect(Event.all.accessible_by(subject)).to eq []
+        end
       end
     end
 
@@ -133,6 +194,60 @@ RSpec.describe Ability, type: :model do
         role: 'operator')
     end
     let(:lau) { lau_admin.local_administration_unit }
+
+    describe Document do
+      it 'can :read published document' do
+        document = Document.new(published: true, local_administration_unit: lau)
+        document.save!(validate: false)
+        expect(subject.can?(:read, document)).to be true
+        expect(Document.all.accessible_by(subject)).to eq [document]
+      end
+      it 'can :read unpublished doucment' do
+        document = Document.new(published: false, local_administration_unit: lau)
+        document.save!(validate: false)
+        expect(subject.can?(:read, document)).to be true
+        expect(Document.all.accessible_by(subject)).to eq [document]
+      end
+      it 'cannot :create, :update, :destory document' do
+      end
+    end
+
+    describe Event do
+      it 'can read event when document is unpublished' do
+        d = Document.new(published: false, local_administration_unit: lau)
+        d.save!(validate: false)
+        event = d.events.build
+        event.save!(validate: false)
+        expect(subject.can?(:read, event)).to be true
+        expect(Event.all.accessible_by(subject)).to eq [event]
+      end
+
+      it 'can read removed event when document is unpublished' do
+        d = Document.new(published: false, local_administration_unit: lau)
+        d.save!(validate: false)
+        event = d.events.build(removed_by: user)
+        event.save!(validate: false)
+        expect(subject.can?(:read, event)).to be true
+        expect(Event.all.accessible_by(subject)).to eq [event]
+      end
+      it 'can read removed event when document is published' do
+        d = Document.new(published: true, local_administration_unit: lau)
+        d.save!(validate: false)
+        event = d.events.build(removed_by: user)
+        event.save!(validate: false)
+        expect(subject.can?(:read, event)).to be true
+        expect(Event.all.accessible_by(subject)).to eq [event]
+      end
+
+      it 'cannot :create, :update, :destory event' do
+        d = Document.new(published: false, local_administration_unit: lau)
+        d.save!(validate: false)
+        event = d.events.build
+        expect(subject.cannot?(:create, event)).to be true
+        expect(subject.cannot?(:update, event)).to be true
+        expect(subject.cannot?(:destory, event)).to be true
+      end
+    end
 
     describe LocalAdministrationUnitAdmin do
       it 'can :read my LAU' do

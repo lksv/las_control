@@ -110,7 +110,8 @@ var formatSnippet = function formatSnippet(snippet) {
     snippet_url + '">' + snippet.title + '</a>' +
     ' [<a target="_blank" href="' + snippet.orig_url + '">orginal</a>]' +
     '<br>' +
-    'ze dne:' + moment(snippet.from_date).format('L') + '<br>';
+    'ze dne:' + snippet.from_date + '<br>';
+    //'ze dne:' + moment(snippet.from_date).format('L') + '<br>';
 
   popupString += title;
   popupString += '<br/>';
@@ -152,7 +153,7 @@ var styleFce = function styleFce(f) {
   }
 };
 
-var geojsonURL = 'http://localhost:9292/tiles/{z}/{x}/{y}.json';
+var geojsonURL = 'http://localhost:3000/tiles/{z}/{x}/{y}.json';
 if (params.source_id) {
   geojsonURL += '&source_id=' + params.source_id + '&source_type=' + params.source_type
 }

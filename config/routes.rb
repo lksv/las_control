@@ -5,13 +5,19 @@ Rails.application.routes.draw do
   resources :documents
   resources :local_administration_units do
     post 'create_incomming_email',    on: :member
-    post 'create_las_admin',    on: :member
+    post 'create_las_admin',          on: :member
     resources :income_email_addresses
     resources :local_administration_unit_admins
   end
+  resources :events do
+    get 'tiles',                      on: :collection
+  end
+  get 'tiles/:z/:x/:y'  =>  'events#tiles', as: :tiles
+
   get 'map', to: 'map#index'
 
   get 'about' => 'about#index'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

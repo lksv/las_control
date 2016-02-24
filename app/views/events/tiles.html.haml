@@ -1,0 +1,14 @@
+%h1
+  Tile for:
+  = "#{@x}/#{@y}/#{@zoom}"
+
+%div
+  Tile Size:
+  = @tile&.size
+
+%div
+  Event Count:
+  = @events.count
+
+%br
+=@tile.inspect
