@@ -6,7 +6,11 @@ class Ability
       can :manage, :all
     else
       can [:read], Document, Document.lau_permitted(user) do |document|
-        document.published || (
+        by_time = Time.now
+        (
+          document.published &&
+          (document.ppi_public_until.nil? || by_time < document.ppi_public_until)
+        ) || (
           user.lau_permitted?(document.local_administration_unit)
         )
       end
@@ -40,9 +44,15 @@ class Ability
       end
 
       can [:read], Event, Event.lau_permitted(user) do |event|
+        by_time = Time.now
         event.source && (
           (
-            event.source.published && event.removed_by_id.nil?
+            event.source.published &&
+            (
+              event.source.ppi_public_until.nil? ||
+              by_time < event.source.ppi_public_until
+            ) &&
+            event.removed_by_id.nil?
           ) || (
             user.lau_permitted?(event.source.local_administration_unit)
           )

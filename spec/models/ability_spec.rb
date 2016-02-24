@@ -17,6 +17,24 @@ RSpec.describe Ability, type: :model do
       document.save!(validate: false)
       document
     end
+    let(:expired_ppi_document) do
+      document = Document.new(
+        published: true,
+        local_administration_unit: lau,
+        ppi_public_until: Time.new(2011, 1, 1)
+      )
+      document.save!(validate: false)
+      document
+    end
+    let(:ppi_document) do
+      document = Document.new(
+        published: true,
+        local_administration_unit: lau,
+        ppi_public_until: Time.new(2025, 1, 1)
+      )
+      document.save!(validate: false)
+      document
+    end
 
     describe Document do
       it 'can :read published document' do
@@ -28,6 +46,16 @@ RSpec.describe Ability, type: :model do
       it 'cannot :read unpublished document' do
         unpublished_document
         expect(subject.cannot? :read, unpublished_document).to be true
+        expect(Document.all.accessible_by(subject)).to eq []
+      end
+      it 'can :read document with Personally identifiable information in time' do
+        ppi_document
+        expect(subject.can? :read, ppi_document).to be true
+        expect(Document.all.accessible_by(subject)).to eq [ppi_document]
+      end
+      it 'cannot :read document with expired Personally identifiable information' do
+        expired_ppi_document
+        expect(subject.cannot? :read, expired_ppi_document).to be true
         expect(Document.all.accessible_by(subject)).to eq []
       end
       it 'cannot :create, :update, :destroy' do
@@ -70,6 +98,14 @@ RSpec.describe Ability, type: :model do
       context 'when event is removed' do
         it 'cannot :read' do
           event = published_document.events.build(removed_by: user)
+          event.save!(validate: false)
+          expect(subject.cannot?(:read, event)).to be true
+          expect(Event.all.accessible_by(subject)).to eq []
+        end
+      end
+      context 'when Document has exipred ppi_public_until' do
+        it 'cannot :read' do
+          event = expired_ppi_document.events.build
           event.save!(validate: false)
           expect(subject.cannot?(:read, event)).to be true
           expect(Event.all.accessible_by(subject)).to eq []
@@ -194,55 +230,89 @@ RSpec.describe Ability, type: :model do
         role: 'operator')
     end
     let(:lau) { lau_admin.local_administration_unit }
+    let(:unpublished_document) do
+      document = Document.new(published: false, local_administration_unit: lau)
+      document.save!(validate: false)
+      document
+    end
+    let(:published_document) do
+      document = Document.new(published: true, local_administration_unit: lau)
+      document.save!(validate: false)
+      document
+    end
+    let(:expired_ppi_document) do
+      document = Document.new(
+        published: true,
+        local_administration_unit: lau,
+        ppi_public_until: Time.new(2011, 1, 1)
+      )
+      document.save!(validate: false)
+      document
+    end
+    let(:ppi_document) do
+      document = Document.new(
+        published: true,
+        local_administration_unit: lau,
+        ppi_public_until: Time.new(2025, 1, 1)
+      )
+      document.save!(validate: false)
+      document
+    end
 
     describe Document do
       it 'can :read published document' do
-        document = Document.new(published: true, local_administration_unit: lau)
-        document.save!(validate: false)
-        expect(subject.can?(:read, document)).to be true
-        expect(Document.all.accessible_by(subject)).to eq [document]
+        published_document
+        expect(subject.can?(:read, published_document)).to be true
+        expect(Document.all.accessible_by(subject)).to eq [published_document]
+      end
+      it 'can :read expred ppi_public_until document' do
+        expired_ppi_document
+        expect(subject.can?(:read, expired_ppi_document)).to be true
+        expect(Document.all.accessible_by(subject)).to eq [expired_ppi_document]
       end
       it 'can :read unpublished doucment' do
-        document = Document.new(published: false, local_administration_unit: lau)
-        document.save!(validate: false)
-        expect(subject.can?(:read, document)).to be true
-        expect(Document.all.accessible_by(subject)).to eq [document]
+        unpublished_document
+        expect(subject.can?(:read, unpublished_document)).to be true
+        expect(Document.all.accessible_by(subject)).to eq [unpublished_document]
       end
       it 'cannot :create, :update, :destory document' do
+        unpublished_document
+        expect(subject.cannot?(:create, Document)).to be true
+        expect(subject.cannot?(:update, unpublished_document)).to be true
+        expect(subject.cannot?(:destroy, unpublished_document)).to be true
       end
     end
 
     describe Event do
       it 'can read event when document is unpublished' do
-        d = Document.new(published: false, local_administration_unit: lau)
-        d.save!(validate: false)
-        event = d.events.build
+        event = unpublished_document.events.build
+        event.save!(validate: false)
+        expect(subject.can?(:read, event)).to be true
+        expect(Event.all.accessible_by(subject)).to eq [event]
+      end
+
+      it 'can :read event when document has expired ppi_public_until' do
+        event = expired_ppi_document.events.build
         event.save!(validate: false)
         expect(subject.can?(:read, event)).to be true
         expect(Event.all.accessible_by(subject)).to eq [event]
       end
 
       it 'can read removed event when document is unpublished' do
-        d = Document.new(published: false, local_administration_unit: lau)
-        d.save!(validate: false)
-        event = d.events.build(removed_by: user)
+        event = unpublished_document.events.build(removed_by: user)
         event.save!(validate: false)
         expect(subject.can?(:read, event)).to be true
         expect(Event.all.accessible_by(subject)).to eq [event]
       end
       it 'can read removed event when document is published' do
-        d = Document.new(published: true, local_administration_unit: lau)
-        d.save!(validate: false)
-        event = d.events.build(removed_by: user)
+        event = published_document.events.build(removed_by: user)
         event.save!(validate: false)
         expect(subject.can?(:read, event)).to be true
         expect(Event.all.accessible_by(subject)).to eq [event]
       end
 
       it 'cannot :create, :update, :destory event' do
-        d = Document.new(published: false, local_administration_unit: lau)
-        d.save!(validate: false)
-        event = d.events.build
+        event = unpublished_document.events.build
         expect(subject.cannot?(:create, event)).to be true
         expect(subject.cannot?(:update, event)).to be true
         expect(subject.cannot?(:destory, event)).to be true
