@@ -1,0 +1,40 @@
+%h3= @document.title
+
+%dl.dl-horizontal
+  %dt Id
+  %dd= @document.id
+  %dt Ze samosprávy
+  %dd= link_to @document.local_administration_unit.title, @document.local_administration_unit
+  %dt Orginální zdroj
+  %dd= link_to @document.url, @document.url
+  %dt Archiv
+  %dd= link_to 'Stáhnout', @document.document_storage.url
+  %dt Nalezeno adres
+  %dd= @document.events.accessible_by(current_ability).count
+  -if @document.ppi_public_until
+    %dt
+      = (@document.ppi_public_until > Time.now) ? 'Bude staženo' : 'Bylo staženo'
+    %dd
+      %span{class: 'ppi'} Dokument pravdědopobně obsahuje osobní údaje a bude smazán dne
+      = l @document.ppi_public_until
+
+-if current_user.lau_permitted?(@document.local_administration_unit)
+  %h4 Metadata
+  %dl.dl-horizontal
+    %dt Viditelnost
+    %dd
+      - klass = @document.published ? :published : :private
+      %span{class: klass}= @document.published ? 'Veřejně dostuplný' : 'Veřejnosti nedostuplný'
+    %dt Vytvořeno
+    %dd= l @document.created_at
+    %dt Text extrahován
+    %dd= @document.plain_text_at ? l(@document.plain_text_at) : '-'
+    %dt Upraveno
+    %dd= l @document.updated_at
+    %dt Status
+    %dd= t(@document.status, scope: [:las, :document, :status], default: @document.status)
+    %dt Zpracováno
+    %dd= @document.parsed_at ? l(@document.parsed_at) : '-'
+
+.plain-text-document
+  = render 'highlited'

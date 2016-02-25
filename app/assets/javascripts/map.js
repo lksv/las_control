@@ -101,24 +101,6 @@ var filteredStyle = {
 };
 
 
-var formatSnippet = function formatSnippet(snippet) {
-  var popupString = ''
-  var snippet_url = '/documents/' + snippet.source_id +
-    '/highlight?event_id=' + snippet.event_id +
-    '#addressBlock-' + snippet.address_block_id
-  var title = '<a class="popup-title" target="_blank" href="' +
-    snippet_url + '">' + snippet.title + '</a>' +
-    ' [<a target="_blank" href="' + snippet.orig_url + '">orginal</a>]' +
-    '<br>' +
-    'ze dne:' + snippet.from_date + '<br>';
-    //'ze dne:' + moment(snippet.from_date).format('L') + '<br>';
-
-  popupString += title;
-  popupString += '<br/>';
-  popupString += snippet.snippet;
-  return popupString;
-}
-
 var params = {};
 window.location.href.replace(/#.*/, '').replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
   params[key] = value;
@@ -159,9 +141,9 @@ if (params.source_id) {
 }
 var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
   clipTiles: true,
-//            unique: function (feature) {
-//                return feature.id;
-//            }
+    unique: function (feature) {
+      return feature.id;
+    }
 }, {
   style: styleFce,
   filter: function(feature, layer) {
@@ -171,21 +153,31 @@ var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
   //  return isFeatureFiltered(feature) ? null : L.marker(latlng, {});
   //},
   onEachFeature: function (feature, layer) {
-    if (feature.properties) {
-      var popupString = '<div class="popup">';
-      var snippets = feature.properties.snippets || {};
-      var popups = [];
-      for (var snippet of snippets) {
-        popups.push(formatSnippet(snippet));
+    layer.on('click', function(e) {
+      if (layer._popup != undefined) {
+          layer.unbindPopup();
       }
-      popupString += popups.join('<hr>');
 
-      popupString += '</div>';
-      layer.bindPopup(popupString, {
-        maxHeight: 500,
-        maxWidth: 500
+      var popup = L.popup().setLatLng(e.latlng).setContent('<i class="fa fa-spinner fa-spin"></i> Loading...').openOn($map);
+      // TODO
+      var api_url = 'http://localhost:3000/documents/17317/address_blocks/74822';
+
+      $.ajax({
+        url: api_url,
+        success: function (data) {
+          console.log(data);
+          popup.setContent(data);
+          popup.update();
+        }
       });
-    }
+      //popup.setContent('new data');
+      //popup.update();
+    });
+    //layer.bindPopup(popupString, {
+    //  maxHeight: 500,
+    //  maxWidth: 500
+    //});
+
     //if (!(layer instanceof L.Point)) {
     //    layer.on('mouseover', function () {
     //        layer.setStyle(hoverStyle);
@@ -216,6 +208,7 @@ var map = new L.Map('map', {
   zoom: initialZoom,
   layers: activeLayers || default_layers()
 });
+$map = map;
 map.setView([49.802251, 15.6252330], 10);
 
 var hash = L.hash(map);

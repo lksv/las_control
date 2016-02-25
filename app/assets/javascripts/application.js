@@ -15,4 +15,5 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require spinner
+//= require anchor-scroll
 //x= require_treex .

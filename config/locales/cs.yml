@@ -50,3 +50,8 @@ cs:
       sign_in: 'Přihlásit'
       sign_out: 'Odhlásit'
       edit_accoutn: 'Nastavení'
+    document:
+      status:
+        errored: 'Chyba při zpracování'
+        success: 'Dokument vpořádku zpracován'
+        processing: 'Dokument je ve frontě na zpracování'

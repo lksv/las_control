@@ -128,11 +128,14 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
                         }
                         else {
                             this._uniqueKeys[featureKey] = featureKey;
+                            //lksv: adding features here by one
+                            this._geojson.features.push(tileDatum.features[f]);
                         }
                     }
                 }
-                this._geojson.features =
-                    this._geojson.features.concat(tileDatum.features);
+                //lksv: removed, adding feautres above
+                //this._geojson.features =
+                //    this._geojson.features.concat(tileDatum.features);
             }
         }
         return this._geojson;

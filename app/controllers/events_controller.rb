@@ -17,9 +17,8 @@ class EventsController < ApplicationController
 
     key = current_user_role_key + params.inspect
     @tile = Rails.cache.fetch(key, expires_in: 2.hours) do
-      @events.to_geojson(
-        #events: @events,
-        events: Event.all,
+      Event.to_geojson(
+        events: @events,
         bbox: bbox,
         zoom: @zoom
       )

@@ -1,0 +1,27 @@
+- ku = nil
+- not_found = 0
+%ul
+  - @events.each do |event|
+    %li.address-item
+      - address = event.to_address
+      - address = Array.wrap(address).join(', ')
+      - source = event.try!(:shape_with_definition_point).try!(:source)
+      - if source
+        - ku ||= source.try!(:katastralni_uzemi).try!(:nazev) if Parcela === source
+        - url = map_params_to_url(event.url_location_params)
+        = link_to address, url
+        - cuzk_url = source.respond_to?(:cuzk_url) ? source.cuzk_url : nil
+        - if cuzk_url
+          = link_to cuzk_url, target: '_blank' do
+            KN
+            %i.fa.fa-external-link
+      - else
+        - not_found += 1
+        %span.unknown-place
+          Neznámé místo:
+          = address.inspect
+
+- if ku
+  vše v k.u.
+  = ku
+

@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "documents#index"
 
-  resources :documents
+  resources :documents do
+    resources :address_blocks
+  end
   resources :local_administration_units do
     post 'create_incomming_email',    on: :member
     post 'create_las_admin',          on: :member

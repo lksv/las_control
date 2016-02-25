@@ -1,0 +1,29 @@
+.document {
+  :target {
+    background-color: #ffa;
+  }
+
+  .private {
+    background: red;
+  }
+
+  .published: {
+    background: green;
+  }
+
+  .ppi {
+    background: red;
+  }
+}
+
+li.address-item {
+  white-space: nowrap;
+}
+
+
+// I need Increase Width of Popouver (in docuemnts show on highlighted addresses)
+// http://stackoverflow.com/a/22459917/1045752
+/* The max width is dependant on the container (more info below) */
+.popover{
+  max-width: 100%; /* Max Width of the popover (depending on the container!) */
+}

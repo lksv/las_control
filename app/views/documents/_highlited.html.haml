@@ -1,0 +1,35 @@
+- plain_text = @document.plain_text
+- rendered_until_idx = 0
+- sorted_snippets(@document).each do |ne_start, ne_end, address_block|
+  - if ne_start > 0
+    = h(plain_text[rendered_until_idx..(ne_start - 1)]).gsub(/\n/, '<BR>').html_safe
+
+  - link_text = h(plain_text[ne_start..ne_end-1]).gsub(/\n/, '<BR>').html_safe
+  - @events = address_block.events
+  - event_classes = @events.map { |e| "event-#{e.id}" }
+  = link_to plain_text[ne_start..ne_end-1], [@document, address_block], { class: event_classes,
+    id: "addressBlock-#{address_block.id}",
+    title: "<a href=\"#addressBlock-#{address_block.id}\">Adresy <i class=\"fa fa-link\"></a>",
+    data: { toggle: "popover", content: '<div class="inner"><i class="fa fa-spinner fa-spin"></i> Načítam...</div>', trigger: "focus", html: "true"} }
+= h(plain_text[rendered_until_idx..-1]).gsub(/\n/, '<BR>').html_safe
+
+:javascript
+  $(document).ready( function() {
+    $('[data-toggle="popover"]').click(function(e) {
+      e.preventDefault();
+    });
+    $('[data-toggle="popover"]').each(function(){
+      $(this).popover({
+        trigger:"focus",
+        placement: function (context, source) {
+          var obj = $(source);
+          $.get(obj.attr("href"),function(d) {
+            $(context).find('.inner').replaceWith(d);
+          });
+          return 'auto bottom';
+        },
+        html:true,
+        content:"loading"
+      });
+    });
+  })

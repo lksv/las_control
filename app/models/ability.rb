@@ -58,6 +58,10 @@ class Ability
           )
         )
       end
+
+      can [:read], AddressBlock do |address_block|
+        can? :read, address_block.source
+      end
     end
   end
 end
