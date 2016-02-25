@@ -153,19 +153,17 @@ var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
   //  return isFeatureFiltered(feature) ? null : L.marker(latlng, {});
   //},
   onEachFeature: function (feature, layer) {
+    var api_url = feature.properties.api_url;
     layer.on('click', function(e) {
       if (layer._popup != undefined) {
           layer.unbindPopup();
       }
 
       var popup = L.popup().setLatLng(e.latlng).setContent('<i class="fa fa-spinner fa-spin"></i> Loading...').openOn($map);
-      // TODO
-      var api_url = 'http://localhost:3000/documents/17317/address_blocks/74822';
 
       $.ajax({
         url: api_url,
         success: function (data) {
-          console.log(data);
           popup.setContent(data);
           popup.update();
         }

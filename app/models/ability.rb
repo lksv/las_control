@@ -62,6 +62,8 @@ class Ability
       can [:read], AddressBlock do |address_block|
         can? :read, address_block.source
       end
+
+      can [:read], Shape #TODO, really? or allow only the ones with readable events?
     end
   end
 end

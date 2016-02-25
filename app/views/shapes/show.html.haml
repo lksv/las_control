@@ -1,0 +1,21 @@
+-if @shape&.source.respond_to?(:to_address)
+  Adresa:
+  = Array.wrap(@shape.source.to_address).join(', ')
+%ul
+  - @events.group_by(&:source).sort_by { |source, events| source.created_at }.each do |source, events|
+    %li
+      %div
+        %span.document-title
+          = truncate(source.title.to_s, length: 80)
+          - if source.document_storage
+            [
+            = link_to 'Archiv', source.document_storage.url
+            ]
+        %span.from-date
+          Ze dne
+          = l(source.from_date, format: :short)
+      %ol
+        - events.each do |event|
+          %li= link_to event.snippet, polymorphic_path(source, anchor: "addressBlock-#{event.address_block.id}")
+
+

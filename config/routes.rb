@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   resources :events do
     get 'tiles',                      on: :collection
   end
+  resources :shapes
+
   get 'tiles/:z/:x/:y'  =>  'events#tiles', as: :tiles
 
   get 'map', to: 'map#index'
