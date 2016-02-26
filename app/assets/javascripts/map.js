@@ -153,7 +153,7 @@ var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
   //  return isFeatureFiltered(feature) ? null : L.marker(latlng, {});
   //},
   onEachFeature: function (feature, layer) {
-    var api_url = feature.properties.api_url;
+    var api_url = feature.properties && feature.properties.api_url;
     layer.on('click', function(e) {
       if (layer._popup != undefined) {
           layer.unbindPopup();
@@ -206,7 +206,6 @@ var map = new L.Map('map', {
   zoom: initialZoom,
   layers: activeLayers || default_layers()
 });
-$map = map;
 map.setView([49.802251, 15.6252330], 10);
 
 var hash = L.hash(map);
@@ -225,8 +224,9 @@ new L.Control.MiniMap(
 L.control.scale().addTo(map);
 L.control.layers(layers, overlays).addTo(map);
 
+var loading = L.Control.loading({separate: true}).addTo(map);
 
-var zoomControll = function zoomControll(zoom) {
+var zoomControll = function zoomControllFn(zoom) {
   if (zoom < maxZoomEnabled && map.hasLayer(geojsonTileLayer)) {
     map.removeLayer(geojsonTileLayer);
     $('#zoom-spinner').show();
