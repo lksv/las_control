@@ -5,11 +5,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable
 
-  has_many :local_administration_unit_admins
+  has_many :notifications, dependent: :destroy
+  has_many :local_administration_unit_admins, dependent: :destroy
 
-  validates   :role, :inclusion => { :in => Settings.roles, message: 'invalid type of role' }
+  validates :role, inclusion: { :in => Settings.roles, message: 'invalid type of role' }
   after_initialize :default_role
-
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later

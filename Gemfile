@@ -61,6 +61,7 @@ gem 'devise'
 gem 'cancancan', '~> 1.10'
 gem 'settingslogic', '~> 2.0'
 gem 'simple_form', '~> 3.2'
+gem 'elasticsearch-rails'
 
 gem 'rack-cache', :require => 'rack/cache' # dragonfly caching
 gem 'dragonfly', '~> 1.0'

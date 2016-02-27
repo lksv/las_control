@@ -6,6 +6,14 @@
 
 - show_actions = @collection.find { |resource| can?(:update, resource) || can?(:destroy, resource) }
 
+.row
+  %div{class: 'col-lg-5'}
+    %form{class: 'input-group', method: 'get', action: '/documents'}
+      %input{type: 'hidden' }
+      %input{class: 'form-control', name: 'query'}
+      %span{class: 'input-group-btn'}
+        %input{class: 'btn btn-success', type: 'submit', value: 'Hledat'}
+
 %table.table.table-striped
   %thead
     %tr

@@ -1,8 +1,70 @@
-#map= t('map_loading', default: 'Načítám mapu...')
+:css
+  #apContainer {
+    width:100%;
+    height:100%;
+    position:relative;
+    overflow: hidden;
+  }
+
+  #mapOptions {
+    width:23.84%;
+    float:right;
+    min-height:500px;
+    height: 70%;
+    background:#fff;
+    position:absolute;
+    right:-23.84%;
+    z-index: 1000000;
+  }
+
+  #mapOptions .tab {
+    width:1px;
+    height:1px;
+    position:absolute;
+    left:-40px;
+    -ms-transform:rotate(-90deg);
+    -moz-transform:rotate(-90deg);
+    -webkit-transform:rotate(-90deg);
+    transform:rotate(-90deg);
+    -ms-transform-origin:bottom right;
+    -moz-transform-origin:bottom right;
+    -webkit-transform-origin:bottom right;
+    transform-origin:bottom right;
+  }
+
+  #mapOptions .tab a {
+    background: #fff;
+    float: right;
+    white-space: nowrap;
+  }
+
+  body {
+    overflow: hidden
+  }
+
+  #mapOptions.options-open {
+    right:0px;
+  }
+
+
+
+#mapContainer
+
+  #mapOptions.options-open
+    .tab
+      %a{href:"#", onclick:"$('#mapOptions').toggleClass('options-open')"}
+        %h4 Nastavení mapy
+
+    .content
+      %h2.content-title Title
+      %p Text blah blah
+
+  #map-containerDiv.tabbable-target
+    #map= t('map_loading', default: 'Načítám mapu...')
+
 
 #zoom-spinner
   .center
     Pro zobrazení událostí musíte přiblížit mapu.
 
 = javascript_include_tag 'map.js'
-

@@ -15,8 +15,8 @@ class EventsController < ApplicationController
     @q = Event.ransack(params[:q])
     @events = @q.result.accessible_by(current_ability)
 
-    key = current_user_role_key + params.inspect + 'sdfxx'
-    @tile = Rails.cache.fetch(key, expires_in: 2.hours) do
+    key = current_user_role_key + params.inspect
+    @tile = Rails.cache.fetch(key, expires_in: 5.days) do
       Event.to_geojson(
         events: @events,
         bbox: bbox,

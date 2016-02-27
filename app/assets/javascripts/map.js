@@ -206,6 +206,7 @@ var map = new L.Map('map', {
   zoom: initialZoom,
   layers: activeLayers || default_layers()
 });
+$map = map;
 map.setView([49.802251, 15.6252330], 10);
 
 var hash = L.hash(map);
@@ -222,7 +223,7 @@ new L.Control.MiniMap(
 ).addTo(map);
 
 L.control.scale().addTo(map);
-L.control.layers(layers, overlays).addTo(map);
+L.control.layers(layers, overlays, { position: 'topleft' }).addTo(map);
 
 var loading = L.Control.loading({separate: true}).addTo(map);
 

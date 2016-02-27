@@ -3,6 +3,7 @@ class DocumentsController < ApplicationController
 
   def index
     @q = Document.ransack(params[:q])
+    @q.sorts = 'from_date desc' if @q.sorts.empty?
     @collection = @q
       .result
       .accessible_by(current_ability)

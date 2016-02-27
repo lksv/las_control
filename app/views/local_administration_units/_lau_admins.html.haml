@@ -1,4 +1,4 @@
--if resource && (current_user.lau_admin?(resource) || current_user.admin?)
+-if resource && current_user && (current_user.lau_admin?(resource) || current_user.admin?)
   -unless resource.local_administration_unit_admins.any? { |x| x.persisted? }
     %h3 Seznam oprávněných uživatelů je prázdný
   - else

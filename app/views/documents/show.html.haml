@@ -7,8 +7,9 @@
   %dd= link_to @document.local_administration_unit.title, @document.local_administration_unit
   %dt Orginální zdroj
   %dd= link_to @document.url, @document.url
-  %dt Archiv
-  %dd= link_to 'Stáhnout', @document.document_storage.url
+  - if @document.document_storage
+    %dt Archiv
+    %dd= link_to 'Stáhnout', @document.document_storage.url
   %dt Nalezeno adres
   %dd= @document.events.accessible_by(current_ability).count
   -if @document.ppi_public_until
@@ -18,7 +19,7 @@
       %span{class: 'ppi'} Dokument pravdědopobně obsahuje osobní údaje a bude smazán dne
       = l @document.ppi_public_until
 
--if current_user.lau_permitted?(@document.local_administration_unit)
+-if current_user && current_user.lau_permitted?(@document.local_administration_unit)
   %h4 Metadata
   %dl.dl-horizontal
     %dt Viditelnost

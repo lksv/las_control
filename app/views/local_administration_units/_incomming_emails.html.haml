@@ -1,4 +1,4 @@
--if resource && (current_user.lau_admin?(resource) || current_user.admin?)
+-if resource && current_user && (current_user.lau_admin?(resource) || current_user.admin?)
   -unless resource.income_email_addresses.any? { |x| x.persisted? }
     %h3 Seznam e-mailových adres, ze kterých se přidávají dokuemnty je prázdý
   - else
