@@ -4,12 +4,15 @@
   %dt Id
   %dd= @document.id
   %dt Ze samosprávy
-  %dd= link_to @document.local_administration_unit.title, @document.local_administration_unit
+  %dd= link_to @document.local_administration_unit.title, polymorphic_path(Document, 'q[local_administration_unit_id_eq]' => @document.local_administration_unit)
   %dt Orginální zdroj
   %dd= link_to @document.url, @document.url
   - if @document.document_storage
     %dt Archiv
     %dd= link_to 'Stáhnout', @document.document_storage.url
+  - if @document.edesky_document_id
+    %dt Staženo z
+    %dd= link_to 'edesky.cz', "http://edesky.cz/dokument/#{@document.edesky_document_id}"
   %dt Nalezeno adres
   %dd= @document.events.accessible_by(current_ability).count
   -if @document.ppi_public_until
