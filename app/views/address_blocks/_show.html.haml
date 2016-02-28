@@ -10,11 +10,7 @@
         - ku ||= source.try!(:katastralni_uzemi).try!(:nazev) if Parcela === source
         - url = map_params_to_url(event.url_location_params)
         = link_to address, url
-        - cuzk_url = source.respond_to?(:cuzk_url) ? source.cuzk_url : nil
-        - if cuzk_url
-          = link_to cuzk_url, target: '_blank' do
-            KN
-            %i.fa.fa-external-link
+        = cuzk_url(source)
       - else
         - not_found += 1
         %span.unknown-place

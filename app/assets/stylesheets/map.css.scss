@@ -8,3 +8,23 @@
   position: absolute;
   z-index: 66666666666;
 }
+
+.leaflet-popup-content {
+  max-height : 450px;
+  width: 500px;
+  overflow : auto;
+
+  span.document-title {
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .address {
+    font-weight: bold;
+  }
+
+  dd {
+    margin-left: 40px;
+  }
+
+}

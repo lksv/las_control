@@ -159,7 +159,7 @@ var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
           layer.unbindPopup();
       }
 
-      var popup = L.popup().setLatLng(e.latlng).setContent('<i class="fa fa-spinner fa-spin"></i> Loading...').openOn($map);
+      var popup = L.popup({maxWidth: 500}).setLatLng(e.latlng).setContent('<i class="fa fa-spinner fa-spin"></i> Loading...').openOn($map);
 
       $.ajax({
         url: api_url,
