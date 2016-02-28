@@ -10,18 +10,23 @@ class EventsController < ApplicationController
     @zoom = params[:z].to_i # zoom
     @x = params[:x].to_i
     @y = params[:y].to_i
-    bbox = GeoConvertor.tile2bounding_box(@zoom, @x, @y)
 
-    @q = Event.ransack(params[:q])
-    @events = @q.result.accessible_by(current_ability)
+    if @zoom >= 15
+      bbox = GeoConvertor.tile2bounding_box(@zoom, @x, @y)
 
-    key = current_user_role_key + params.inspect
-    @tile = Rails.cache.fetch(key, expires_in: 5.days) do
-      Event.to_geojson(
-        events: @events,
-        bbox: bbox,
-        zoom: @zoom
-      )
+      @q = Event.ransack(params[:q])
+      @events = @q.result.accessible_by(current_ability)
+
+      key = current_user_role_key + params.inspect
+      @tile = Rails.cache.fetch(key, expires_in: 5.days) do
+        Event.to_geojson(
+          events: @events,
+          bbox: bbox,
+          zoom: @zoom
+        )
+      end
+    else
+      @tile = '{"type":"FeatureCollection","features":[]}'
     end
     render json: @tile
   end
