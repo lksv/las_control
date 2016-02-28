@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 # list all tiles from epgs:5514
 # WGS84 bounds:
 #   12.09 47.73
@@ -19,9 +21,17 @@ def get_tile_number(lat, lng, zoom)
   {:x => x, :y =>y}
 end
 
-MIN_BOUNDS = [47.73, 12.09]
-MAX_BOUNDS = [51.06, 19]
+BOUNDS = ARGV[1] ? ARGV[1].split(',').map(&:to_f) : nil
+MIN_BOUNDS = BOUNDS ? [BOUNDS[1], BOUNDS[0]] : [47.73, 12.09]
+MAX_BOUNDS = BOUNDS ? [BOUNDS[3], BOUNDS[2]] : [51.06, 19]
 #MAX_BOUNDS = [51.06, 22.56] with Slovak
+
+puts "Caching bounds: #{MIN_BOUNDS} - #{MAX_BOUNDS}"
+
+# You can easily select bounding box here: http://boundingbox.klokantech.com/
+# (select CSV export)
+# 13.2007,48.7381,16.2048,50.8441 # Cechy (not all)
+# 16.12,48.8069,18.457,50.11 # Morava
 
 # see http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/
 def list_zoom(zoom)
@@ -48,7 +58,7 @@ end
 url = ARGV[0] || 'http://localhost:3000/tiles/%<zoom>s/%<x>s/%<y>s.json'
 p url
 
-(15..16).each do |zoom|
+(15..15).each do |zoom|
   puts "Caching zoom #{zoom}"
   cache_zoom(url, zoom)
 end
