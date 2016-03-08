@@ -17,7 +17,7 @@ class Ability
         )
       end
       can [:update], User, id: user.id
-      can [:read], LocalAdministrationUnit
+      can [:read, :options], LocalAdministrationUnit
 
 
       # LAU operator and admin can see LocalAdministrationUnitAdmin for its LAU

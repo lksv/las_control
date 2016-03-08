@@ -9,6 +9,11 @@ class DocumentsController < ApplicationController
       .accessible_by(current_ability)
       .includes(local_administration_unit: :ruian_locable)
       .page params[:page]
+
+    lau_filter = params[:q] ? params[:q][:local_administration_unit_id_eq] : nil
+    @local_administration_unit =
+      LocalAdministrationUnit.find_by(id: lau_filter) ||
+      LocalAdministrationUnit.new
   end
 
   def show

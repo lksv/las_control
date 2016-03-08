@@ -62,6 +62,7 @@ gem 'cancancan', '~> 1.10'
 gem 'settingslogic', '~> 2.0'
 gem 'simple_form', '~> 3.2'
 gem 'elasticsearch-rails'
+gem 'select2-rails', '~> 3.5.2' #select2 v.4 see https://select2.github.io/announcements-4.0.html#removed-initselection
 
 gem 'rack-cache', :require => 'rack/cache' # dragonfly caching
 gem 'dragonfly', '~> 1.0'

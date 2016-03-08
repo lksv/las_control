@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :local_administration_units do
     post 'create_incomming_email',    on: :member
     post 'create_las_admin',          on: :member
+    get :options,                     on: :collection
     resources :income_email_addresses
     resources :local_administration_unit_admins
   end

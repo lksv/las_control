@@ -13,6 +13,29 @@ class LocalAdministrationUnitsController < ApplicationController
     set_index
   end
 
+  def options
+    authorize! :options, LocalAdministrationUnit
+    response = LocalAdministrationUnit.to_sorted_array(
+      LocalAdministrationUnit.accessible_by(current_ability).to_a
+    )
+    query = params[:query]
+    locable_type_query = nil
+    locable_type_query = 'Obec' if query.sub!(/^obec\s*/i, '')
+    locable_type_query = 'Okres' if query.sub!(/^okres\s*/i, '')
+    locable_type_query = 'Momc' if query.sub!(/^M[ČC]\s+|^M[eě]stsk[aá] [cč][aá]st\s*/i, '')
+    regexp = /#{Regexp.escape(params[:query])}/i
+    response = response.find_all do |object|
+      (object[:text] =~ regexp) && (
+        locable_type_query.nil? ||
+        object[:type] == locable_type_query
+      )
+    end
+    per = params[:per].to_i
+    page = params[:page].to_i - 1
+    response = response[per * page, per]
+    render json: response
+  end
+
   def show
     redirect_to local_administration_units_path(id: params[:id])
   end

@@ -7,12 +7,22 @@
 - show_actions = @collection.find { |resource| can?(:update, resource) || can?(:destroy, resource) }
 
 .row
-  %div{class: 'col-lg-5'}
-    %form{class: 'input-group', method: 'get', action: '/documents'}
-      %input{type: 'hidden' }
-      %input{class: 'form-control', name: 'query'}
-      %span{class: 'input-group-btn'}
-        %input{class: 'btn btn-success', type: 'submit', value: 'Hledat'}
+  %form{method: 'get', action: '/documents'}
+    .form-group.col-xs-3
+      %label{class: 'sr-only', for:"query"}Hledaný výraz
+      %input{id: 'query', name: 'query', class: 'form-control', placeholder: 'Hledaný výraz...'}
+    .form-group.col-sm-2
+      %label{class: 'sr-only', for:"las"}Samospráva
+      %input{class: 'form-control select2-ajax',
+        id: 'las',
+        name: 'q[local_administration_unit_id_eq]',
+        value: @local_administration_unit.id,
+        data: { id: @local_administration_unit.id,
+          text: @local_administration_unit.title,
+          url: '/local_administration_units/options.json', placeholder: 'Územní Samospráva, např.: Olomouc'}}
+
+    %button{class: 'btn btn-success', type: 'submit'}Hledat
+
 
 %table.table.table-striped
   %thead

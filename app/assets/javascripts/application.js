@@ -16,4 +16,8 @@
 //= require bootstrap-sprockets
 //= require spinner
 //= require anchor-scroll
+//= require select2
+//= require select2_locale_cs
+//= require jquery_ajax_select
+//= require select2-dropdown
 //x= require_treex .
