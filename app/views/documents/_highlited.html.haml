@@ -4,6 +4,8 @@
   - if ne_start > 0
     = h(plain_text[rendered_until_idx..(ne_start - 1)]).gsub(/\n/, '<BR>').html_safe
 
+  - rendered_until_idx = ne_end
+
   - link_text = h(plain_text[ne_start..ne_end-1]).gsub(/\n/, '<BR>').html_safe
   - @events = address_block.events
   - event_classes = @events.map { |e| "event-#{e.id}" }
