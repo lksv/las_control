@@ -15,4 +15,5 @@ Rails.application.config.assets.precompile +=
     map.js
     Control.Loading.css
     Control.Loading.js
+    leaflet-hash.min.js
   )

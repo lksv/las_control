@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: "documents#index"
+  root to: "about#intro"
 
   resources :documents do
     resources :address_blocks

@@ -4,6 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "samospráva na mapě" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Las Control" %>">
+
+    <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 
@@ -12,7 +15,7 @@
     <%= stylesheet_link_tag 'Control.Loading.css' %>
 
     <%= javascript_include_tag 'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js' %>
-    <%= javascript_include_tag 'https://api.mapbox.com/mapbox.js/plugins/leaflet-hash/v0.2.1/leaflet-hash.js' %>
+    <%= javascript_include_tag 'leaflet-hash.min.js' %>
     <%= javascript_include_tag 'TileLayer.GeoJSON.js' %>
     <%= javascript_include_tag 'https://api.mapbox.com/mapbox.js/plugins/leaflet-minimap/v1.0.0/Control.MiniMap.js' %>
     <%= javascript_include_tag 'Control.Loading.js' %>

@@ -166,6 +166,7 @@ var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
         success: function (data) {
           popup.setContent(data);
           popup.update();
+          $('[data-toggle="tooltip"]').tooltip();
         }
       });
       //popup.setContent('new data');
