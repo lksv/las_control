@@ -135,7 +135,7 @@ var styleFce = function styleFce(f) {
   }
 };
 
-var geojsonURL = 'http://localhost:3000/tiles/{z}/{x}/{y}.json';
+var geojsonURL = '/tiles/{z}/{x}/{y}.json';
 if (params.source_id) {
   geojsonURL += '&source_id=' + params.source_id + '&source_type=' + params.source_type
 }
