@@ -33,7 +33,7 @@ class DocumentsController < ApplicationController
 
   def show
     @document = Document.includes(
-      address_blocks: { events: { shape_with_definition_point: :source } }
+      address_blocks: { events: :shape_with_definition_point }
     ).accessible_by(current_ability).find(params[:id])
     authorize! :show, @document
   end
