@@ -1,6 +1,6 @@
 module ShapesHelper
-  def cuzk_url(ruian_source, link_text = 'KN ')
-    cuzk_url = ruian_source.respond_to?(:cuzk_url) ? ruian_source.cuzk_url : nil
+  def cuzk_url(shape, link_text = 'KN ')
+    cuzk_url = shape.cuzk_url_cache
     if cuzk_url
       link_to cuzk_url, target: '_blank' do
         content_tag('span', class: 'cuzk') do

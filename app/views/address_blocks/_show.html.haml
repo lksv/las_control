@@ -3,14 +3,15 @@
 %ul
   - @events.each do |event|
     %li.address-item
-      - address = event.to_address
-      - address = Array.wrap(address).join(', ')
-      - source = event.try!(:shape_with_definition_point).try!(:source)
-      - if source
-        - ku ||= source.try!(:katastralni_uzemi).try!(:nazev) if Parcela === source
+      - address = event.address_cache
+      - shape = event.try!(:shape_with_definition_point)
+      - if shape && address.present?
+        - if shape && shape.source_type == 'Parcela'
+          / remove katastr
+          - address.sub!(/,?\s*k\.u\.\s*(.*)/) { |t| ku = $1; '' }
         - url = map_params_to_url(event.url_location_params)
         = link_to address, url
-        = cuzk_url(source)
+        = cuzk_url(shape)
       - else
         - not_found += 1
         %span.unknown-place
@@ -20,4 +21,3 @@
 - if ku
   vše v k.u.
   = ku
-

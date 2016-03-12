@@ -1,27 +1,43 @@
--if @shape&.source.respond_to?(:to_address)
-  %h5.address= Array.wrap(@shape.source.to_address).join(', ')
-  = cuzk_url(@shape.source, 'Katastr nemovitostí ')
+-if @shape.address_cache.present?
+  %h4.address
+    = @shape.address_cache
+    %small= cuzk_url(@shape, 'Katastr nemovitostí ')
+
+- events_by_docs = @events.group_by(&:source).sort_by { |source, events| source.created_at }
+
+%div
+  = succeed '.' do
+    Tato nemovitost je zmíněna v
+    = (events_by_docs.size == 1) ? 'následujícím dokumentu' : 'následujících dokumentech'
+    magistrátu
+    = events_by_docs.map { |doc, event| doc.local_administration_unit.nazev }.uniq.join(', ')
   %br
   %br
-%dl
-  - @events.group_by(&:source).sort_by { |source, events| source.created_at }.each do |source, events|
+
+/ data-turbolins="false" will work in new version of turbolinks, now each link
+/ has to have data-no-turbolink=true
+%dl{data: { turbolinks: "false"} }
+  - events_by_docs.each do |source, events|
     %dt
       %span.document-title
         - anchor = "addressBlock-#{events.first.address_block.id}"
-        = link_to truncate(source.title.to_s, length: 70),
-          polymorphic_path(source, anchor: anchor)
+        - sort_title = truncate(source.title.to_s, length: 70)
+        - data = { :'no-turbolink' => 'true' }
+        - data.update({ toggle: 'tooltip', title: source.title }) if sort_title != source.title
+        = link_to sort_title, polymorphic_path(source, anchor: anchor), data: data
     %dd
       %span.from-date
-        Ze dne
-        = l(source.from_date, format: :short)
+        Ze dne:
+        = l(source.from_date.to_date, format: :long)
         - if source.document_storage
-          [
-          = link_to 'Archiv', source.document_storage.url
-          ]
+          = surround '[', ']' do
+            = link_to 'Archiv orginálu', source.document_storage.url
       - if events.size > 1
         %br
         = "Adresa je v textu odkazována #{events.size}."
         %br
-        Přímý odkaz na všechny výskyty:
+        Přímý odkaz na jednotlivé výskyty:
         - events.each_with_index do |event, idx|
-          = link_to "#{idx + 1}. ", polymorphic_path(source, anchor: "addressBlock-#{event.address_block.id}")
+          = link_to "#{idx + 1}. ",
+            polymorphic_path(source, anchor: "addressBlock-#{event.address_block.id}"),
+            data: {:'no-turbolink' => 'true' }

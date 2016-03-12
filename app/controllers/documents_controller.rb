@@ -4,6 +4,7 @@ class DocumentsController < ApplicationController
   def index
     @q = Document.ransack(params[:q])
     @q.sorts = 'from_date desc' if @q.sorts.empty?
+
     @collection = @q
       .result
       .accessible_by(current_ability)
@@ -14,6 +15,20 @@ class DocumentsController < ApplicationController
     @local_administration_unit =
       LocalAdministrationUnit.find_by(id: lau_filter) ||
       LocalAdministrationUnit.new
+    @query = params[:query]
+
+    # Use Elasticserch if query param is used
+    if params[:query].present?
+      @elasticsearch = true
+      @collection = Document.elasticsearch_search(
+        params[:query],
+        local_administration_unit_id: lau_filter
+      ).page(params[:page]) #.results
+      @records = @collection.records
+    else
+      @elasticsearch = false
+    end
+
   end
 
   def show

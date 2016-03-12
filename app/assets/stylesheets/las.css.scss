@@ -14,6 +14,17 @@
   .ppi {
     background: red;
   }
+
+  .plain-text-document {
+    height: 900px;
+    background: white;
+    border: 1px solid black;
+    overflow-y: auto;
+  }
+
+  .label-highlight {
+    font-weight: bold;
+  }
 }
 
 li.address-item {
@@ -31,4 +42,9 @@ li.address-item {
 #brand {
   font-size: 150%;
   font-family: 'Amatic SC', cursive;
+}
+
+.uzemnisamospravy {
+  font-family: 'Amatic SC', cursive;
+  font-weight: 700;
 }

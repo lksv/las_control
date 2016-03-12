@@ -1,0 +1,57 @@
+.jumbotron
+  %h1.uzemnisamospravy Mapa.UzemniSamospravy.cz
+  %p
+    Chcete vědět, co se děje ve vašem okolí? Chcete vědět, co udělal nebo co plánuje magistrát Vašeho města? Na portálu
+    %span.uzemnisamospravy Mapa.UzemniSamospravy.cz
+    můžete přehledně sledovat, jaký nemovitý majetek je zmíněn v dokumentech Vaší obce, kraje, či např. městské části.
+
+  %p
+    = link_to "Zobrazit mapu »", map_path, {class: 'btn btn-primary btn-lg', role: 'button'}
+
+  %br
+
+  %h2 Chcete být upozorněni na změny v lokalitě, která Vás zajímá?
+  %p
+    Žádný problém, můžete dostávat informace e-mailem o oblasti, kterou si předem stanovíte. TODO: pridat odkaz!
+
+
+.row.text-justify
+  .col-lg-4
+    %h3 Proč by se mi to mohlo hodit?
+    %p
+      Hledáte výhodnou nabídku pronájmu nebo prodeje nemovitosti od města?
+      Shátíte informaci o nemovitostech ve Vašem okolí? Chcete být informování
+      když se ve Vašem okolí děje něco nového.
+    %p
+      %span.uzemnisamospravy Mapa.UzemniSamospravy.cz
+      je tu pro Vás. Snadno a rychle zde naleznete to co hledáte.
+
+  .col-lg-4
+    %h3 Jak to funguje?
+    %p
+      Na mapě jsou zvýrazněny všechny budovy a parcely, které jsou
+      zmíněny v dokumentech samosprávy (města, kraje, městské části, ...).
+    %p
+      Jediným kliknutím na příslušnou budovu, parcelu se Vám zobrazí všechny
+      dokumenty, v nichž se o této nemovitosti jedná.
+    %p
+      Pokud jste si na mapě zadali Vaši oblast zájmu a nemovitost se
+      nachází nebo dotýká této oblasti, obdržíte e-mail s upozorněním na
+      novou událost.
+  .col-lg-4
+    %h3 Odkud se berou data
+    %p
+      Data jsou stahována z úředních desek jednotlivých územních samospráv (měst,
+      městských částí, krajů, ...) prostřednictvím portálu
+      %a{href:"http://edesky.cz"}edesky.cz
+    %p
+      V jednotlivých dokumentech z úředních desek portál vyhledá
+      všechny zmínky o adrese a/nebo parcele. Každá nalezená nemovitost je pak
+      zobrazena na mapě.
+    %p
+      Portál počítá se zapojením měst samotných, která mohou sama dodávat
+      potřebné dokumenty a validovat jejich rozpoznané údaje.
+      Tím může být dále zajištěna větší přesnost a aktuálnost zobrazovaných údajů.
+
+
+

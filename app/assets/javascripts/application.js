@@ -20,4 +20,5 @@
 //= require select2_locale_cs
 //= require jquery_ajax_select
 //= require select2-dropdown
+//= require tooltip
 //x= require_treex .

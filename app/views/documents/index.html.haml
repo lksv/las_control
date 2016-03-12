@@ -1,5 +1,5 @@
 .page-header
-  %h1= @collection.model_name.human(count: 'other', default: @collection.model_name.human.pluralize)
+  %h1 Dokumenty
 
 -# .btn-group.span4.pull-right.text-righ
 -#   = link_to t('Zadej nový dokument', :default => t("helpers.links.new")), upload_document_path, :class => 'btn btn-primary'
@@ -8,10 +8,10 @@
 
 .row
   %form{method: 'get', action: '/documents'}
-    .form-group.col-xs-3
+    .form-group.col-xs-5
       %label{class: 'sr-only', for:"query"}Hledaný výraz
-      %input{id: 'query', name: 'query', class: 'form-control', placeholder: 'Hledaný výraz...'}
-    .form-group.col-sm-2
+      %input{id: 'query', name: 'query', class: 'form-control', placeholder: 'Hledaný výraz...', value: @query}
+    .form-group.col-sm-3
       %label{class: 'sr-only', for:"las"}Samospráva
       %input{class: 'form-control select2-ajax',
         id: 'las',
@@ -29,17 +29,24 @@
     %tr
       %th Zdroj
       -# %th= sort_link @q, :local_administration_unit_ruian_locable_id
-      %th= sort_link @q, :title
-      %th= sort_link @q, :from_date #@collection.human_attribute_name(:from_date)
+      %th= @elasticsearch ? Document.human_attribute_name(:title) : sort_link(@q, :title)
+      %th= @elasticsearch ? Document.human_attribute_name(:from_date) : sort_link(@q, :from_date) #@collection.human_attribute_name(:from_date)
       - if show_actions
         %th=t '.actions', :default => t("helpers.actions")
   %tbody
-    - @collection.each do |resource|
-      %tr
+    - @collection.each.with_index do |resource, idx|
+      - record = @elasticsearch ? @records[idx] : resource
 
-        %td= resource.local_administration_unit.ruian_locable.nazev
-        %td= link_to resource.title, resource
-        %td=l resource.from_date, format: :short
+      %tr
+        %td= record.local_administration_unit.ruian_locable.nazev
+        %td
+          -if resource.respond_to?(:highlight)
+            = link_to record do
+              .title= resource.highlight&.title&.first&.html_safe || resource.title
+            .text-muted.text-right= resource.highlight&.plain_text&.first&.html_safe
+          - else
+            = link_to resource.title, record
+        %td=l record.from_date.to_date, format: :long
 
         - if show_actions
           %td

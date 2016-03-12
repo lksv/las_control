@@ -14,6 +14,10 @@
   width: 500px;
   overflow : auto;
 
+  .tooltip-inner {
+    min-width: 450px;
+  }
+
   span.document-title {
     font-weight: bold;
     white-space: nowrap;
