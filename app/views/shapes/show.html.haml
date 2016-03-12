@@ -1,7 +1,7 @@
--if @shape&.source.respond_to?(:to_address)
+-if @shape.address_cache.present?
   %h4.address
-    = Array.wrap(@shape.source.to_address).join(', ')
-    %small= cuzk_url(@shape.source, 'Katastr nemovitostí ')
+    = @shape.address_cache
+    %small= cuzk_url(@shape, 'Katastr nemovitostí ')
 
 - events_by_docs = @events.group_by(&:source).sort_by { |source, events| source.created_at }
 
