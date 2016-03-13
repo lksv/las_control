@@ -103,7 +103,7 @@ var filteredStyle = {
 
 var params = {};
 window.location.href.replace(/#.*/, '').replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-  params[key] = value;
+  params[decodeURIComponent(key)] = decodeURIComponent(value);
 });
 if (params.layers) {
   var activeLayers = params.layers.split(',').map(function(item) {
@@ -112,15 +112,15 @@ if (params.layers) {
 }
 
 var isFeatureFiltered = function isFeatureFiltered(feature) {
-  if (!params.source_id) {
+  if (!params['q[source_id_eq]']) {
     return false;
   }
 
-  return feature.properties.snippets.find(function(event) {
-      return !(
-        (event.source_id == params.source_id) &&
-        (event.source_type == params.source_type)
-      );
+  return !feature.properties.snippets.find(function(event) {
+    return (
+      (event.source_id == params['q[source_id_eq]']) &&
+      (event.source_type == params['q[source_type_eq]'])
+    );
   });
 };
 
@@ -136,8 +136,8 @@ var styleFce = function styleFce(f) {
 };
 
 var geojsonURL = '/tiles/{z}/{x}/{y}.json';
-if (params.source_id) {
-  geojsonURL += '&source_id=' + params.source_id + '&source_type=' + params.source_type
+if (params['q[source_id_eq]']) {
+  geojsonURL += '?q[source_id_eq]=' + params['q[source_id_eq]'] + '&q[source_type_eq]=' + params['q[source_type_eq]']
 }
 var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
   clipTiles: true,

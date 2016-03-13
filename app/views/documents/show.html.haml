@@ -15,6 +15,8 @@
     %dd= link_to 'edesky.cz', "http://edesky.cz/dokument/#{@document.edesky_document_id}"
   %dt Nalezeno adres
   %dd= @document.events.accessible_by(current_ability).count
+
+
   -if @document.ppi_public_until
     %dt
       = (@document.ppi_public_until > Time.now) ? 'Bude staženo' : 'Bylo staženo'
@@ -39,6 +41,17 @@
     %dd= t(@document.status, scope: [:las, :document, :status], default: @document.status)
     %dt Zpracováno
     %dd= @document.parsed_at ? l(@document.parsed_at) : '-'
+
+.row
+  - location = Shape.joins(:events).merge(@events).where(events: {source_id: @document.id, source_type: 'Document'}).location
+  - if location
+    - location_params = "15/#{location[1]}/#{location[0]}"
+    %span{style: 'float:right'}= link_to 'Zobraz zvýrazněny všechny nemovitosti tohoto dokumentu',
+      map_path('q[source_id_eq]' => @document.id, 'q[source_type_eq]' => 'Document', anchor: location_params),
+      :class => 'btn btn-success'
+
+
+%br
 
 .plain-text-document
   = render 'highlited'
