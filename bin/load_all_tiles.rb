@@ -10,7 +10,9 @@
 
 #usage:
 #    ruby bin/load_all_tiles.rb 'http://luksrock.cz:3000/tiles/\%<zoom>s/\%<x>s/\%<y>s.json'
-#    ruby bin/load_all_tiles.rb 'http://localhost:3000/tiles/%<zoom>s/%<x>s/%<y>s.json' '14.291153,49.993174,14.659195,50.146546'
+#    ruby bin/load_all_tiles.rb 'http://localhost:3000/tiles/%<zoom>s/%<x>s/%<y>s.json' '14.291153,49.993174,14.659195,50.146546'  #osekana praha
+#    ruby bin/load_all_tiles.rb 'http://localhost:3000/tiles/%<zoom>s/%<x>s/%<y>s.json' '16.484985,49.132981,16.709175,49.260635'  #brno
+#    ruby bin/load_all_tiles.rb 'http://localhost:3000/tiles/%<zoom>s/%<x>s/%<y>s.json' 17.166138,49.542142,17.350159,49.645624  #olomouc
 
 
 # see how to convert WSG84 to tile http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
@@ -36,6 +38,8 @@ puts "Caching bounds: #{MIN_BOUNDS} - #{MAX_BOUNDS}"
 #
 # 14.2472,49.9428,14.7059,50.1817 # Praha
 # 14.291153,49.993174,14.659195,50.146546 #Osekla praha
+# 16.484985,49.132981,16.709175,49.260635 # Brno
+# 17.166138,49.542142,17.350159,49.645624 # Olomouc
 
 # see http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/
 def list_zoom(zoom)
@@ -54,15 +58,16 @@ def cache_zoom(url_base, zoom)
   require 'open-uri'
   list.each_with_index do |tile, idx|
     url = sprintf(url_base, tile)
-    puts "#{idx}/#{list.size}. #{url}"
-    open(url).gets
+    tile_size = open(url).gets.size
+    puts "#{idx}/#{list.size}. #{url} => #{tile_size}"
   end
 end
 
 url = ARGV[0] || 'http://localhost:3000/tiles/%<zoom>s/%<x>s/%<y>s.json'
 p url
 
-(15..16).each do |zoom|
+layers = (ARGV[2] || '15,16').split(',').map(&:to_i)
+layers.each do |zoom|
   puts "Caching zoom #{zoom}"
   cache_zoom(url, zoom)
 end
