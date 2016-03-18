@@ -11,7 +11,7 @@
     background: green;
   }
 
-  .ppi {
+  .pii {
     background: red;
   }
 
@@ -44,7 +44,15 @@ li.address-item {
   font-family: 'Amatic SC', cursive;
 }
 
-.uzemnisamospravy {
+.mnisamospravy {
   font-family: 'Amatic SC', cursive;
   font-weight: 700;
+}
+
+.about {
+  .vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+  }
 }

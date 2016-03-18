@@ -38,3 +38,9 @@ recommaned to:
      index.number_of_shards: 1
      index.number_of_replicas: 0
 
+
+### tre-ruby gem
+
+You need to install this packages first:
+
+     sudo apt-get install tre-agrep libtre5 libtre-dev

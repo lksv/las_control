@@ -5,7 +5,7 @@ class Document < ActiveRecord::Base
       .where(
         '(' \
           '(documents.published = ?) AND ' \
-          '(documents.ppi_public_until IS NULL OR (? < documents.ppi_public_until))' \
+          '(documents.pii_public_until IS NULL OR (? < documents.pii_public_until))' \
         ') OR ' \
         '(local_administration_unit_admins.user_id = ?)',
         true,

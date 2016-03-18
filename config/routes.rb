@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get 'map', to: 'map#index'
 
   get 'about' => 'about#index'
+  get 'terms' => 'about#terms'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

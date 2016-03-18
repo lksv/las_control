@@ -1,1 +1,60 @@
 %h1 O projektu
+
+%h3 Jak vznikl?
+
+%p
+  Prvotní impuls k projektu (OtevřenéBrno.cz) vznikl na základě jedné mojí osobní zkušeností s dohledáváním informací na
+  stránkách města Brna týkající se zápisu o garáži, o jejíž koupi jsem měl zájem.
+  Podat včas nabídku by znamenalo každý den kontrolovat úřední desku a projít obrovské množství dokumentů.
+
+%p
+  Původní verze vznikla tedy jako "důkaz", že město může svoje dokumenty a data
+  poskytovat občanům v uživatelsky vstřícnější a přehlednější podobě.
+
+%p
+  V současné době web prezentuje úřední desky z více než 1200 úřadů (obce, 
+  kraje, ...) jejichž data stahuje pomocí portálu
+  =succeed '.' do
+    %a{href: 'http://edesky.cz'} edesky.cz
+  Kromě automatického stahování dokumentů se mohou města sami aktivně zapojit a
+  pomocí poskytnutého administrativního přístupu samy kontrolovat kvalitu a
+  včasné zveřejnění jejich dokumentů.
+
+%h3 Přesnost prezentovaných údajů
+
+%p
+  Přesnost rozpoznání jednotlivých nemovitostí závisí na kvalitě dokumentů, které
+  jsou prezentovány na úřední desce. Portál
+  =link_to 'negaratuje správnost', terms_path
+  prezentovaných údajů.  Zpravidla je kvalita ovlivněna:
+  %ul
+    %li
+      Formátem dokumentu. Oskenovaný dokument ve formátu PDF je nutné znovu převést na text.
+    %li
+      Výrazovými schopnostmi v přirozeném jazyce. Pokud je forma zápisu příliš
+      volná, např. není uvedeno katastrální území, označení nemovitosti nemusí
+      být správně rozpoznáno.
+
+%h3 Jak se zapojit?
+%h3 Co nabízíme městům
+%h3 Podmínky
+
+
+%h3 Kontakt
+
+Mgr. Lukáš Svoboda
+IČ: 1365321
+e-mail: kontakt@otevrenebrno.cz
+
+%h3 Poděkování
+.row
+  .col-md-offset-4.col-xs-12
+    %p Projekt podpořil Fond Otakara Motejla a Nadace Vodafone.
+
+.row
+  .col-xs-2.col-xs-offset-4.vcenter
+    %a{href: 'http://www.motejl.cz/'}
+      =image_tag 'fond_om.gif', {alt: 'Fond Otakara Motejla'}
+  .col-xs-2.vcenter
+    %a{href: "http://nadacevodafone.cz/"}
+      = image_tag "VF_CR_foundation_CZ_pos.jpg", {alt: "Nadace Vodafone"}

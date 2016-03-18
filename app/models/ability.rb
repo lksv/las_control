@@ -11,7 +11,7 @@ class Ability
         by_time = Time.now
         (
           document.published &&
-          (document.ppi_public_until.nil? || by_time < document.ppi_public_until)
+          (document.pii_public_until.nil? || by_time < document.pii_public_until)
         ) || (
           user.lau_permitted?(document.local_administration_unit)
         )
@@ -51,8 +51,8 @@ class Ability
           (
             event.source.published &&
             (
-              event.source.ppi_public_until.nil? ||
-              by_time < event.source.ppi_public_until
+              event.source.pii_public_until.nil? ||
+              by_time < event.source.pii_public_until
             ) &&
             event.removed_by_id.nil?
           ) || (

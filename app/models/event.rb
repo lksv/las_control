@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
       .where(
         '(' \
           '(documents.published = ?) AND ' \
-          '((documents.ppi_public_until IS NULL) OR (? < documents.ppi_public_until)) AND ' \
+          '((documents.pii_public_until IS NULL) OR (? < documents.pii_public_until)) AND ' \
           '(events.removed_by_id IS NULL)' \
         ') OR (local_administration_unit_admins.user_id = ?)',
         true,

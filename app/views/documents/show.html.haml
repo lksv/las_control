@@ -17,12 +17,12 @@
   %dd= @document.events.accessible_by(current_ability).count
 
 
-  -if @document.ppi_public_until
+  -if @document.pii_public_until
     %dt
-      = (@document.ppi_public_until > Time.now) ? 'Bude staženo' : 'Bylo staženo'
+      = (@document.pii_public_until > Time.now) ? 'Bude staženo' : 'Bylo staženo'
     %dd
-      %span{class: 'ppi'} Dokument pravdědopobně obsahuje osobní údaje a bude smazán dne
-      = l @document.ppi_public_until
+      %span{class: 'pii'} Dokument pravdědopobně obsahuje osobní údaje a bude smazán dne
+      = l @document.pii_public_until
 
 -if current_user && current_user.lau_permitted?(@document.local_administration_unit)
   %h4 Metadata
