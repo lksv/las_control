@@ -59,6 +59,7 @@ def cache_zoom(url_base, zoom)
   list.each_with_index do |tile, idx|
     url = sprintf(url_base, tile)
     tile_size = open(url).gets.size
+    sleep 0.01
     puts "#{idx}/#{list.size}. #{url} => #{tile_size}"
   end
 end
