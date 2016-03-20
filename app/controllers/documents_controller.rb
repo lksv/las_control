@@ -28,7 +28,6 @@ class DocumentsController < ApplicationController
     else
       @elasticsearch = false
     end
-
   end
 
   def show

@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_or_guest_user
 
   before_filter :logging_in
+  before_action :set_raven_context
 
   def current_user_role_key
     return 'anonymous' unless current_user
@@ -82,4 +83,12 @@ class ApplicationController < ActionController::Base
     u
   end
 
+  def set_raven_context
+    unless current_user.blank?
+      Raven.user_context(
+        user_id: current_user.id,
+        email: current_user.email
+      )
+    end
+  end
 end

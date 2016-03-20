@@ -1,0 +1,102 @@
+
+- q = params[:q]
+- if params[:event_id] && params[:shape_id]
+  / filter for a particular Event
+  - event = Event.accessible_by(current_ability).find(params[:event_id])
+  %h4
+    Zobrazuji pouze adresu
+    %strong
+      = event.address_cache
+    z dokumentu:
+    %strong
+      = show_event_source_link(event.source)
+
+  =link_to 'Zobrazit pouze adresy z dokumentu', '', class: 'btn btn-primary',
+    id: 'filter-documents', data: { search: "q[source_id_eq]=#{event.source_id}&q[source_type_eq]=#{event.source_type}" }
+  =link_to 'Zrušit filtr úplně', '', class: 'btn btn-primary', id: 'cancel-filter-all'
+
+- elsif q && q[:source_id_eq] && q[:source_type_eq]
+  / filter for Documents events
+  - document = Document.accessible_by(current_ability).find(q[:source_id_eq])
+  %h4
+    Zobrazuji pouze adresy z dokumentu:
+    %strong
+      = show_event_source_link(document)
+  =link_to 'Zrušit filtr', '', class: 'btn btn-primary', id: 'cancel-filter-all'
+- else
+  - @q = OpenStruct.new(params[:q])
+  = simple_form_for :q, url: map_path(:q), method: :get, html: {class: 'form-horizontal'},wrapper: :horizontal_form do |f|
+    = f.input :query, label: 'Dokument obsahuje', placeholder: 'prodej, pronájem, ...', required: false
+    = f.input :range, label: 'Datum mezi', readonly: true, style: 'border: 0', required: false
+    %div{style: 'margin-left: 20px; margin-right: 20px'}
+      #slider-range
+
+:javascript
+  var cancel_fce = function() {
+    $('#cancel-filter-all').on('click', function(event) {
+      event.preventDefault();
+      location.search='';
+    });
+  };
+  var filter_documents = function() {
+    $('#filter-documents').on('click', function(event) {
+      event.preventDefault();
+      location.search= $(event.target).data('search');
+    });
+  };
+
+  var date_range_init = function() {
+    var default_from_date = moment(params['from_date'], 'YYYY-M-D');
+    if (!default_from_date.isValid()) {
+      default_from_date = moment().subtract(1, 'years');
+    }
+    var default_to_date = moment(params['to_date'], 'YYYY-M-D');
+    if (!default_to_date.isValid()) {
+      default_to_date = moment();
+    }
+    $("#slider-range").slider({
+      range: true,
+      min: moment().subtract(2, 'years').unix(),
+      max: moment().unix(),
+      values: [ default_from_date.unix(), default_to_date.unix() ],
+      slide: function( event, ui ) {
+        var from_date = moment(ui.values[0] * 1000);
+        var to_date = moment(ui.values[1] * 1000);
+        var input = $('#q_range');
+        input.val(
+          from_date.format('l') +  " - " + to_date.format('l')
+        );
+
+        params['from_date'] = from_date.format('YYYY-M-D');
+        params['to_date'] = to_date.format('YYYY-M-D');
+
+        window.clearTimeout(input.data('timeout'));
+        input.data("timeout", setTimeout(function () {
+          console.log('starting redraw');
+          geojsonTileLayer.redraw();
+        }, 500));
+
+        var url = location.origin +
+          location.pathname + '?' +
+          $.param(params) +
+          location.hash;
+        history.pushState('', '', url)
+      }
+    });
+    $( "#q_range" ).val(
+      moment($("#slider-range").slider("values", 0) * 1000).format('l') +
+      " - " +
+      moment($("#slider-range").slider("values", 1) * 1000).format('l')
+    );
+  };
+
+
+  $(document).ready(cancel_fce);
+  $(document).on("page:load", cancel_fce);
+
+
+  $(document).ready(filter_documents);
+  $(document).on("page:load", filter_documents);
+
+  $(document).ready(date_range_init);
+  $(document).on("page:load", date_range_init);

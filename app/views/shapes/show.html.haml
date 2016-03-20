@@ -10,7 +10,7 @@
     Tato nemovitost je zmíněna v
     = (events_by_docs.size == 1) ? 'následujícím dokumentu' : 'následujících dokumentech'
     magistrátu
-    = events_by_docs.map { |doc, event| doc.local_administration_unit.nazev }.uniq.join(', ')
+    = events_by_docs.map { |doc, event| doc.local_administration_unit.lau_nazev }.uniq.join(', ')
   %br
   %br
 
@@ -21,10 +21,10 @@
     %dt
       %span.document-title
         - anchor = "addressBlock-#{events.first.address_block.id}"
-        - sort_title = truncate(source.title.to_s, length: 70)
+        - short_title = truncate(source.title.to_s, length: 70)
         - data = { :'no-turbolink' => 'true' }
-        - data.update({ toggle: 'tooltip', title: source.title }) if sort_title != source.title
-        = link_to sort_title, polymorphic_path(source, anchor: anchor), data: data
+        - data.update({ toggle: 'tooltip', title: source.title }) if short_title != source.title
+        = link_to short_title, polymorphic_path(source, anchor: anchor), data: data
     %dd
       %span.from-date
         Ze dne:

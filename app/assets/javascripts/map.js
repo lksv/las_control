@@ -101,7 +101,7 @@ var filteredStyle = {
 };
 
 
-var params = {};
+window.params = {};
 window.location.href.replace(/#.*/, '').replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
   params[decodeURIComponent(key)] = decodeURIComponent(value);
 });
@@ -125,19 +125,32 @@ var isFeatureFiltered = function isFeatureFiltered(feature) {
 };
 
 var styleFce = function styleFce(f) {
-  if (!params.shape_id) {
-    defaultStyle
-  } else if (f.id == params.shape_id) {
+  if (params.shape_id && (f.id == params.shape_id)) {
     // highlight focus element
     return focusStyle;
+  } else if (!params.shape_id && params['q[source_id_eq]']) {
+    //return defaultStyle;
+  } else if (!params.shape_id && params.from_date && params.to_date) {
+    if (f.properties.snippets.find(function(event) {
+      return (params.from_date < event.from_date) && (params.to_date > event.from_date);
+    })) {
+      //return defaultStyle;
+    } else {
+      return filteredStyle;
+    }
+    //return defaultStyle;
   } else {
-    return filteredStyle;
+    //no filter set at all
+    //return defaultStyle;
   }
 };
 
 var geojsonURL = '/tiles/{z}/{x}/{y}.json';
 if (params['q[source_id_eq]']) {
   geojsonURL += '?q[source_id_eq]=' + params['q[source_id_eq]'] + '&q[source_type_eq]=' + params['q[source_type_eq]']
+}
+if (params['q[query]']) {
+  geojsonURL += '?q[query]=' + params['q[query]'];
 }
 var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
   clipTiles: true,
@@ -154,6 +167,9 @@ var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
   //},
   onEachFeature: function (feature, layer) {
     var api_url = feature.properties && feature.properties.api_url;
+    if (params['q[query]'] || params['q[source_id_eq]']) {
+      api_url += '?event_ids=' + feature.properties.snippets.map(function(i) { return i.event_id }).join(',');
+    }
     layer.on('click', function(e) {
       if (layer._popup != undefined) {
           layer.unbindPopup();
@@ -224,7 +240,8 @@ new L.Control.MiniMap(
 ).addTo(map);
 
 L.control.scale().addTo(map);
-L.control.layers(layers, overlays, { position: 'topleft' }).addTo(map);
+layers = L.control.layers(layers, overlays, { position: 'topleft' });
+layers.addTo(map);
 
 var loading = L.Control.loading({separate: true}).addTo(map);
 

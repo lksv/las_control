@@ -21,4 +21,7 @@
 //= require jquery_ajax_select
 //= require select2-dropdown
 //= require tooltip
+//= require jquery.ui.slider
+//= require moment
+//= require moment/cs.js
 //x= require_treex .

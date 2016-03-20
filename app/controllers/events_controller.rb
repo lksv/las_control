@@ -17,13 +17,30 @@ class EventsController < ApplicationController
       @q = Event.ransack(params[:q])
       @events = @q.result.accessible_by(current_ability)
 
-      key = current_user_role_key + params.slice(:z, :x, :y, :q).inspect
+      key = current_user_role_key + params.slice(:z, :x, :y, :q, :q_query).inspect
       @tile = Rails.cache.fetch(key, expires_in: 5.days) do
         Event.to_geojson(
-          events: @events,
-          bbox: bbox,
-          zoom: @zoom
-        )
+          events: @events, bbox: bbox, zoom: @zoom
+        ) do |events|
+          if params[:q] && params[:q][:query]
+            # filter events by elasticsearch
+            document_ids = events.map(&:source_id).uniq
+            filtered_document_ids = document_ids.empty? ? [] : Document.elasticsearch_search(
+              params[:q][:query],
+              fields: ['id'],
+              ids: document_ids
+            ).per(30000).results.map(&:id)
+            Rails.logger.info "ElasticSearch reduced documents #{document_ids.size} -> #{filtered_document_ids.size}"
+            events = events.where(
+              source_id: filtered_document_ids
+            )
+            Rails.logger.info(events.pluck(:id).inspect)
+            events
+          else
+            # no filter, return all event_ids
+            events
+          end
+        end
       end
     else
       @tile = '{"type":"FeatureCollection","features":[]}'
