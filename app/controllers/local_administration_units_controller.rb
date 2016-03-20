@@ -100,7 +100,7 @@ class LocalAdministrationUnitsController < ApplicationController
       end
 
       # Cannot #joins even #order, because ruian could be in another DB
-      unsorted_collection.to_a.sort_by { |r| r.ruian_locable.nazev }
+      unsorted_collection.to_a.sort_by { |r| r.lau_nazev }
     end
   end
 
