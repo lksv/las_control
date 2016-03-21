@@ -40,6 +40,8 @@ puts "Caching bounds: #{MIN_BOUNDS} - #{MAX_BOUNDS}"
 # 14.291153,49.993174,14.659195,50.146546 #Osekla praha
 # 16.484985,49.132981,16.709175,49.260635 # Brno
 # 17.166138,49.542142,17.350159,49.645624 # Olomouc
+# 16.514168,49.289642,16.559486,49.320646 # Kuřim
+# 16.4007,49.331107,16.446018,49.362085 # Tišnov
 
 # see http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/
 def list_zoom(zoom)

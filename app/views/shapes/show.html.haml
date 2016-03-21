@@ -3,7 +3,7 @@
     = @shape.address_cache
     %small= cuzk_url(@shape, 'Katastr nemovitostí ')
 
-- events_by_docs = @events.group_by(&:source).sort_by { |source, events| source.created_at }
+- events_by_docs = @events.group_by(&:source).sort_by { |source, events| source.created_at }.reverse
 
 %div
   = succeed '.' do

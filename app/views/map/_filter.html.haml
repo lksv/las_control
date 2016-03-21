@@ -25,8 +25,13 @@
   =link_to 'Zrušit filtr', '', class: 'btn btn-primary', id: 'cancel-filter-all'
 - else
   - @q = OpenStruct.new(params[:q])
-  = simple_form_for :q, url: map_path(:q), method: :get, html: {class: 'form-horizontal'},wrapper: :horizontal_form do |f|
-    = f.input :query, label: 'Dokument obsahuje', placeholder: 'prodej, pronájem, ...', required: false
+  = simple_form_for :q, url: map_path(:q), method: :get, html: {id: 'filter_form', class: 'form-horizontal'},wrapper: :horizontal_input_group do |f|
+    = f.input :query, label: 'Dokument obsahuje', placeholder: 'prodej, pronájem, ...', required: false do
+      = f.input_field :query, class: "form-control"
+      %span.input-group-btn
+        %button{id: 'query_button', class: 'btn btn-default', type: 'submit'}
+          %i{class:'fa fa-search'}
+
     = f.input :range, label: 'Datum mezi', readonly: true, style: 'border: 0', required: false
     %div{style: 'margin-left: 20px; margin-right: 20px'}
       #slider-range
@@ -46,11 +51,11 @@
   };
 
   var date_range_init = function() {
-    var default_from_date = moment(params['from_date'], 'YYYY-M-D');
+    var default_from_date = moment(params['from_date'], 'YYYY-MM-DD');
     if (!default_from_date.isValid()) {
       default_from_date = moment().subtract(1, 'years');
     }
-    var default_to_date = moment(params['to_date'], 'YYYY-M-D');
+    var default_to_date = moment(params['to_date'], 'YYYY-MM-DD');
     if (!default_to_date.isValid()) {
       default_to_date = moment();
     }
@@ -67,8 +72,8 @@
           from_date.format('l') +  " - " + to_date.format('l')
         );
 
-        params['from_date'] = from_date.format('YYYY-M-D');
-        params['to_date'] = to_date.format('YYYY-M-D');
+        params['from_date'] = from_date.format('YYYY-MM-DD');
+        params['to_date'] = to_date.format('YYYY-MM-DD');
 
         window.clearTimeout(input.data('timeout'));
         input.data("timeout", setTimeout(function () {
@@ -90,6 +95,16 @@
     );
   };
 
+  var query_button_onsubmit = function() {
+    $('#filter_form').submit(function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      params['q[query]'] = $('#q_query').val();
+      console.log(params);
+      location.search = $.param(params);
+    });
+  }
+
 
   $(document).ready(cancel_fce);
   $(document).on("page:load", cancel_fce);
@@ -100,3 +115,7 @@
 
   $(document).ready(date_range_init);
   $(document).on("page:load", date_range_init);
+
+
+  $(document).ready(query_button_onsubmit);
+  $(document).on("page:load", query_button_onsubmit);
