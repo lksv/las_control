@@ -66,6 +66,7 @@ class Ability
       end
 
       can [:read], Shape #TODO, really? or allow only the ones with readable events?
+      can :manage, Notification, { user_id: user.id }
     end
   end
 end

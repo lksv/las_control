@@ -1,0 +1,20 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th Název
+      %th Umístění
+      %th Velikost
+      %th
+        =link_to new_notification_path, remote: true do
+          %i{class:"glyphicon glyphicon-plus-sign"}
+  %tbody
+    - @notifications.each do |notification|
+      %tr
+        %td= notification.message
+        %td= notification.gps_location
+        %td
+          =succeed(' m') do
+            =notification.distance
+        %td
+          =link_to edit_notification_path(notification), remote: true do
+            %i{class:"glyphicon glyphicon-pencil"}

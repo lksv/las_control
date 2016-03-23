@@ -44,7 +44,7 @@ li.address-item {
   font-family: 'Amatic SC', cursive;
 }
 
-.mnisamospravy {
+.samospravy {
   font-family: 'Amatic SC', cursive;
   font-weight: 700;
 }
@@ -73,7 +73,7 @@ li.address-item {
 #mapOptions {
   width:23.84%;
   float:right;
-  min-height:500px;
+  min-height:400px;
   height: 70%;
   background:#fff;
   position:absolute;
@@ -104,6 +104,11 @@ li.address-item {
 
 #mapOptions.options-open {
   right:0px;
+}
+
+#mapOptions .tabble-content {
+  margin: 5px;
+  overflow-y: visible; //why it doesnt work?
 }
 
 body {

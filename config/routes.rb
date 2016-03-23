@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     get 'tiles',                      on: :collection
   end
   resources :shapes
+  resources :notifications
 
   get 'tiles/:z/:x/:y'  =>  'events#tiles', as: :tiles
 

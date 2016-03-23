@@ -31,6 +31,7 @@ MAX_BOUNDS = BOUNDS ? [BOUNDS[3], BOUNDS[2]] : [51.06, 19]
 
 puts "Caching bounds: #{MIN_BOUNDS} - #{MAX_BOUNDS}"
 
+# EPGS-5514: 12.09 47.73, 22.56 51.06
 # You can easily select bounding box here: http://boundingbox.klokantech.com/
 # (select CSV export)
 # 13.2007,48.7381,16.2048,50.8441 # Cechy (not all)
