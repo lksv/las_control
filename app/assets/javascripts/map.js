@@ -101,10 +101,9 @@ var filteredStyle = {
 };
 
 
-window.params = {};
-window.location.href.replace(/#.*/, '').replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-  params[decodeURIComponent(key)] = decodeURIComponent(value);
-});
+// set window.params form query string
+decodeQParams();
+
 if (params.layers) {
   var activeLayers = params.layers.split(',').map(function(item) {
     return layers[item];

@@ -24,4 +24,8 @@
 //= require jquery.ui.slider
 //= require moment
 //= require moment/cs.js
+//= require decode-qparams
+//= require place-autocomplete
+//= require documents-highlited
+//= require map-filter
 //x= require_treex .

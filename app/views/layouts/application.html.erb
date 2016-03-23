@@ -19,6 +19,7 @@
     <%= javascript_include_tag 'TileLayer.GeoJSON.js' %>
     <%= javascript_include_tag 'https://api.mapbox.com/mapbox.js/plugins/leaflet-minimap/v1.0.0/Control.MiniMap.js' %>
     <%= javascript_include_tag 'Control.Loading.js' %>
+    <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_API_KEY']}&libraries=places&language=cs" %>
 
     <%= csrf_meta_tags %>
   </head>
