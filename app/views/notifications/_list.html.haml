@@ -1,20 +1,41 @@
-%table.table.table-striped
-  %thead
-    %tr
-      %th Název
-      %th Umístění
-      %th Velikost
-      %th
-        =link_to new_notification_path, remote: true do
-          %i{class:"glyphicon glyphicon-plus-sign"}
-  %tbody
-    - @notifications.each do |notification|
+#errorMessage
+- if @notifications.empty?
+  %p
+    Zadáním sledované oblasti budete informovéni prostřednictvím
+    e-mailu o všech nových událostech v dané oblasti.
+  %p
+    Nemáte zatím žádné sledované oblasi.
+
+  =link_to 'Zadat oblast', new_notification_path, remote: true, class: 'btn btn-success btn-lg center-block'
+
+- else
+
+  %table.table.table-striped.table-responsive
+    %thead
       %tr
-        %td= notification.message
-        %td= notification.gps_location
-        %td
-          =succeed(' m') do
-            =notification.distance
-        %td
-          =link_to edit_notification_path(notification), remote: true do
-            %i{class:"glyphicon glyphicon-pencil"}
+        %th Název
+        %th Umístění
+        %th Velikost
+        %th
+          =link_to new_notification_path, remote: true do
+            %i{class:"glyphicon glyphicon-plus-sign"}
+    %tbody
+      - @notifications.each do |notification|
+        %tr
+          %td= notification.message
+          %td= notification.gps_location
+          %td
+            =succeed(' m') do
+              =notification.distance
+          %td
+            =link_to edit_notification_path(notification), remote: true do
+              %i{class:"glyphicon glyphicon-pencil"}
+
+
+- if guest_user? && @notifications.present?
+  %p
+    Pro funkční sledování zbývá poslední krok:
+  = simple_form_for @user || User.new, url: user_simple_register_path, remote: true,
+    html: { class: 'form-inline'}, wrapper: :inline_form do |f|
+    = f.input :email, label: false, as: :email, error: false, placeholder: 'můj e-mail...'
+    = f.button :submit, value: 'Odeslat'

@@ -1,6 +1,22 @@
 <% require 'devise/version' %>
-<p><%= t('.greeting', :recipient => @resource.email, :default => "Welcome #{@resource.email}!") %></p>
+
+Pěkný den,
+
+<p>děkujeme Vám za využití služeb portálu <%= link_to 'mapa.samospravy.cz', root_url %>.</p>
 
 <p><%= t('.instruction', :default => "You can confirm your account email through the link below:") %></p>
 <p><%= link_to t('.action', :default => "Confirm my account"),
          confirmation_url(@resource, :confirmation_token => (Devise::VERSION.start_with?('3.') ? @token : @resource.confirmation_token)) %></p>
+
+<% if @resource.generated_password %>
+
+  <p>Pro příští přihlášení použijte následující údaje:</p>
+  <dl>
+    <dt>E-mail:</dt>
+    <dd><%= @resource.email %></dd>
+    <dt>Heso:</dt>
+    <dd><%= @resource.generated_password %></dd>
+  </dl>
+  <# after sending plain password to the user, we can remove it #>
+  <% @resource.update_column(:generated_password, nil) %>
+<% end %>

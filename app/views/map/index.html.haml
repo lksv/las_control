@@ -12,32 +12,26 @@
         %h4 Nastavení mapy
 
     .tabble-content
-      %h2.content-title Hledání
-      = render 'place_autocomplete'
-      %br
-      %br
-      %h2.content-title Filtrování
-      = render 'filter'
+      .col-sm-12
+        %ul#tabble-nav.nav.nav-tabs.nav-justified{role: 'tablist'}
+          %li.active{role:"presentation"}
+            %a{href:"#search", role: 'tab', data: {toggle: 'tab'}} Hledání
+          %li{role:"presentation"}
+            %a{href:"#filter", role: 'tab', data: {toggle: 'tab'}} Filtrování
+          %li{role:"presentation"}
+            %a{href:"#notifications", role: 'tab', data: {toggle: 'tab'}} Moje&nbsp;oblasti
 
-      %br
-      %br
-      %h2.content-title Sledované Oblasti
-      #notifications
-        = render 'notifications/list'
+        .tab-content
+          #search.tab-pane.fade.in.active{role: 'tabpanel'}
+            = render 'place_autocomplete'
 
-      %br TODO: ...tady toto nesmi jit mimo borazovku
-      %br TODO: ...tady toto nesmi jit mimo borazovku
-      %br TODO: ...tady toto nesmi jit mimo borazovku
-      %br TODO: ...tady toto nesmi jit mimo borazovku
-      %br TODO: ...tady toto nesmi jit mimo borazovku
-      %br TODO: ...tady toto nesmi jit mimo borazovku
-      %br TODO: ...tady toto nesmi jit mimo borazovku
-      %br TODO: ...tady toto nesmi jit mimo borazovku
-      %br TODO: ...tady toto nesmi jit mimo borazovku
-      %br TODO: ...tady toto nesmi jit mimo borazovku
-      %br TODO: ...tady toto nesmi jit mimo borazovku
-      %br TODO: ...tady toto nesmi jit mimo borazovku
-      %br TODO: ...tady toto nesmi jit mimo borazovku
+          #filter.tab-pane.fade{role: 'tabpanel'}
+            = render 'filter'
+
+          #notifications.tab-pane.fade{role: 'tabpanel'}
+            %h2.content-title Sledované oblasti
+            #notifications-content
+              = render 'notifications/list'
 
 
   #map-containerDiv.tabbable-target

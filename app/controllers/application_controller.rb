@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   check_authorization :unless => :devise_controller?
 
-  helper_method :current_or_guest_user
+  helper_method :current_or_guest_user, :guest_user?
 
   before_filter :logging_in
   before_action :set_raven_context
@@ -43,10 +43,16 @@ class ApplicationController < ActionController::Base
   def guest_user(with_retry = true)
     # Cache the value the first time it's gotten.
     @cached_guest_user ||= User.find(session[:guest_user_id] ||= create_guest_user.id)
+    @current_ability = Ability.new(@cached_guest_user)
+    @cached_guest_user
 
   rescue ActiveRecord::RecordNotFound # if session[:guest_user_id] invalid
      session[:guest_user_id] = nil
      guest_user if with_retry
+  end
+
+  def guest_user?
+    !!session[:guest_user_id]
   end
 
   private
@@ -76,11 +82,14 @@ class ApplicationController < ActionController::Base
   end
 
   def create_guest_user
-    u = User.create(:email => "guest_#{Time.now.to_i}#{rand(100)}@example.com")
-    u.save!(:validate => false)
-    session[:guest_user_id] = u.id
-    Rails.logger.debug "Created guest user:#{u.id} email:#{u.email}"
-    u
+    user = User.create(:email => "guest_#{Time.now.to_i}#{rand(10000)}@example.com")
+    user.confirm #e.g. do not send e-mail
+    # user.save!(:validate => false) not necessary to save again, u.confirm
+    # already saved it.
+
+    session[:guest_user_id] = user.id
+    Rails.logger.debug "Created guest user:#{user.id} email:#{user.email}"
+    user
   end
 
   def set_raven_context

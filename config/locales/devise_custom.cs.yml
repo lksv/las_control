@@ -1,0 +1,8 @@
+cs:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "již je používán. Pokud je e-mail Váš, přihlašte se nebo postupujte přes formulář Zapomenuté heslo."

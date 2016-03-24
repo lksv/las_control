@@ -62,6 +62,10 @@ li.address-item {
   z-index: 1000051 !important;
 }
 
+//put navbar dropdown on the top of map filter
+.navbar .nav > li > ul.dropdown-menu{
+  z-index: 20000000;
+}
 
 #apContainer {
   width:100%;
@@ -71,13 +75,14 @@ li.address-item {
 }
 
 #mapOptions {
-  width:23.84%;
+  width:28%;
+  max-width: 330px;
   float:right;
   min-height:400px;
   height: 70%;
   background:#fff;
   position:absolute;
-  right:-23.84%;
+  right:-28%;
   z-index: 1000000;
 }
 
@@ -107,13 +112,17 @@ li.address-item {
 }
 
 #mapOptions .tabble-content {
-  margin: 5px;
+  //margin: 5px;
   overflow-y: visible; //why it doesnt work?
 }
 
 body {
-  overflow: hidden
+  //overflow: hidden
 }
 
 
-
+#notifications-content {
+  .has-error {
+    color: #a94442;
+  }
+}

@@ -1,7 +1,10 @@
 class NotificationsController < ApplicationController
+  before_filter  :current_or_guest_user
   load_and_authorize_resource :notification
+  skip_load_resource only: [:index, :create]
 
   def index
+    @notifications = current_or_guest_user.notifications.accessible_by(current_ability)
     respond_to do |format|
       format.html { render :index }
       format.js {}
@@ -27,7 +30,7 @@ class NotificationsController < ApplicationController
   end
 
   def create
-    current_or_guest_user
+    @notification = current_or_guest_user.notifications.build(notification_params)
 
     respond_to do |format|
       if @notification.save
@@ -35,7 +38,7 @@ class NotificationsController < ApplicationController
         format.html { redirect_to notifications_path, notice: 'Notifikační oblast byla úspěšně přidána.' }
         format.js {
           @notifications = current_or_guest_user.notifications
-          render :create
+          render :index
         }
         format.json { render :show, status: :created, location: @notification }
       else
@@ -53,7 +56,7 @@ class NotificationsController < ApplicationController
         format.json { render :show, status: :ok, location: @notification }
         format.js {
           @notifications = current_or_guest_user.notifications
-          render :create
+          render :index
         }
       else
         format.js   { render :edit }
@@ -70,6 +73,10 @@ class NotificationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to notifications_url, notice: 'Notifikační oblast byla smazána' }
       format.json { head :no_content }
+      format.js {
+          @notifications = current_or_guest_user.notifications
+          render :index
+      }
     end
   end
 

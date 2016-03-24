@@ -13,7 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require bootstrap-sprockets
+//= require bootstrap
 //= require spinner
 //= require anchor-scroll
 //= require select2
@@ -28,4 +28,5 @@
 //= require place-autocomplete
 //= require documents-highlited
 //= require map-filter
+//= require ajax-events
 //x= require_treex .

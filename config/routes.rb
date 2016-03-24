@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
+  as :user do
+    post '/user/simple_create' => 'users#create',
+      via: :post, as: :user_simple_register
+  end
   devise_for :users
+
   root to: "about#intro"
 
   resources :documents do
@@ -17,6 +22,7 @@ Rails.application.routes.draw do
   end
   resources :shapes
   resources :notifications
+  resources :users, only: :create
 
   get 'tiles/:z/:x/:y'  =>  'events#tiles', as: :tiles
 

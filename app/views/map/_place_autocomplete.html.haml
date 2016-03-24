@@ -1,4 +1,6 @@
+%h2.content-title Vyhledat adresu
 %form#placeForm{class: 'form-horizontal'}
-  .form-group
-    %label.col-sm-3{for:"placeAutocomplete"}Hledat:
-    %input.col-sm-9#placeAutocomplete{type:'text', name: 'location', placeholder: 'Grohova 8, Brno'}
+  .form-group.string.optional
+    %label.string.optional.control-label.col-sm-3{for:"placeAutocomplete"}Hledat:
+    .col-sm-9
+      %input#placeAutocomplete.form-control{type:'text', name: 'location', placeholder: 'Grohova 8, Brno'}

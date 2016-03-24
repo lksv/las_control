@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  # NOTE: User can register through UsersController#create (users/simple_create)
+  # which do not needs to set password. Password is sended later by email.
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

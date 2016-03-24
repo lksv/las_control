@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160222090932) do
+ActiveRecord::Schema.define(version: 20160324201200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,8 @@ ActiveRecord::Schema.define(version: 20160222090932) do
     t.string   "message"
     t.datetime "parsed_at"
     t.datetime "plain_text_at"
+    t.boolean  "published"
+    t.datetime "pii_public_until"
   end
 
   add_index "documents", ["document_storage_name"], name: "index_documents_on_document_storage_name", using: :btree
@@ -70,8 +72,11 @@ ActiveRecord::Schema.define(version: 20160222090932) do
     t.boolean  "display",           default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "removed_by_id"
   end
 
+  add_index "events", ["shape_id"], name: "index_events_on_shape_id", using: :btree
+  add_index "events", ["source_id"], name: "events_source_id_idx", using: :btree
   add_index "events", ["source_type", "source_id"], name: "index_events_on_source_type_and_source_id", using: :btree
 
   create_table "income_email_addresses", force: :cascade do |t|
@@ -102,6 +107,17 @@ ActiveRecord::Schema.define(version: 20160222090932) do
     t.integer  "edesky_dashboard_id", limit: 8
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "lau_nazev"
+    t.string   "zkratka"
+    t.string   "ico"
+    t.string   "nazev"
+    t.integer  "typ_subjektu"
+    t.integer  "pravni_forma"
+    t.string   "id_ds"
+    t.string   "details_url",         limit: 2048
+    t.integer  "stav_subjektu"
+    t.integer  "adresni_misto_kod",   limit: 8
+    t.string   "address_txt"
   end
 
   add_index "local_administration_units", ["edesky_dashboard_id"], name: "index_local_administration_units_on_edesky_dashboard_id", using: :btree
@@ -147,6 +163,7 @@ ActiveRecord::Schema.define(version: 20160222090932) do
     t.string   "role",                   default: "", null: false
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "generated_password"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
