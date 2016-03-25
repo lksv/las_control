@@ -1,4 +1,11 @@
 cs:
+
+  helpers:
+    submit:
+      create: "Vytvořit"
+      update: "Uložit"
+
+
   attributes:
     created_at: "Vytvořeno"
     updated_at: "Aktualizováno"
@@ -31,6 +38,11 @@ cs:
         remember_me:  'Zapamatovat si mě'
         password_confirmation:    'Potvrzení hesla'
         current_password: 'Současné heslo'
+
+      notification:
+        message: "Adresa"
+        gps_location: "GPS"
+        distance: "Vzdálenost"
 
   i18n:
     inflections:

@@ -1,10 +1,10 @@
 #errorMessage
 = simple_form_for @notification, remote: true,
   html: { class: 'form-horizontal'}, wrapper: :horizontal_form  do |f|
-  = f.input :message
-  = f.input :gps_location
-  = f.input :distance
-  = f.button :submit, value: 'Uložit', class: 'btn btn-success'
+  = f.input :message, required: false
+  = f.input :gps_location, required: false
+  = f.input :distance, required: false
+  = f.button :submit, class: 'btn btn-success'
   - if @notification.persisted?
     = link_to notification_path(@notification), class: 'btn btn-danger', method: :delete, remote: true do
       %i.fa.fa-trash
