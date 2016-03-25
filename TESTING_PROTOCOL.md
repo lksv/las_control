@@ -75,7 +75,7 @@
     * confirm e-mail
     * log in
     * navigate to map -> 'Sledovane oblasti'
-    * you should see your notification that you have been created as Guest User.
+    * you should see your notification that you have been created as Guest User
   3. Test
     * use private browsing and navigate to /map -> 'Sledovane oblasti'
     * there sould be none notifications
@@ -83,4 +83,11 @@
     * fill your email on 'Sledovane oblasti'
     * Your account shoud just be created and you should be logged in
     * You should see the olready created notification
-
+5. Editing 'Sledovane oblasti'
+  * You can enable/disable autocomplet for Address input
+  * Selectiong Address form place autocomplete sets GPS and center the
+    map to the position.
+  * By clicking or draging an notification the edit form is opened.
+  * By entering to notifiaction's edit form, the map is centered to the
+    notification.
+  * Creating new notification put Pin to the center of map.
