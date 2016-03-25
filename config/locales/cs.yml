@@ -42,7 +42,7 @@ cs:
       notification:
         message: "Adresa"
         gps_location: "GPS"
-        distance: "Vzdálenost"
+        distance: "Poloměr"
 
   i18n:
     inflections:

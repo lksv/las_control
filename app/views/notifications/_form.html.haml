@@ -1,8 +1,8 @@
 #errorMessage
 = simple_form_for @notification, remote: true,
   html: { class: 'form-horizontal'}, wrapper: :horizontal_form  do |f|
-  = f.input :message, required: false
-  = f.input :gps_location, required: false
+  = f.input :message, required: false, hint: "Vaše označení této oblasti."
+  = f.input :gps_location, required: false, hint: 'Souřadnice můžete nastavit přetáhnutím špendlíku na mapě.'
   = f.input :distance, required: false
   = f.button :submit, class: 'btn btn-success'
   - if @notification.persisted?
@@ -11,4 +11,102 @@
       Smazat
   = link_to notifications_path, class: 'btn btn-primary', remote: true do
     %i.fa.fa-remove
-    Zpět
+      Zpět
+
+:javascript
+  var autocomplete;
+
+  var hintBase = 'Vaše označení této oblasti. ';
+
+  var autocompleteOn = function() {
+    var input = document.getElementById('notification_message');
+    var options = {
+      types: ['geocode'],
+      componentRestrictions: {country: 'cz'}
+    };
+
+    autocomplete = new google.maps.places.Autocomplete(input, options);
+    autocomplete.addListener('place_changed', onPlaceChanged);
+
+    $(this).data({placeAutocomplete: false});
+    hint = hintBase + '<a id="place-toggle" href="#" data-place-autocomplete="false">Vypnout</a> vyhledávání adresy.';
+    $('.notification_message p.help-block').html(hint);
+  };
+
+  var onPlaceChanged = function() {
+    var place = autocomplete.getPlace();
+    if (place.geometry) {
+      map.panTo([place.geometry.location.lat(), place.geometry.location.lng()]);
+      map.setZoom(17);
+      var gpsLocation = '' + place.geometry.location.lat() + ', ' + place.geometry.location.lng();
+
+      var addressName = $('input#notification_message').val();
+      $('input#notification_message').val(addressName.replace(/, Česká republika/, ''));
+
+      $('input#notification_gps_location').val(gpsLocation);
+      var notification = notificationsStorage.find(function (n) {
+        return n.id === #{@notification.id || 'null'};
+      });
+      notification.lat = place.geometry.location.lat();
+      notification.lng = place.geometry.location.lng();
+      setNotifications(notificationsStorage);
+    }
+  }
+
+  var autocompleteOff = function() {
+    if (autocomplete !== undefined) {
+      //this part does'n work
+      //autocomplete.unbindAll();
+      //google.maps.event.clearInstanceListeners(autocomplete);
+      $(".pac-container").hide();
+
+      var input = $('#notification_message').parent().html();
+      $('#notification_message').remove()
+      $('div.notification_message div').html(input);
+    }
+    $(this).data({placeAutocomplete: true});
+    hint = hintBase + '<a id="place-toggle" href="#" data-place-autocomplete="true">Zapnout</a> vyhledávání adresy.';
+    $('.notification_message p.help-block').html(hint);
+  };
+
+  if (#{@notification.persisted?.to_s}) {
+    autocompleteOff();
+  } else {
+    var latlng = map.getCenter();
+    notificationsStorage.push({
+      lat: "#{@notification.lat}" || latlng.lat,
+      lng: "#{@notification.lng}" || latlng.lng,
+      distance: #{@notification.distance ? @notification.distance : 100},
+      id: null
+    });
+    setNotifications(notificationsStorage);
+    autocompleteOn();
+  }
+
+  //center the map unless params nocenter is given
+  if (#{(!params[:nocenter] && @notification.lat && @notification.lng) ? 1 : 0}) {
+    //if (map.getZoom() < 13) {
+    //  map.setZoom(map.getZoom() + 1);
+    //}
+    //map.panTo(new L.LatLng(#{@notification.lat || 0}, #{@notification.lng || 0}));
+    map.setView(
+      new L.LatLng(#{@notification.lat || 0}, #{@notification.lng || 0}),
+      #{(@notification.distance > 400) ? 15 : ((@notification.distance > 50) ? 16 : 18)},
+      { animate: true, zoom: { animate: true } }
+    );
+  }
+
+  $('body').on('click', 'a#place-toggle[data-place-autocomplete="true"]', function() {
+    autocompleteOn();
+  });
+
+  $('body').on('click', 'a#place-toggle[data-place-autocomplete="false"]', function() {
+    autocompleteOff();
+  });
+
+  $('body').on('keydown', '#notification_message', function(e) {
+    if(e.keyCode == 13) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  });

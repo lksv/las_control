@@ -305,7 +305,7 @@ window.setNotifications = function setNotifications(notifications) {
         $('input#notification_gps_location').val(gpsLocation);
       } else {
         // load the form for this notification
-        var form_url = 'notifications/' + ev.target.notificationId + '/edit';
+        var form_url = 'notifications/' + ev.target.notificationId + '/edit?nocenter=true';
         $.getScript(form_url, function() {
           // update the position
           $('input#notification_gps_location').val(gpsLocation);
