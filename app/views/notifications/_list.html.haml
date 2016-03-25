@@ -14,7 +14,7 @@
     %thead
       %tr
         %th Název
-        %th Umístění
+        /%th Umístění
         %th Velikost
         %th
           =link_to new_notification_path, remote: true do
@@ -23,7 +23,7 @@
       - @notifications.each do |notification|
         %tr
           %td= notification.message
-          %td= notification.gps_location
+          /%td= notification.gps_location_rounded
           %td
             =succeed(' m') do
               =notification.distance
@@ -31,11 +31,19 @@
             =link_to edit_notification_path(notification), remote: true do
               %i{class:"glyphicon glyphicon-pencil"}
 
+  = link_to 'Přidat oblast', new_notification_path, class: 'btn btn-success', remote: true
+
 
 - if guest_user? && @notifications.present?
+  %br
+  %br
   %p
-    Pro funkční sledování zbývá poslední krok:
+    %strong Pro funkční sledování zbývá poslední krok:
   = simple_form_for @user || User.new, url: user_simple_register_path, remote: true,
     html: { class: 'form-inline'}, wrapper: :inline_form do |f|
     = f.input :email, label: false, as: :email, error: false, placeholder: 'můj e-mail...'
     = f.button :submit, value: 'Odeslat'
+
+:javascript
+  var notifications = #{@notifications.to_json};
+    setTimeout(function () { window.setNotifications(notifications) }, 500);

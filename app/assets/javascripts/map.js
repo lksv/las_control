@@ -1,4 +1,4 @@
-//resize map to "full windown size" - from stackoverflow
+//resize map to "full window size" - from stackoverflow
 var mapmargin = 50;
 $('#map').css("height", ($(window).height() - mapmargin));
 $(window).on("resize", resize);
@@ -202,8 +202,12 @@ var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
     //}
   }
 });
+
+var notificationsLayerGroup = L.layerGroup([]);
+
 var overlays = {
-  "Events": geojsonTileLayer
+  "Nalezené adresy": geojsonTileLayer,
+  "Sledované oblasti": notificationsLayerGroup
 };
 
 
@@ -212,6 +216,7 @@ var default_layers = function default_layers() {
   if (initialZoom >= maxZoomEnabled) {
     res.push(overlays.Events);
   }
+  res.push(notificationsLayerGroup);
   return res;
 };
 
@@ -259,3 +264,79 @@ map.on('zoomend', function () {
 });
 
 zoomControll(map.getZoom());
+
+
+var notificationsStorage = [];
+
+window.setNotifications = function setNotifications(notifications) {
+  notificationsStorage = notifications;
+
+  notificationsLayerGroup.clearLayers();
+
+  notifications.forEach(function(notification) {
+    var marker = L.marker(
+      [notification.lat, notification.lng],
+      {
+        draggable: true,
+        zIndexOffset: 2000,
+        title: 'Vaše sledovaná oblast: ' + notification.message
+      }
+    );
+    marker.notificationId = notification.id;
+
+    var showEditForm = function(ev) {
+      var chagedPos = ev.target.getLatLng();
+      var notification = notifications.find(function (n) {
+        return n.id === ev.target.notificationId;
+      });
+
+      notification.lat = chagedPos.lat;
+      notification.lng = chagedPos.lng;
+
+      $('#tabble-nav a[href="#notifications"]').tab('show');
+
+      var gpsLocation = '' + chagedPos.lat + ', ' + chagedPos.lng;
+
+      if (
+        $('form#edit_notification_' + ev.target.notificationId).length ||
+        ($('form#new_notification').length && (notification.id === null))
+      ) {
+        // edit form for this notification is already rendered
+        $('input#notification_gps_location').val(gpsLocation);
+      } else {
+        // load the form for this notification
+        var form_url = 'notifications/' + ev.target.notificationId + '/edit';
+        $.getScript(form_url, function() {
+          // update the position
+          $('input#notification_gps_location').val(gpsLocation);
+        });
+      }
+      setNotifications(notifications);
+    };
+
+    marker.on("dragend", showEditForm);
+    marker.on("click", showEditForm);
+
+    notificationsLayerGroup.addLayer(marker);
+
+    notificationsLayerGroup.addLayer(
+      L.circle(
+        [notification.lat, notification.lng],
+        notification.distance,
+        {
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.4,
+          clickable: false
+        }
+      )
+    );
+  });
+};
+
+var redrawNotifications = function() {
+  console.log('redrawNotifications', notificationsStorage);
+  if (notificationsStorage) {
+    setNotifications(notificationsStorage);
+  }
+};
