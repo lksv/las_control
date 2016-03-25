@@ -1,4 +1,4 @@
-$(document).ready( function() {
+$(document).on("page:change", function () {
   $('[data-toggle="popover"]').click(function(e) {
     e.preventDefault();
   });

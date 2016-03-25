@@ -4,7 +4,7 @@ var cancelFce = function() {
     location.search='';
   });
 };
-var filter_documents = function() {
+var filterDocuments = function() {
   $('#filter-documents').on('click', function(event) {
     event.preventDefault();
     location.search= $(event.target).data('search');
@@ -68,16 +68,8 @@ var queryButtonOnsubmit = function() {
 }
 
 
-$(document).ready(cancelFce);
-$(document).on("page:load", cancelFce);
 
-
-$(document).ready(filter_documents);
-$(document).on("page:load", filter_documents);
-
-$(document).ready(dateRangeInit);
-$(document).on("page:load", dateRangeInit);
-
-
-$(document).ready(queryButtonOnsubmit);
-$(document).on("page:load", queryButtonOnsubmit);
+$(document).on("page:change", cancelFce)
+$(document).on("page:change", filterDocuments)
+$(document).on("page:change", dateRangeInit)
+$(document).on("page:change", queryButtonOnsubmit)

@@ -9,5 +9,4 @@ window.initAjaxEvents = function() {
   });
 }
 
-$(document).ready(initAjaxEvents);
-$(document).on("page:load", initAjaxEvents);
+$(document).on("page:change", initAjaxEvents);

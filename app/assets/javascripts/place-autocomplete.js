@@ -1,5 +1,5 @@
 function initMap() {
-  $('#placeForm').submit(function() { console.log('canceling form'); return false; })
+  $('#placeForm').submit(function() { return false; })
 
   var input = document.getElementById('placeAutocomplete');
   if (!input) {
@@ -11,9 +11,7 @@ function initMap() {
 
   };
 
-  //geocoder = new google.maps.Geocoder();
   autocomplete = new google.maps.places.Autocomplete(input, options);
-  //var infowindow = new google.maps.InfoWindow();
   autocomplete.addListener('place_changed', onPlaceChanged);
 
 
@@ -29,6 +27,5 @@ function initMap() {
   }
 }
 
-$(document).ready(initMap);
-$(document).on("page:load", initMap);
+$(document).on("page:change", initMap);
 //google.maps.event.addDomListener(window, 'load', initMap);

@@ -3,6 +3,7 @@
 var shiftWindow = function() { scrollBy(0, -70) };
 window.addEventListener("hashchange", shiftWindow);
 function initAnchorScroll() { if (window.location.hash) shiftWindow(); }
+
 $( document ).ready(function() {
   setTimeout(function() { initAnchorScroll(); });
 });
