@@ -89,7 +89,7 @@ gem 'momentjs-rails'
 # gem 'rails_layout'
 
 group :production do
-  #gem 'puma'
+  gem 'puma'
 end
 gem "sentry-raven"
 gem 'rollbar', '~> 2.8.3'
