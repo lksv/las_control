@@ -7,6 +7,13 @@ class EventsController < ApplicationController
   end
 
   def tiles
+    # FIXME - remove it, just now for testing geojson-vt
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
+    headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token'
+    headers['Access-Control-Max-Age'] = "1728000"
+
+
     @zoom = params[:z].to_i # zoom
     @x = params[:x].to_i
     @y = params[:y].to_i

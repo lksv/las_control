@@ -77,11 +77,11 @@ var layers = {
 
 var defaultStyle = {
   clickable: true,
-  color: "#00D",
+  color: 'red',
   fillColor: '#FD8D3C',
-  weight: 6.0,
-  opacity: 0.3,
-  fillOpacity: 0.2
+  weight: 1.0,
+  opacity: 1,
+  fillOpacity: 0.5
 };
 var hoverStyle = {
   "fillOpacity": 0.5
@@ -123,24 +123,35 @@ var isFeatureFiltered = function isFeatureFiltered(feature) {
   });
 };
 
+
+window.getColor = function getColor(d) {
+    return d > 400  ? '#ffffcc' :
+           d > 200  ? '#a1dab4' :
+           d > 100  ? '#41b6c4' :
+           d > 20   ? '#2c7fb8' :
+                      '#253494';
+}
+
 var styleFce = function styleFce(f) {
+  var style = defaultStyle;
+  style.fillColor = f.properties.legend_color || '#fff';
   if (params.shape_id && (f.id == params.shape_id)) {
     // highlight focus element
     return focusStyle;
   } else if (!params.shape_id && params['q[source_id_eq]']) {
-    //return defaultStyle;
+    return style;
   } else if (!params.shape_id && params.from_date && params.to_date) {
     if (f.properties.snippets.find(function(event) {
       return (params.from_date < event.from_date) && (params.to_date > event.from_date);
     })) {
-      //return defaultStyle;
+      return style;
     } else {
       return filteredStyle;
     }
-    //return defaultStyle;
+    return style;
   } else {
     //no filter set at all
-    //return defaultStyle;
+    return style;
   }
 };
 
@@ -232,18 +243,29 @@ map.setView([49.802251, 15.6252330], 10);
 
 var hash = L.hash(map);
 
-new L.Control.MiniMap(
-  L.tileLayer(
-    'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      type: "xyz",
-      zoom: 5,
-      layerOptions: {
-        subdomains: ['a', 'b', 'c']
-      }
-    })
-).addTo(map);
-
 L.control.scale().addTo(map);
+
+var legend = L.control({position: 'bottomleft'});
+legend.onAdd = function (map) {
+  var div = L.DomUtil.create('div', 'info legend'),
+  grades = [20, 100, 200, 400],
+  labels = [];
+
+  div.innerHTML += 'Počet událostí v dokumentu<br>';
+
+  // loop through our density intervals and generate a label with a colored square for each interval
+  for (var i = -1; i < grades.length; i++) {
+    div.innerHTML +=
+      '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+      (grades[i] || 1) + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+  }
+  return div;
+};
+legend.addTo(map);
+
+
+
+
 layers = L.control.layers(layers, overlays, { position: 'topleft' });
 layers.addTo(map);
 
