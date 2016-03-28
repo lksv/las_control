@@ -4,6 +4,66 @@
 / https://jsfiddle.net/v58eozu1/25/
 / http://jsfiddle.net/eHded/5/
 
+#welcomeModal.modal.fade{"aria-labelledby" => "welcomeModal", :role => "dialog", :tabindex => "-1", styler:"z-index:1000000000"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-body
+        %h3 Zajímá Vás provoz vaší obce?
+        %p
+          Na portálu Mapa.Samospravy.cz můžete přehledně sledovat, jaký nemovitý
+          majetek je zmíněn v dokumentech (na úřední desce) Vaší obce, kraje, či např.
+          městské části.
+        %p
+          Pokud máte zájem, můžete si nastavit sledování Vaší oblasti na mapě a
+          budete upozorněni e-mailem, když se něco děje.
+        %p
+          Veškerý obsah má pouze informativní charakter. Dodavatel mapového 
+          informačního systému neodpovídá za správnost, úplnost a aktuálnost dat ani
+          za korektní rozpoznání adres.
+
+
+      .modal-footer
+        %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} Rozumím
+
+
+
+#legendHelpModal.modal.fade{"aria-labelledby" => "legendHelpModal", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-body
+        %h3 Proč jsou jednotivé adresy vykresleny různou barvou?
+        %p
+          Každá obec vydává i dokumenty, které obsahují velké množstí adres.
+          Je to např. o vyhlášku o komunálním odpadu, změna územního řízení, apod.
+        %p
+          Kdyby byl všechny dokumenty stejnou barvou, určité oblasti by celé svítily, ale
+          přitom byste neměli přehled, zda mezi záplavou adres není nějaký odlišného typu.
+        %p
+          Pokud vidíte na mapě velkou oblast zabarvenou do žluta, pravděpodobně to znamená
+          že celá tato oblast je odkazována v jednom dokumentu.
+          Pokud jsou nějaké objekty v oblasti odkazovány i v jiném dokumentu je vykreslen
+          pravděpodobně tmavší barvou.
+
+        %h3 Jak se určí barva objektu
+        %p
+          Každý objekt může být zmíněn v několika dokumentech. Barva na mapě je vypočtena
+          podle dokumentu, který obsajuje nejméně adres.
+        %p
+          Jinými slovy, čím tmavší odstín, tím spíš existuje dokument, který se
+          zminuje jen o této adrese.
+
+        %h3 Příklad
+        %p
+          Můžete se například podívat na oblast
+          %a{href:'http://localhost:3000/map?from_date=2015-09-24&to_date=2016-03-27#18/49.20003/16.62131'} Bratislavská 39, Brno
+          Pokud by byly všechny objekty stejnou barvou, jedním pohledem byste nezjistili,
+          byste, že tento objekt je/byl nabízen k pronájmu.
+
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Zavřít
+        %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} Rozumím
+
+
 #mapContainer
 
   #mapOptions.options-open
@@ -43,3 +103,7 @@
     Pro zobrazení událostí musíte přiblížit mapu.
 
 = javascript_include_tag 'map.js'
+
+- if @show_welcome_mesage
+  :javascript
+    $('#welcomeModal').modal('show');

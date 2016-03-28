@@ -33,20 +33,19 @@
           = surround '[', ']' do
             = link_to 'Archiv orginálu', source.document_storage.url
 
-        %span.legendbox
-          %i{style: "background:#{source.legend_color}",
-            toggle: 'tooltip', title: 'Barva legendy. Dokumenty jsou odlišeny podle počtu adres v nich nalezených.'} &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-        %br
+      %span.legendbox
+        %i{style: "background:#{source.legend_color}",
+          toggle: 'tooltip', title: 'Barva legendy. Dokumenty jsou odlišeny podle počtu adres v nich nalezených.'} &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+      %br
 
       - if events.size > 1
-        %br
         = "Adresa je v textu odkazována #{events.size}."
-        %br
         Přímý odkaz na jednotlivé výskyty:
         - events.each_with_index do |event, idx|
           = link_to "#{idx + 1}. ",
             polymorphic_path(source, anchor: "addressBlock-#{event.address_block.id}"),
             data: {:'no-turbolink' => 'true' }
+        %br
 
 
       Dokument celkem obsahuje

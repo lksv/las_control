@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   end
   devise_for :users
 
-  root to: "about#intro"
+  #root to: "about#intro"
+  root to: "map#index"
 
   resources :documents do
     resources :address_blocks

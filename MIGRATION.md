@@ -23,7 +23,7 @@
 
      source .env
 
-     pg_restore -U deployer -d local_administration_model_production ~/las.db.dump
+     pg_restore -U $DB_USERNAME -d local_administration_model_production ~/las.db.dump
 
      cd $(rails runner 'puts Dragonfly.app.datastore.root_path')
      tar xjf ~/copy_plain_text.tar.bz2

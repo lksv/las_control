@@ -58,13 +58,13 @@ li.address-item {
 }
 
 // Setting of google map autocomplete selectbox
-.pac-container {
-  z-index: 1000051 !important;
-}
+//.pac-container {
+//  z-index: 1000051 !important;
+//}
 
 //put navbar dropdown on the top of map filter
 .navbar .nav > li > ul.dropdown-menu{
-  z-index: 20000000;
+  z-index: 1100;
 }
 
 #apContainer {
@@ -83,7 +83,7 @@ li.address-item {
   background:#fff;
   position:absolute;
   right:-28%;
-  z-index: 1000000;
+  z-index: 1000;
 }
 
 #mapOptions .tab {

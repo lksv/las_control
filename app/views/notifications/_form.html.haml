@@ -55,11 +55,17 @@
 
   var autocompleteOff = function() {
     if (autocomplete !== undefined) {
-      //this part does'n work
-      //autocomplete.unbindAll();
-      //google.maps.event.clearInstanceListeners(autocomplete);
+      // this part does'n work
+      // https://code.google.com/p/gmaps-api-issues/issues/detail?id=3429
+      //   google.maps.event.clearListeners(autocomplete, "focus");
+      //   google.maps.event.clearListeners(autocomplete, "blur");
+      //   google.maps.event.clearListeners(autocomplete, "keydown");
+      //   google.maps.event.clearListeners(autocomplete, "keyup");
+      //   autocomplete.unbindAll();
+      //   google.maps.event.clearInstanceListeners(autocomplete);
       $(".pac-container").hide();
 
+      // inputObject.parentNode.replaceChild(inputObject.cloneNode(true),input);
       var input = $('#notification_message').parent().html();
       $('#notification_message').remove()
       $('div.notification_message div').html(input);

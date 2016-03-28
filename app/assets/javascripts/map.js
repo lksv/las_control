@@ -43,6 +43,7 @@ var layers = {
       name: "Map1.eu",
       type: "xyz",
       url: 'http://beta.map1.eu/tiles/{z}/{x}/{y}.jpg',
+      maxZoom: 17,
       layerOptions: {
         attribution: 'Tiles licence: ' +
           'map1.eu tiles by Pavel Klinger are licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License</a>.' +
@@ -251,7 +252,7 @@ legend.onAdd = function (map) {
   grades = [20, 100, 200, 400],
   labels = [];
 
-  div.innerHTML += 'Počet událostí v dokumentu<br>';
+  div.innerHTML += 'Počet událostí v dokumentu (<a href="#" data-toggle="modal" data-target="#legendHelpModal">?</a>)<br>';
 
   // loop through our density intervals and generate a label with a colored square for each interval
   for (var i = -1; i < grades.length; i++) {
@@ -263,7 +264,9 @@ legend.onAdd = function (map) {
 };
 legend.addTo(map);
 
-
+if (location.href.replace(/^.*#/, '').length > 1) {
+  map.locate({setView : true});
+}
 
 
 layers = L.control.layers(layers, overlays, { position: 'topleft' });

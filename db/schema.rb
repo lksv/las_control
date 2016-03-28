@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160324201200) do
+ActiveRecord::Schema.define(version: 20160326184100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20160324201200) do
     t.datetime "plain_text_at"
     t.boolean  "published"
     t.datetime "pii_public_until"
+    t.integer  "events_count"
   end
 
   add_index "documents", ["document_storage_name"], name: "index_documents_on_document_storage_name", using: :btree
@@ -76,7 +77,6 @@ ActiveRecord::Schema.define(version: 20160324201200) do
   end
 
   add_index "events", ["shape_id"], name: "index_events_on_shape_id", using: :btree
-  add_index "events", ["source_id"], name: "events_source_id_idx", using: :btree
   add_index "events", ["source_type", "source_id"], name: "index_events_on_source_type_and_source_id", using: :btree
 
   create_table "income_email_addresses", force: :cascade do |t|
