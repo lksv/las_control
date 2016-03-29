@@ -6,9 +6,12 @@
   - event = Event.accessible_by(current_ability).find(params[:event_id])
   %h4
     Zobrazuji pouze adresu
+    %br
     %strong
       = event.address_cache
+    %br
     z dokumentu:
+    %br
     %strong
       = show_event_source_link(event.source)
 
@@ -21,6 +24,7 @@
   - document = Document.accessible_by(current_ability).find(q[:source_id_eq])
   %h4
     Zobrazuji pouze adresy z dokumentu:
+    %br
     %strong
       = show_event_source_link(document)
   =link_to 'Zrušit filtr', '', class: 'btn btn-primary', id: 'cancel-filter-all'

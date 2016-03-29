@@ -365,3 +365,12 @@ var redrawNotifications = function() {
     setNotifications(notificationsStorage);
   }
 };
+
+// Activate proper tab
+$(document).ready(
+  function selectTab(){
+    if (params.activeTab) {
+      $('#tabble-nav a[href="#' + params.activeTab + '"]').tab('show');
+    }
+  }
+);

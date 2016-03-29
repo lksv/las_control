@@ -9,7 +9,7 @@
         - if shape && shape.source_type == 'Parcela'
           / remove katastr
           - address.sub!(/,?\s*k\.u\.\s*(.*)/) { |t| ku = $1; '' }
-        - url = map_params_to_url(event.url_location_params)
+        - url = map_params_to_url(event.url_location_params.merge(activeTab: 'filter'))
         = link_to address, url
         = cuzk_url(shape)
       - else
