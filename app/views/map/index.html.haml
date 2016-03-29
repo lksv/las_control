@@ -14,12 +14,16 @@
           majetek je zmíněn v dokumentech (na úřední desce) Vaší obce, kraje, či např.
           městské části.
         %p
-          Pokud máte zájem, můžete si nastavit sledování Vaší oblasti na mapě a
+          Co to znamená: Vyznačené objekty na mapě sledují prodej, pronájem, stavební
+          řízení, exekuce, opravy, aj., o nichžs se jedná na úředních deskách. Jediným
+          kliknutím se dostanete na příslušné dokumenty, kde je daná adresa zmíněna.
+        %p
+          Můžete si nastavit sledování Vaší oblasti na mapě a
           budete upozorněni e-mailem, když se něco děje.
         %p
           Veškerý obsah má pouze informativní charakter. Dodavatel mapového 
-          informačního systému neodpovídá za správnost, úplnost a aktuálnost dat ani
-          za korektní rozpoznání adres.
+          informačního systému neodpovídá za správnost, úplnost a aktuálnost dat,
+          ani za korektní rozpoznání adres.
 
 
       .modal-footer
@@ -31,33 +35,32 @@
   .modal-dialog{:role => "document"}
     .modal-content
       .modal-body
-        %h3 Proč jsou jednotivé adresy vykresleny různou barvou?
+        %h3 Proč jsou jednotlivé adresy označeny různou barvou?
         %p
-          Každá obec vydává i dokumenty, které obsahují velké množstí adres.
-          Je to např. o vyhlášku o komunálním odpadu, změna územního řízení, apod.
+          Každá obec vydává dokumenty, které obsahují velké množstí adres.
+          Je to např. vyhláška o komunálním odpadu, změna územního řízení, apod.
         %p
-          Kdyby byl všechny dokumenty stejnou barvou, určité oblasti by celé svítily, ale
-          přitom byste neměli přehled, zda mezi záplavou adres není nějaký odlišného typu.
+          Pokud by byly všechny dokumenty označeny stejnou barvou, velké oblasti by svítily, ale
+          přitom byste neměli přehled, zda mezi záplavou adres není nějaký dokument odlišného typu, vztahující se k jednomu konkrétnímu objektu.
         %p
-          Pokud vidíte na mapě velkou oblast zabarvenou do žluta, pravděpodobně to znamená
+          Pokud vidíte na mapě velkou oblast označenou žlutě, pravděpodobně to znamená,
           že celá tato oblast je odkazována v jednom dokumentu.
-          Pokud jsou nějaké objekty v oblasti odkazovány i v jiném dokumentu je vykreslen
-          pravděpodobně tmavší barvou.
+          Objekty označené tmavší barvou značí, že jsou odkazovány i v dalších dokumentech.
 
         %h3 Jak se určí barva objektu
         %p
-          Každý objekt může být zmíněn v několika dokumentech. Barva na mapě je vypočtena
-          podle dokumentu, který obsajuje nejméně adres.
+          Každý objekt může být zmíněn v několika dokumentech. Barvu objektu určuje
+          dokument, který obsahuje nejméně adres.
         %p
-          Jinými slovy, čím tmavší odstín, tím spíš existuje dokument, který se
-          zminuje jen o této adrese.
+          Jinými slovy, čím tmavší odstín, tím spíše existuje dokument, který se
+          vztahuje k této adrese.
 
         %h3 Příklad
         %p
-          Můžete se například podívat na oblast
+          Na adrese
           %a{href:'http://localhost:3000/map?from_date=2015-09-24&to_date=2016-03-27#18/49.20003/16.62131'} Bratislavská 39, Brno
-          Pokud by byly všechny objekty stejnou barvou, jedním pohledem byste nezjistili,
-          byste, že tento objekt je/byl nabízen k pronájmu.
+          Pokud by byly všechny objekty označeny stejnou barvou, jedním pohledem byste nezjistili,
+          že tento objekt je/byl nabízen k pronájmu.
 
       .modal-footer
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Zavřít
