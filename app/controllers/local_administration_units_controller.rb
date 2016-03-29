@@ -108,7 +108,7 @@ class LocalAdministrationUnitsController < ApplicationController
     @cache_key_local_administration_units ||=  current_user_role_key +
       @local_administration_unit.try(:id).to_s +
       collection.map(&:id).join(':') +
-      (Time.now.to_i / 15.minutes).to_s
+      (Time.now.to_i / 5.days).to_s
   end
 
   def set_local_administration_unit
