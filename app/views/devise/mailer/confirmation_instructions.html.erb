@@ -17,6 +17,5 @@ Pěkný den,
     <dt>Heso:</dt>
     <dd><%= @resource.generated_password %></dd>
   </dl>
-  <# after sending plain password to the user, we can remove it #>
   <% @resource.update_column(:generated_password, nil) %>
 <% end %>
