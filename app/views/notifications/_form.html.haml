@@ -4,14 +4,14 @@
   = f.input :message, required: false, hint: "Vaše označení této oblasti."
   = f.input :gps_location, required: false, hint: 'Souřadnice můžete nastavit přetáhnutím špendlíku na mapě.'
   = f.input :distance, required: false
-  = f.button :submit, class: 'btn btn-success'
+  = f.button :submit, class: 'btn btn-success', data: { disable_with: "Odesílám..."}
   - if @notification.persisted?
     = link_to notification_path(@notification), class: 'btn btn-danger', method: :delete, remote: true do
       %i.fa.fa-trash
       Smazat
   = link_to notifications_path, class: 'btn btn-primary', remote: true do
     %i.fa.fa-remove
-      Zpět
+    Zpět
 
 :javascript
   var autocomplete;
@@ -78,13 +78,22 @@
   if (#{@notification.persisted?.to_s}) {
     autocompleteOff();
   } else {
-    var latlng = map.getCenter();
-    notificationsStorage.push({
-      lat: "#{@notification.lat}" || latlng.lat,
-      lng: "#{@notification.lng}" || latlng.lng,
-      distance: #{@notification.distance ? @notification.distance : 100},
-      id: null
+    // when form is submitted, but server side validation fails
+    // do not create new notification
+    existNotification = notificationsStorage.find(function (n) {
+      return !n.id;
     });
+    if (!existNotification) {
+      var latlng = map.getCenter();
+      notificationsStorage.push({
+        lat: "#{@notification.lat}" || latlng.lat,
+        lng: "#{@notification.lng}" || latlng.lng,
+        distance: #{@notification.distance ? @notification.distance : 100},
+        id: null
+      });
+      var gpsLocation = '' + latlng.lat + ', ' + latlng.lng;
+      $('input#notification_gps_location').val(gpsLocation);
+    }
     setNotifications(notificationsStorage);
     autocompleteOn();
   }
