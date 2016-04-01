@@ -4,3 +4,9 @@
     %label.string.optional.control-label.col-sm-3{for:"placeAutocomplete"}Hledat:
     .col-sm-9
       %input#placeAutocomplete.form-control{type:'text', name: 'location', placeholder: 'Grohova 8, Brno'}
+
+
+- q = params[:q]
+- if ( (params[:event_id] && params[:shape_id]) || (q && q[:source_id_eq] && q[:source_type_eq]) || (q && q[:query].present?))
+  %br
+  Upozornění: Máte definovaný filtr, proto nevidíte všechny události.
