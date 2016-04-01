@@ -6,10 +6,8 @@ resize();
 function resize(){
   if($(window).width()>=980){
     $('#map').css("height", ($(window).height() - mapmargin));
-    $('#map').css("margin-top",50);
   }else{
     $('#map').css("height", ($(window).height() - (mapmargin+12)));
-    $('#map').css("margin-top",-21);
   }
 }
 
@@ -186,7 +184,7 @@ var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
           layer.unbindPopup();
       }
 
-      var popup = L.popup({maxWidth: 500}).setLatLng(e.latlng).setContent('<i class="fa fa-spinner fa-spin"></i> Načítám...').openOn($map);
+      var popup = L.popup({maxWidth: 500}).setLatLng(e.latlng).setContent('<i class="fa fa-spinner fa-spin"></i> Načítám...').openOn(map);
 
       $.ajax({
         url: api_url,
@@ -239,8 +237,33 @@ var map = new L.Map('map', {
   zoom: initialZoom,
   layers: activeLayers || default_layers()
 });
-$map = map;
-map.setView([49.802251, 15.6252330], 10);
+// just for debugging purposes
+window.map = map;
+
+// get default map position
+var leafletPosition = window.sessionStorage && window.sessionStorage.getItem('leafletPosition');
+if (leafletPosition) {
+  // when map was already opend we have stored last position
+  var position = JSON.parse(leafletPosition);
+  map.setView(position[0], position[1]);
+} else {
+  // set default position somewere middle CR,
+  // leaflet.hash plugin rewrites default position if it is defined in anchor
+  map.setView([49.802251, 15.6252330], 10);
+  if (location.hash.length <= 1) {
+    // when no anchor is defined, try to guess position by geolocate API
+    map.locate({setView : true});
+  }
+}
+
+function updateLeafletPosition() {
+  if (location.pathname.indexOf('/map') == 0) {
+    var mapCenter = map.getCenter();
+    var leafletPosition = JSON.stringify([[mapCenter.lat, mapCenter.lng], map.getZoom()]);
+    sessionStorage.setItem('leafletPosition', leafletPosition);
+  }
+}
+$(document).on("page:fetch", updateLeafletPosition);
 
 var hash = L.hash(map);
 
@@ -263,11 +286,6 @@ legend.onAdd = function (map) {
   return div;
 };
 legend.addTo(map);
-
-if (location.href.replace(/^.*#/, '').length > 1) {
-  map.locate({setView : true});
-}
-
 
 layers = L.control.layers(layers, overlays, { position: 'topleft' });
 layers.addTo(map);
@@ -360,7 +378,6 @@ window.setNotifications = function setNotifications(notifications) {
 };
 
 var redrawNotifications = function() {
-  console.log('redrawNotifications', notificationsStorage);
   if (notificationsStorage) {
     setNotifications(notificationsStorage);
   }
