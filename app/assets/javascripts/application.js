@@ -15,7 +15,6 @@
 //= require turbolinks
 //= require bootstrap
 //= require spinner
-//= require anchor-scroll
 //= require select2
 //= require select2_locale_cs
 //= require jquery_ajax_select
@@ -26,7 +25,7 @@
 //= require moment/cs.js
 //= require decode-qparams
 //= require place-autocomplete
-//= require documents-highlited
+//= require documents
 //= require map-filter
 //= require ajax-events
 //= require a-btn-click-disable

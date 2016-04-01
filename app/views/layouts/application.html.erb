@@ -29,9 +29,10 @@
     </header>
     <main role="main" class="<%= params[:controller].split('/').last.singularize %>">
       <%= render 'layouts/messages' %>
+      <%= content_for?(:before_container) ? yield(:before_container) : '' %>
       <div class="container">
          <%= yield %>
-       </div>
+      </div>
     </main>
   </body>
 </html>

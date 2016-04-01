@@ -1,8 +1,37 @@
-:css
-/ TODO: style is not perfect, mostly inspired by
-/ http://jsfiddle.net/YwbLg/11/
-/ https://jsfiddle.net/v58eozu1/25/
-/ http://jsfiddle.net/eHded/5/
+= content_for :before_container do
+  #mapContainer
+    #mapOptions.options-open
+      .tab
+        %a{href:"#", onclick:"$('#mapOptions').toggleClass('options-open')"}
+          %h4 Nastavení mapy
+
+      .tabble-content
+        .col-sm-12
+          %ul#tabble-nav.nav.nav-tabs.nav-justified{role: 'tablist'}
+            %li.active{role:"presentation"}
+              %a{href:"#search", role: 'tab', data: {toggle: 'tab'}} Hledání
+            %li{role:"presentation"}
+              %a{href:"#filter", role: 'tab', data: {toggle: 'tab'}} Filtrování
+            %li{role:"presentation"}
+              %a{href:"#notifications", role: 'tab', data: {toggle: 'tab'}} Moje&nbsp;oblasti
+
+          .tab-content
+            #search.tab-pane.fade.in.active{role: 'tabpanel'}
+              = render 'place_autocomplete'
+
+            #filter.tab-pane.fade{role: 'tabpanel'}
+              = render 'filter'
+
+            #notifications.tab-pane.fade{role: 'tabpanel'}
+              %h2.content-title Sledované oblasti
+              #notifications-content
+                = render 'notifications/list'
+
+    #map-containerDiv.tabbable-target
+      #map= t('map_loading', default: 'Načítám mapu...')
+
+
+
 
 #welcomeModal.modal.fade{"aria-labelledby" => "welcomeModal", :role => "dialog", :tabindex => "-1", styler:"z-index:1000000000"}
   .modal-dialog{:role => "document"}
@@ -66,39 +95,6 @@
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Zavřít
         %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} Rozumím
 
-
-#mapContainer
-
-  #mapOptions.options-open
-    .tab
-      %a{href:"#", onclick:"$('#mapOptions').toggleClass('options-open')"}
-        %h4 Nastavení mapy
-
-    .tabble-content
-      .col-sm-12
-        %ul#tabble-nav.nav.nav-tabs.nav-justified{role: 'tablist'}
-          %li.active{role:"presentation"}
-            %a{href:"#search", role: 'tab', data: {toggle: 'tab'}} Hledání
-          %li{role:"presentation"}
-            %a{href:"#filter", role: 'tab', data: {toggle: 'tab'}} Filtrování
-          %li{role:"presentation"}
-            %a{href:"#notifications", role: 'tab', data: {toggle: 'tab'}} Moje&nbsp;oblasti
-
-        .tab-content
-          #search.tab-pane.fade.in.active{role: 'tabpanel'}
-            = render 'place_autocomplete'
-
-          #filter.tab-pane.fade{role: 'tabpanel'}
-            = render 'filter'
-
-          #notifications.tab-pane.fade{role: 'tabpanel'}
-            %h2.content-title Sledované oblasti
-            #notifications-content
-              = render 'notifications/list'
-
-
-  #map-containerDiv.tabbable-target
-    #map= t('map_loading', default: 'Načítám mapu...')
 
 
 #zoom-spinner

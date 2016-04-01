@@ -16,10 +16,8 @@
   }
 
   .plain-text-document {
-    height: 900px;
     background: white;
     border: 1px solid black;
-    overflow-y: auto;
     padding: 5px;
   }
 
@@ -27,10 +25,14 @@
     font-weight: bold;
   }
 
-//  .row.doc-head-info {
-//    position: fixed;
-//    background-color: red;
-//  }
+  .doc-head-info {
+    position: fixed;
+    background-color: rgb(218, 218, 218);
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    z-index: 1
+  }
 }
 
 li.address-item {

@@ -1,4 +1,14 @@
-$(document).on("page:change", function () {
+$(document).ready(function () {
+  // calculate margin of fixed document info header
+  var fixedOffset = $(".doc-head-info").innerHeight() + 5;
+
+  $("div.plain-text-row").css('margin-top', '' + fixedOffset + 'px');
+  if ($(location.hash).length) {
+    jQuery('html,body')
+      .animate({scrollTop: $(location.hash ).offset().top - fixedOffset - 51}, 300);
+  }
+
+  //popover - make popover content ajax loadable
   $('[data-toggle="popover"]').click(function(e) {
     e.preventDefault();
   });
