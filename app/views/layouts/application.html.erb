@@ -15,7 +15,7 @@
     <%= stylesheet_link_tag 'Control.Loading.css' %>
 
     <%= javascript_include_tag 'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js' %>
-    <%= javascript_include_tag 'https://api.mapbox.com/mapbox.js/plugins/leaflet-hash/v0.2.1/leaflet-hash.js' %>
+    <%= javascript_include_tag 'leaflet-hash.min.js' %>
     <%= javascript_include_tag 'TileLayer.GeoJSON.js' %>
     <%= javascript_include_tag 'https://api.mapbox.com/mapbox.js/plugins/leaflet-minimap/v1.0.0/Control.MiniMap.js' %>
     <%= javascript_include_tag 'Control.Loading.js' %>
@@ -28,8 +28,8 @@
       <%= render 'layouts/navigation' %>
     </header>
     <main role="main" class="<%= params[:controller].split('/').last.singularize %>">
-       <%= render 'layouts/messages' %>
-       <div class="container">
+      <%= render 'layouts/messages' %>
+      <div class="container">
          <%= yield %>
        </div>
     </main>

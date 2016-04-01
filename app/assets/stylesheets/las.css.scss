@@ -80,6 +80,13 @@ li.address-item {
   overflow: hidden;
 }
 
+//this reverts the main tag style
+#map {
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-bottom: -80px;
+}
+
 #mapOptions {
   width:28%;
   max-width: 330px;
