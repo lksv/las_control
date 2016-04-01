@@ -29,4 +29,5 @@
 //= require documents-highlited
 //= require map-filter
 //= require ajax-events
+//= require a-btn-click-disable
 //x= require_treex .
