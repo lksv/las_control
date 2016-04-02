@@ -10,7 +10,5 @@ class MapController < ApplicationController
 
     @show_welcome_mesage = !cookies[:welcome_message_displayed]
     cookies[:welcome_message_displayed] = { value: true, expires: 1.day.from_now.beginning_of_day }
-
-    render layout: 'application-map'
   end
 end
