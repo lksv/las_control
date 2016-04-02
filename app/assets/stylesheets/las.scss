@@ -1,4 +1,4 @@
-.document {
+.documents {
   :target {
     background-color: #ffa;
   }
@@ -17,7 +17,6 @@
 
   .plain-text-document {
     background: white;
-    border: 1px solid black;
     padding: 5px;
   }
 
@@ -26,12 +25,17 @@
   }
 
   .doc-head-info {
+    width: 100%;
+    margin-left: -15px;
     position: fixed;
     background-color: rgb(218, 218, 218);
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
     z-index: 1
+  }
+
+  dl.dl-horizontal dd {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
@@ -91,7 +95,7 @@ li.address-item {
 
 #mapOptions {
   width:28%;
-  max-width: 330px;
+  //max-width: 330px;
   float:right;
   min-height:400px;
   height: 70%;

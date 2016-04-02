@@ -30,47 +30,39 @@ var layers = {
       name: "OpenStreetMap",
       type: "xyz",
       url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      layerOptions: {
-        subdomains: ['a', 'b', 'c'],
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-          '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-        continuousWorld: true
-      }
+      subdomains: ['a', 'b', 'c'],
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+      continuousWorld: true
     }),
     map1_eu: L.tileLayer('http://beta.map1.eu/tiles/{z}/{x}/{y}.jpg', {
       name: "Map1.eu",
       type: "xyz",
       url: 'http://beta.map1.eu/tiles/{z}/{x}/{y}.jpg',
       maxZoom: 17,
-      layerOptions: {
-        attribution: 'Tiles licence: ' +
-          'map1.eu tiles by Pavel Klinger are licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License</a>.' +
-          'Based on a work at <a href="http://map1.eu/">map1.eu</a>. ' +
-          'Map data © OpenStreetMap contributors ',
-        continuousWorld: true
-      }
+      attribution: 'Tiles licence: ' +
+        'map1.eu tiles by Pavel Klinger are licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License</a>.' +
+        'Based on a work at <a href="http://map1.eu/">map1.eu</a>. ' +
+        'Map data © OpenStreetMap contributors ',
+      continuousWorld: true
     }),
     hum_osm: L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       name: "Humanitarian OSM",
       type: "xyz",
       url: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-      layerOptions: {
-        subdomains: ['a', 'b'],
-        attribution: '© <a href="http://www.openstreetmap.org/copyright"></a>OpenStreetMap contributors</a>.' +
-        'Tiles courtesy of <a href="http://hot.openstreetmap.org/">Humanitarian OpenStreetMap Team</a>',
-        continuousWorld: true
-      }
+      subdomains: ['a', 'b'],
+      attribution: '© <a href="http://www.openstreetmap.org/copyright"></a>OpenStreetMap contributors</a>.' +
+      'Tiles courtesy of <a href="http://hot.openstreetmap.org/">Humanitarian OpenStreetMap Team</a>',
+      continuousWorld: true
     }),
     osmCycle: L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {
       name: "OpenCycleMap",
       type: "xyz",
       url: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
-      layerOptions: {
-        subdomains: ['a', 'b'],
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-          '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a> Tiles courtesy of <a href="www.thunderforest.com/">Andy Allan</a>',
-        continuousWorld: true
-      }
+      subdomains: ['a', 'b'],
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a> Tiles courtesy of <a href="www.thunderforest.com/">Andy Allan</a>',
+      continuousWorld: true
     })
 };
 
@@ -240,6 +232,8 @@ var map = new L.Map('map', {
 // just for debugging purposes
 window.map = map;
 
+map.attributionControl.setPrefix('By <a href="http://github.com/lksv">lksv</a>');
+
 // get default map position
 var leafletPosition = window.sessionStorage && window.sessionStorage.getItem('leafletPosition');
 if (leafletPosition) {
@@ -275,7 +269,7 @@ legend.onAdd = function (map) {
   grades = [20, 100, 200, 400],
   labels = [];
 
-  div.innerHTML += 'Počet událostí v dokumentu (<a href="#" data-toggle="modal" data-target="#legendHelpModal">?</a>)<br>';
+  div.innerHTML += 'Počet adres v dokumentu (<a href="#" data-toggle="modal" data-target="#legendHelpModal">?</a>)<br>';
 
   // loop through our density intervals and generate a label with a colored square for each interval
   for (var i = -1; i < grades.length; i++) {

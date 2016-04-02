@@ -14,5 +14,3 @@
     title: "<a href=\"#addressBlock-#{address_block.id}\">Adresy <i class=\"fa fa-link\"></a>",
     data: { toggle: "popover", content: '<div class="inner"><i class="fa fa-spinner fa-spin"></i> Načítam...</div>', trigger: "focus", html: "true"} }
 = h(plain_text[rendered_until_idx..-1]).gsub(/\n/, '<BR>').html_safe
-
-<%= javascript_include_tag 'documents.js' %>

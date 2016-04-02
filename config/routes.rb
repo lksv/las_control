@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
+
   as :user do
     post '/user/simple_create' => 'users#create',
       via: :post, as: :user_simple_register

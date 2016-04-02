@@ -92,6 +92,8 @@ gem 'devise-async'
 
 gem "rack-timeout"
 
+gem 'pdfjs_viewer-rails'
+
 group :production do
   gem 'puma'
 end

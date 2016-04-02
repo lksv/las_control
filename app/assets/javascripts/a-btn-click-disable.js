@@ -3,7 +3,7 @@ function do_nothing() {
 }
 
 function disableButtonLinkAfterClick() {
-  $(document).on('click', 'a.btn', function(e) {
+  $(document).on('click', 'a.btn:not(.multitime)', function(e) {
     var button = $(e.target).closest('a.btn');
     button.children('i.fa').remove();
     button.prepend('<i class="fa fa-refresh fa-spin"></i> ');

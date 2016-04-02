@@ -1,4 +1,15 @@
-$(document).ready(function () {
+$(document).on('page:change', function () {
+
+  $('.toggle-pdf-view').click(function() {
+    $(this).find('span').each(function() { $(this).toggle(); });
+    $('#pdfViewColumn').toggle();
+  });
+
+
+  // following code is important only for documents#show view
+  if ($('main.documents.show').length == 0) {
+    return
+  }
   // calculate margin of fixed document info header
   var fixedOffset = $(".doc-head-info").innerHeight() + 5;
 

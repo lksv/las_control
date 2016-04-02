@@ -27,7 +27,7 @@
     <header>
       <%= render 'layouts/navigation' %>
     </header>
-    <main role="main" class="<%= params[:controller].split('/').last.singularize %>">
+    <main role="main" class="<%= controller_name %> <%= action_name %>">
       <%= render 'layouts/messages' %>
       <%= content_for?(:before_container) ? yield(:before_container) : '' %>
       <div class="container">
