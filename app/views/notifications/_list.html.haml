@@ -10,26 +10,26 @@
 
 - else
 
-  %table.table.table-striped.table-responsive
+  %table.table.table-responsive.table-hover
     %thead
       %tr
         %th Název
         /%th Umístění
         %th Velikost
-        %th
-          =link_to new_notification_path, remote: true do
-            %i{class:"glyphicon glyphicon-plus-sign"}
+        / %th
+        /   =link_to new_notification_path, remote: true do
+        /     %i{class:"glyphicon glyphicon-plus-sign"}
     %tbody
       - @notifications.each do |notification|
-        %tr
+        %tr{data: { href: edit_notification_path(notification) }}
           %td= notification.message
           /%td= notification.gps_location_rounded
           %td
             =succeed(' m') do
               =notification.distance
-          %td
-            =link_to edit_notification_path(notification), remote: true do
-              %i{class:"glyphicon glyphicon-pencil"}
+          / %td
+          /   =link_to edit_notification_path(notification), remote: true do
+          /     %i{class:"glyphicon glyphicon-pencil"}
 
   = link_to 'Přidat oblast', new_notification_path, class: 'btn btn-success', remote: true
 
@@ -45,5 +45,21 @@
     = f.button :submit, value: 'Odeslat'
 
 :javascript
+
   var notifications = #{@notifications.to_json};
     setTimeout(function () { window.setNotifications(notifications) }, 500);
+
+  $(function(){
+    $('.table tr[data-href]').each(function(){
+      $(this).css('cursor','pointer').hover(
+        function(){
+          $(this).addClass('active');
+        },
+        function(){
+          $(this).removeClass('active');
+        }).click( function(){
+          $.getScript($(this).attr('data-href'));
+        }
+      );
+    });
+  });
