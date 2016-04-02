@@ -1,0 +1,55 @@
+-# debugging URL: http://localhost:3000/rails/mailers/user_mailer/new_events
+
+- title = "Informace o "
+- title << 'nové události' if (@events.size == 1)
+- title << "#{@events.size} nových událostech" if (@events.size > 1)
+
+%h1= title
+
+- @events_by_notification.each do |notification, events|
+  - next if events.size == 0
+  %br
+
+  V oblasti
+  %i= notification.message
+  jsou následující události:
+
+  %ul
+
+    -# events = Document.find(248).events.to_a + Document.find(251).events.to_a
+
+    - max_doc_size = 6
+    - events_by_document = events.group_by(&:source)
+    - events_by_document.each_with_index do |(document, doc_events), doc_idx|
+      - break if doc_idx >= max_doc_size
+      %li
+        Dokument:
+        = link_to document.title, polymorphic_url(document)
+
+        - if events.size > 1
+          %br
+          - max_doc_ref = 10
+          = "Adresa je v textu odkazována celkem #{doc_events.size} krát."
+          %br
+          Přímý odkaz na jednotlivé výskyty:
+          %ul
+            - doc_events.each_with_index do |event, idx|
+              - break if idx >= max_doc_ref
+              %li
+                = show_event(event)
+                = surround '[', ']' do
+                  = link_to 'dokument',
+                    polymorphic_url(document, anchor: "addressBlock-#{event.address_block.id}"),
+                    data: {:'no-turbolink' => 'true' }
+          - if doc_events.size > max_doc_ref
+            &hellip;a další adresy.
+
+
+
+    - if events_by_document.size > max_doc_size
+      &hellip;a další dokumenty.
+
+
+<br>
+Zasílání notifikačních e-mailů můžete upravit v
+%a{href: root_url(activeTab: 'notifications')}Sledované oblasti.

@@ -34,6 +34,8 @@ module LasControl
 
     config.autoload_paths << Rails.root.join('lib')
 
+    config.action_mailer.preview_path = "#{Rails.root}/lib/mailer_previews"
+
     config.active_job.queue_adapter = :sidekiq
   end
 end
