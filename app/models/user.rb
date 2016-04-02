@@ -14,6 +14,11 @@ class User < ActiveRecord::Base
   validates :role, inclusion: { :in => Settings.roles, message: 'invalid type of role' }
   after_initialize :default_role
 
+  scope :subscribed, -> {
+    where('confirmed_at IS NOT NULL')
+      .where('email !~ ?', '^guest_.*example.com')
+  }
+
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
   end

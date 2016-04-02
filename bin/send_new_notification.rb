@@ -11,7 +11,7 @@ Rails.logger.level = Logger::DEBUG
 #  .update_all(last_send_by_mail: 60.days.ago)
 
 #User.where(email: 'lukas.svoboda@gmail.com').each do |user|
-User.all.each do |user|
+User.subscribed.find_each do |user|
   begin
     last_send_by_mail = Time.now
     UserMailer.new_events(user).deliver_now
