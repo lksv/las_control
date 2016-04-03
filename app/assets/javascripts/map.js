@@ -163,7 +163,7 @@ if (params['q[query]']) {
 }
 var geojsonTileLayer = new L.geoJsonvtTiles(geojsonURL, {
   minZoom: maxZoomEnabled,
-  debug: true,
+  debug: false,
   style: styleFce,
   filter: function(feature, layer) {
     return !isFeatureFiltered(feature);
