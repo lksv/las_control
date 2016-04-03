@@ -11,9 +11,12 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 
 Rails.application.config.assets.precompile += 
-%w( TileLayer.GeoJSON.js
+%w(
     map.js
     Control.Loading.css
     Control.Loading.js
     leaflet-hash.min.js
+    geojson-vt.js
+    leaflet-pip.min.js
+    L.GeoJSONvtTiles.js
   )

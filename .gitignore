@@ -9,6 +9,7 @@
 /.env
 /public/system/**
 /public/test/**
+/public/cache/**
 
 # Ignore the default SQLite database.
 /db/*.sqlite3

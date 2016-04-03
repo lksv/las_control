@@ -93,6 +93,7 @@ gem 'devise-async'
 gem "rack-timeout"
 
 gem 'pdfjs_viewer-rails'
+gem 'actionpack-page_caching'
 
 group :production do
   gem 'puma'

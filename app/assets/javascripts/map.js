@@ -13,7 +13,7 @@ function resize(){
 
 
 
-var maxZoomEnabled = 15;
+var maxZoomEnabled = 13;
 var initialZoom = 13;
 
 var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -88,7 +88,8 @@ var filteredStyle = {
   color: 'yellow',
   weight: 1,
   opacity: 1,
-  fillOpacity: 0
+  fillOpacity: 1,
+  color: 'yellow',
 };
 
 
@@ -106,7 +107,8 @@ var isFeatureFiltered = function isFeatureFiltered(feature) {
     return false;
   }
 
-  return !feature.properties.snippets.find(function(event) {
+  var properties = feature.properties || feature.tags;
+  return !properties.snippets.find(function(event) {
     return (
       (event.source_id == params['q[source_id_eq]']) &&
       (event.source_type == params['q[source_type_eq]'])
@@ -125,14 +127,17 @@ window.getColor = function getColor(d) {
 
 var styleFce = function styleFce(f) {
   var style = defaultStyle;
-  style.fillColor = f.properties.legend_color || '#fff';
-  if (params.shape_id && (f.id == params.shape_id)) {
+  style.fillColor = f.tags.legend_color || '#fff';
+  if (style.fillColor == '#fff') {
+    console.log(f.tags);
+  }
+  if (params.shape_id && (f.tags.id == params.shape_id)) {
     // highlight focus element
     return focusStyle;
   } else if (!params.shape_id && params['q[source_id_eq]']) {
     return style;
   } else if (!params.shape_id && params.from_date && params.to_date) {
-    if (f.properties.snippets.find(function(event) {
+    if (f.tags.snippets.find(function(event) {
       return (params.from_date < event.from_date) && (params.to_date > event.from_date);
     })) {
       return style;
@@ -146,62 +151,42 @@ var styleFce = function styleFce(f) {
   }
 };
 
-var geojsonURL = '/tiles/{z}/{x}/{y}.json';
+var geojsonURL = '/public/tiles/{z}/{x}/{y}.json';
+if (params['private'] == 'true') {
+  geojsonURL = geojsonURL.replace(/^\/public/, '');
+}
 if (params['q[source_id_eq]']) {
   geojsonURL += '?q[source_id_eq]=' + params['q[source_id_eq]'] + '&q[source_type_eq]=' + params['q[source_type_eq]']
 }
 if (params['q[query]']) {
   geojsonURL += '?q[query]=' + params['q[query]'];
 }
-var geojsonTileLayer = new L.TileLayer.GeoJSON(geojsonURL, {
-  clipTiles: true,
-    unique: function (feature) {
-      return feature.id;
-    }
-}, {
+var geojsonTileLayer = new L.geoJsonvtTiles(geojsonURL, {
+  minZoom: maxZoomEnabled,
+  debug: true,
   style: styleFce,
   filter: function(feature, layer) {
     return !isFeatureFiltered(feature);
   },
-  //pointToLayer: function(feature, latlng) {
-  //  return isFeatureFiltered(feature) ? null : L.marker(latlng, {});
-  //},
-  onEachFeature: function (feature, layer) {
+  featureClick: function(e, feature) {
+    var map = this._map;
+
     var api_url = feature.properties && feature.properties.api_url;
     if (params['q[query]'] || params['q[source_id_eq]']) {
       api_url += '?event_ids=' + feature.properties.snippets.map(function(i) { return i.event_id }).join(',');
     }
-    layer.on('click', function(e) {
-      if (layer._popup != undefined) {
-          layer.unbindPopup();
+    this._popup = L.popup({maxWidth: 500}).setLatLng(e.latlng).setContent('<i class="fa fa-spinner fa-spin"></i> Načítám...').openOn(map);
+
+    var self = this;
+
+    $.ajax({
+      url: api_url,
+      success: function (data) {
+        self._popup.setContent(data);
+        self._popup.update();
+        $('[data-toggle="tooltip"]').tooltip();
       }
-
-      var popup = L.popup({maxWidth: 500}).setLatLng(e.latlng).setContent('<i class="fa fa-spinner fa-spin"></i> Načítám...').openOn(map);
-
-      $.ajax({
-        url: api_url,
-        success: function (data) {
-          popup.setContent(data);
-          popup.update();
-          $('[data-toggle="tooltip"]').tooltip();
-        }
-      });
-      //popup.setContent('new data');
-      //popup.update();
     });
-    //layer.bindPopup(popupString, {
-    //  maxHeight: 500,
-    //  maxWidth: 500
-    //});
-
-    //if (!(layer instanceof L.Point)) {
-    //    layer.on('mouseover', function () {
-    //        layer.setStyle(hoverStyle);
-    //    });
-    //    layer.on('mouseout', function () {
-    //        layer.setStyle(style);
-    //    });
-    //}
   }
 });
 
@@ -216,7 +201,7 @@ var overlays = {
 var default_layers = function default_layers() {
   var res = [ layers.osm ];
   if (initialZoom >= maxZoomEnabled) {
-    res.push(overlays.Events);
+    res.push(geojsonTileLayer);
   }
   res.push(notificationsLayerGroup);
   return res;

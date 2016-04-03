@@ -9,11 +9,11 @@
 #   19 51.0
 
 #usage:
-#    ruby bin/load_all_tiles.rb 'http://luksrock.cz:3000/tiles/\%<zoom>s/\%<x>s/\%<y>s.json'
-#    ruby bin/load_all_tiles.rb 'http://localhost:3000/tiles/%<zoom>s/%<x>s/%<y>s.json' '14.291153,49.993174,14.659195,50.146546'  #osekana praha
-#    ruby bin/load_all_tiles.rb 'http://localhost:3000/tiles/%<zoom>s/%<x>s/%<y>s.json' '16.484985,49.132981,16.709175,49.260635'  #brno
-#    ruby bin/load_all_tiles.rb 'http://localhost:3000/tiles/%<zoom>s/%<x>s/%<y>s.json' 17.166138,49.542142,17.350159,49.645624  #olomouc
-#    ruby bin/load_all_tiles.rb 'http://localhost:3000/tiles/%<zoom>s/%<x>s/%<y>s.json' '12.09,47.73,22.56,51.06' 14 # cela CR test na pocet tiles
+#    ruby bin/load_all_tiles.rb 'http://localhost:3000/public/tiles/\%<zoom>s/\%<x>s/\%<y>s.json'
+#    ruby bin/load_all_tiles.rb 'http://localhost:3000/public/tiles/%<zoom>s/%<x>s/%<y>s.json' '14.291153,49.993174,14.659195,50.146546'  #osekana praha
+#    ruby bin/load_all_tiles.rb 'http://localhost:3000/public/tiles/%<zoom>s/%<x>s/%<y>s.json' '16.484985,49.132981,16.709175,49.260635'  #brno
+#    ruby bin/load_all_tiles.rb 'http://localhost:3000/public/tiles/%<zoom>s/%<x>s/%<y>s.json' 17.166138,49.542142,17.350159,49.645624  #olomouc
+#    ruby bin/load_all_tiles.rb 'http://localhost:3000/public/tiles/%<zoom>s/%<x>s/%<y>s.json' '12.09,47.73,22.56,51.06' 14 # cela CR test na pocet tiles
 
 
 # see how to convert WSG84 to tile http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
@@ -68,10 +68,10 @@ def cache_zoom(url_base, zoom)
   end
 end
 
-url = ARGV[0] || 'http://localhost:3000/tiles/%<zoom>s/%<x>s/%<y>s.json'
+url = ARGV[0] || 'http://localhost:3000/public/tiles/%<zoom>s/%<x>s/%<y>s.json'
 p url
 
-layers = (ARGV[2] || '15,16').split(',').map(&:to_i)
+layers = (ARGV[2] || '13').split(',').map(&:to_i)
 layers.each do |zoom|
   puts "Caching zoom #{zoom}"
   cache_zoom(url, zoom)

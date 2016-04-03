@@ -55,6 +55,10 @@ class ApplicationController < ActionController::Base
     !!session[:guest_user_id]
   end
 
+  def public_ability
+    @public_ability ||= Ability.new(User.new)
+  end
+
   private
 
   def public_controller?

@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   resources :users, only: :create
 
   get 'tiles/:z/:x/:y'  =>  'events#tiles', as: :tiles
+  get 'public/tiles/:z/:x/:y'  =>  'events#public_tiles', as: :public_tiles
 
   get 'map', to: 'map#index'
 
