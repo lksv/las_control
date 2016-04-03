@@ -13,10 +13,12 @@ class EventsController < ApplicationController
     @zoom = params[:z].to_i # zoom
     @x = params[:x].to_i
     @y = params[:y].to_i
+    @q = params[:q]
 
+    key = current_user_role_key + ['tiles', @zoom, @x, @y, @q].inspect
     @tile = Rails.cache.fetch(key, expires_in: 5.days) do
       if (@zoom >= 15) || (@zoom == 13)
-        get_tile(@zoom, @x, @y, params[:q], current_ability)
+        get_tile(@zoom, @x, @y, @q, current_ability)
       else
         '{"type":"FeatureCollection","features":[]}'
       end
@@ -34,13 +36,18 @@ class EventsController < ApplicationController
     @zoom = params[:z].to_i # zoom
     @x = params[:x].to_i
     @y = params[:y].to_i
+    @q = params[:q]
 
-    if (@zoom >= 15) || (@zoom == 13)
-      @tile = get_tile(@zoom, @x, @y, params[:q], public_ability)
-    else
-      @tile = '{"type":"FeatureCollection","features":[]}'
+    #FIXME: remove caching when setup serving assets by nginx
+    key = current_user_role_key + ['public_tiles', @zoom, @x, @y, @q].inspect
+    tile = Rails.cache.fetch(key, expires_in: 5.days) do
+      if (@zoom >= 15) || (@zoom == 13)
+        get_tile(@zoom, @x, @y, @q, public_ability)
+      else
+        '{"type":"FeatureCollection","features":[]}'
+      end
     end
-    render json: @tile
+    render json: tile
   end
 
   private
@@ -50,8 +57,6 @@ class EventsController < ApplicationController
 
     q = Event.ransack(query)
     events = q.result.accessible_by(ability)
-
-    key = current_user_role_key + [zoom, x, y, q].inspect
 
     Event.to_geojson(
       events: events, bbox: bbox, zoom: zoom
