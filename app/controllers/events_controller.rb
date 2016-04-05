@@ -47,6 +47,7 @@ class EventsController < ApplicationController
         '{"type":"FeatureCollection","features":[]}'
       end
     end
+    expires_in(12.hours, public: true)
     render json: tile
   end
 
