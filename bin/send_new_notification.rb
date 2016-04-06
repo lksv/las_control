@@ -10,8 +10,10 @@ Rails.logger.level = Logger::DEBUG
 #  .notifications
 #  .update_all(last_send_by_mail: 60.days.ago)
 
-#User.where(email: 'lukas.svoboda@gmail.com').each do |user|
-User.subscribed.find_each do |user|
+scope = User
+scope = scope.where(email: ARGV[0]) if ARGV[0]
+scope.subscribed.find_each do |user|
+  Rails.logger.info "Checking mail for user: #{user.email}"
   begin
     last_send_by_mail = Time.now
     UserMailer.new_events(user).deliver_now
