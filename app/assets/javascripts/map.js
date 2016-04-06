@@ -275,7 +275,7 @@ var zoomControll = function zoomControllFn(zoom) {
   if (zoom < maxZoomEnabled && map.hasLayer(geojsonTileLayer)) {
     map.removeLayer(geojsonTileLayer);
     $('#zoom-spinner').show();
-  } else if (zoom >= maxZoomEnabled && map.hasLayer(geojsonTileLayer) == false) {
+  } else if (zoom >= maxZoomEnabled) {
     map.addLayer(geojsonTileLayer);
     $('#zoom-spinner').hide();
   }
