@@ -30,7 +30,7 @@
   =link_to 'Zrušit filtr', '', class: 'btn btn-primary', id: 'cancel-filter-all'
 - else
   - @q = OpenStruct.new(params[:q])
-  = simple_form_for :q, url: map_path(:q), method: :get, html: {id: 'filter_form', class: 'form-horizontal'},wrapper: :horizontal_input_group do |f|
+  = simple_form_for :q, url: map_path(), method: :get, html: {id: 'filter_form', class: 'form-horizontal'},wrapper: :horizontal_input_group do |f|
     = f.input :query, label: 'Dokument obsahuje', placeholder: 'prodej, pronájem, ...', required: false do
       = f.input_field :query, class: "form-control"
       %span.input-group-btn
