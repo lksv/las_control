@@ -12,9 +12,9 @@ Pěkný den,
 
   <p>Pro příští přihlášení použijte následující údaje:</p>
   <dl>
-    <dt>E-mail:</dt>
+    <dt>Uživatel:</dt>
     <dd><%= @resource.email %></dd>
-    <dt>Heso:</dt>
+    <dt>Heslo:</dt>
     <dd><%= @resource.generated_password %></dd>
   </dl>
   <% @resource.update_column(:generated_password, nil) %>
