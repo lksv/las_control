@@ -228,7 +228,7 @@ if (leafletPosition) {
 } else {
   // set default position somewere middle CR,
   // leaflet.hash plugin rewrites default position if it is defined in anchor
-  map.setView([49.802251, 15.6252330], 10);
+  map.setView([50.08559, 14.41551], 17);
   if (location.hash.length <= 1) {
     // when no anchor is defined, try to guess position by geolocate API
     map.locate({setView : true});
