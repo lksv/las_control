@@ -63,12 +63,12 @@ def cache_zoom(url_base, zoom)
   list.each_with_index do |tile, idx|
     url = sprintf(url_base, tile)
     tile_size = open(url).gets.size
-    #sleep 0.15
+    #sleep 0.015
     puts "#{idx}/#{list.size}. #{url} => #{tile_size}"
   end
 end
 
-url = ARGV[0] || 'http://localhost:8080/public/tiles/%<zoom>s/%<x>s/%<y>s.json'
+url = ARGV[0] || "http://#{ENV['DOMAIN']}/public/tiles/%<zoom>s/%<x>s/%<y>s.json"
 p url
 
 layers = (ARGV[2] || '13').split(',').map(&:to_i)
