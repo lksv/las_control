@@ -26,7 +26,7 @@ var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</
 
 */
 var layers = {
-    osm: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    "Základní": L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       name: "OpenStreetMap",
       type: "xyz",
       url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -35,35 +35,46 @@ var layers = {
         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
       continuousWorld: true
     }),
-    map1_eu: L.tileLayer('http://beta.map1.eu/tiles/{z}/{x}/{y}.jpg', {
-      name: "Map1.eu",
-      type: "xyz",
-      url: 'http://beta.map1.eu/tiles/{z}/{x}/{y}.jpg',
-      maxZoom: 17,
-      attribution: 'Tiles licence: ' +
-        'map1.eu tiles by Pavel Klinger are licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License</a>.' +
-        'Based on a work at <a href="http://map1.eu/">map1.eu</a>. ' +
-        'Map data © OpenStreetMap contributors ',
-      continuousWorld: true
+    "Satelitní": L.tileLayer('https://api.tiles.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibGtzdiIsImEiOiJjaW40OHNjbzcwMHNpdzVtMWRsMzE1aDI2In0.A1H4C1Zf8bBaXkWKPEL05Q', {
+      attribution: '<a href="https://mapbox.com/about/maps/">MapBox</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      subdomains: 'abcd', maxZoom: 20, maxNativeZoom: 18,
     }),
-    hum_osm: L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-      name: "Humanitarian OSM",
-      type: "xyz",
-      url: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-      subdomains: ['a', 'b'],
-      attribution: '© <a href="http://www.openstreetmap.org/copyright"></a>OpenStreetMap contributors</a>.' +
-      'Tiles courtesy of <a href="http://hot.openstreetmap.org/">Humanitarian OpenStreetMap Team</a>',
-      continuousWorld: true
-    }),
-    osmCycle: L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {
-      name: "OpenCycleMap",
-      type: "xyz",
-      url: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
-      subdomains: ['a', 'b'],
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a> Tiles courtesy of <a href="www.thunderforest.com/">Andy Allan</a>',
-      continuousWorld: true
+    "Černobílá": L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+      subdomains: 'abcd',
+      minZoom: 0,
+      maxZoom: 20,
+      maxNativeZoom: 18,
     })
+    //map1_eu: L.tileLayer('http://beta.map1.eu/tiles/{z}/{x}/{y}.jpg', {
+    //  name: "Map1.eu",
+    //  type: "xyz",
+    //  url: 'http://beta.map1.eu/tiles/{z}/{x}/{y}.jpg',
+    //  maxZoom: 17,
+    //  attribution: 'Tiles licence: ' +
+    //    'map1.eu tiles by Pavel Klinger are licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License</a>.' +
+    //    'Based on a work at <a href="http://map1.eu/">map1.eu</a>. ' +
+    //    'Map data © OpenStreetMap contributors ',
+    //  continuousWorld: true
+    //}),
+    //hum_osm: L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+    //  name: "Humanitarian OSM",
+    //  type: "xyz",
+    //  url: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+    //  subdomains: ['a', 'b'],
+    //  attribution: '© <a href="http://www.openstreetmap.org/copyright"></a>OpenStreetMap contributors</a>.' +
+    //  'Tiles courtesy of <a href="http://hot.openstreetmap.org/">Humanitarian OpenStreetMap Team</a>',
+    //  continuousWorld: true
+    //}),
+    //osmCycle: L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {
+    //  name: "OpenCycleMap",
+    //  type: "xyz",
+    //  url: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
+    //  subdomains: ['a', 'b'],
+    //  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+    //    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a> Tiles courtesy of <a href="www.thunderforest.com/">Andy Allan</a>',
+    //  continuousWorld: true
+    //})
 };
 
 var defaultStyle = {
@@ -199,7 +210,7 @@ var overlays = {
 
 
 var default_layers = function default_layers() {
-  var res = [ layers.osm ];
+  var res = [ layers['Základní'] ];
   if (initialZoom >= maxZoomEnabled) {
     res.push(geojsonTileLayer);
   }
