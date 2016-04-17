@@ -5,6 +5,12 @@ cs:
       create: "Vytvořit"
       update: "Uložit"
 
+  devise:
+    registrations:
+      edit:
+        cancel_my_account: Zrušit účet
+        leave_blank_if_you_don_t_want_to_change_it: Nechte prázdné, pokud nechcete heslo měnit
+
 
   attributes:
     created_at: "Vytvořeno"
