@@ -1,3 +1,5 @@
+require 'geo_convertor'
+
 class EventsController < ApplicationController
   skip_authorization_check only: [:index, :public_tiles]
 

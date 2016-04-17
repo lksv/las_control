@@ -3,7 +3,7 @@
   html: { class: 'form-horizontal'}, wrapper: :horizontal_form  do |f|
   = f.input :message, required: false, hint: "Vaše označení této oblasti."
   = f.input :gps_location, required: false, hint: 'Souřadnice můžete nastavit přetáhnutím špendlíku na mapě.'
-  = f.input :distance, required: false
+  = f.input :distance, required: false, input_html: { step: 10 }
   = f.button :submit, class: 'btn btn-success', data: { disable_with: "Odesílám..."}
   - if @notification.persisted?
     = link_to notification_path(@notification), class: 'btn btn-danger', method: :delete, remote: true do
@@ -33,6 +33,14 @@
     $('.notification_message p.help-block').html(hint);
   };
 
+
+  // returns current notification from notificationsStorage array
+  var currentNotification = function currentNotification() {
+    return notificationsStorage.find(function (n) {
+      return n.id === #{@notification.id || 'null'};
+    });
+  }
+
   var onPlaceChanged = function() {
     var place = autocomplete.getPlace();
     if (place.geometry) {
@@ -44,9 +52,7 @@
       $('input#notification_message').val(addressName.replace(/, Česká republika/, ''));
 
       $('input#notification_gps_location').val(gpsLocation);
-      var notification = notificationsStorage.find(function (n) {
-        return n.id === #{@notification.id || 'null'};
-      });
+      var notification = currentNotification();
       notification.lat = place.geometry.location.lat();
       notification.lng = place.geometry.location.lng();
       setNotifications(notificationsStorage);
@@ -111,6 +117,14 @@
     );
   }
 
+  var onDistanceChange = function onDistanceChange() {
+      var distance = $('#notification_distance').val();
+      var notification = currentNotification();
+      notification.distance = 0 + distance;
+      setNotifications(notificationsStorage);
+  }
+
+
   $('body').on('click', 'a#place-toggle[data-place-autocomplete="true"]', function() {
     autocompleteOn();
   });
@@ -125,3 +139,5 @@
       e.preventDefault();
     }
   });
+
+  $('#notification_distance').on('change keydown paste input', onDistanceChange);
