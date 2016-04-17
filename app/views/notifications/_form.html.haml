@@ -14,6 +14,7 @@
     Zpět
 
 :javascript
+  console.log('11111');
   var autocomplete;
 
   var hintBase = 'Vaše označení této oblasti. ';
@@ -91,10 +92,12 @@
     });
     if (!existNotification) {
       var latlng = map.getCenter();
+      var defaultDistance = (map.getZoom() >= 17) ? 200 : 500;
+      $('#notification_distance').val(defaultDistance);
       notificationsStorage.push({
         lat: "#{@notification.lat}" || latlng.lat,
         lng: "#{@notification.lng}" || latlng.lng,
-        distance: #{@notification.distance ? @notification.distance : 100},
+        distance: defaultDistance,
         id: null
       });
       var gpsLocation = '' + latlng.lat + ', ' + latlng.lng;
@@ -112,7 +115,7 @@
     //map.panTo(new L.LatLng(#{@notification.lat || 0}, #{@notification.lng || 0}));
     map.setView(
       new L.LatLng(#{@notification.lat || 0}, #{@notification.lng || 0}),
-      #{(@notification.distance > 400) ? 15 : ((@notification.distance > 50) ? 16 : 18)},
+      #{(@notification.distance.to_i > 400) ? 15 : ((@notification.distance.to_i > 50) ? 16 : 18)},
       { animate: true, zoom: { animate: true } }
     );
   }
