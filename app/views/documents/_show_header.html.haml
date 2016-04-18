@@ -11,7 +11,7 @@
         %dd= link_to 'Stáhnout', @document.document_storage.url
       - if @document.edesky_document_id
         %dt Staženo z
-        %dd= link_to 'edesky.cz', "http://edesky.cz/dokument/#{@document.edesky_document_id}"
+        %dd= link_to 'edesky.cz', "http://edesky.cz/dokument/#{@document.edesky_document_id}", target: '_blank'
 
     -if current_user && current_user.lau_permitted?(@document.local_administration_unit)
       %h4 Metadata
