@@ -1,9 +1,8 @@
-%h2.content-title Vyhledat adresu
+%h2.content-title Přejít na adresu
 %form#placeForm{class: 'form-horizontal'}
   .form-group.string.optional
-    %label.string.optional.control-label.col-sm-3{for:"placeAutocomplete"}Hledat:
-    .col-sm-9
-      %input#placeAutocomplete.form-control{type:'text', name: 'location', placeholder: 'Grohova 8, Brno'}
+    .col-sm-12
+      %input#placeAutocomplete.form-control.clear-button{type:'text', name: 'location', placeholder: 'zadejte adresu, např.: Grohova 8, Brno'}
 
 
 - q = params[:q]

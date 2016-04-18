@@ -1,4 +1,4 @@
-%h2.content-title Filtrování
+%h2.content-title Filtrovat podle slov
 
 - q = params[:q]
 - if params[:event_id] && params[:shape_id]
@@ -32,7 +32,7 @@
   - @q = OpenStruct.new(params[:q])
   = simple_form_for :q, url: map_path(), method: :get, html: {id: 'filter_form', class: 'form-horizontal'},wrapper: :horizontal_input_group do |f|
     = f.input :query, label: 'Dokument obsahuje', placeholder: 'prodej, pronájem, ...', required: false do
-      = f.input_field :query, class: "form-control"
+      = f.input_field :query, class: "form-control clear-button"
       %span.input-group-btn
         %button{id: 'query_button', class: 'btn btn-default', type: 'submit'}
           %i{class:'fa fa-search'}

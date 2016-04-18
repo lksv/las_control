@@ -19,4 +19,5 @@ Rails.application.config.assets.precompile +=
     geojson-vt.js
     leaflet-pip.min.js
     L.GeoJSONvtTiles.js
+    bootstrap-add-clear.min.js
   )

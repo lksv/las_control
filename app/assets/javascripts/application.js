@@ -29,4 +29,5 @@
 //= require map-filter
 //= require ajax-events
 //= require a-btn-click-disable
+//= require clear-input-button
 //x= require_treex .
