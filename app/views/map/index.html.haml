@@ -63,8 +63,12 @@
 #legendHelpModal.modal.fade{"aria-labelledby" => "legendHelpModal", :role => "dialog", :tabindex => "-1"}
   .modal-dialog{:role => "document"}
     .modal-content
+      .modal-header
+        %button{type: "button", class: "close", data: {dismiss: "modal"}, 'aria-label' => "Close"}
+          %span{'aria-hidden': true} &times;
+        %h4
+          Proč jsou jednotlivé adresy označeny různou barvou?
       .modal-body
-        %h3 Proč jsou jednotlivé adresy označeny různou barvou?
         %p
           Každá obec vydává dokumenty, které obsahují velké množstí adres.
           Je to např. vyhláška o komunálním odpadu, změna územního řízení, apod.
@@ -92,7 +96,6 @@
           že tento objekt je/byl nabízen k pronájmu.
 
       .modal-footer
-        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Zavřít
         %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} Rozumím
 
 
