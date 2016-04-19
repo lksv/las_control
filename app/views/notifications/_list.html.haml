@@ -22,8 +22,7 @@
     %tbody
       - @notifications.each do |notification|
         %tr{data: { href: edit_notification_path(notification) }}
-          %td= notification.message
-          /%td= notification.gps_location_rounded
+          %td= link_to notification.message, '#'
           %td
             =succeed(' m') do
               =notification.distance
