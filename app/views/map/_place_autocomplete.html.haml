@@ -8,4 +8,6 @@
 - q = params[:q]
 - if ( (params[:event_id] && params[:shape_id]) || (q && q[:source_id_eq] && q[:source_type_eq]) || (q && q[:query].present?))
   %br
-  Upozornění: Máte definovaný filtr, proto nevidíte všechny události.
+  %strong Upozornění:
+  Máte definovaný filtr, proto nevidíte všechny události.
+  = link_to 'Zrušit filtr', map_path, class: 'btn btn-success btn-small'
