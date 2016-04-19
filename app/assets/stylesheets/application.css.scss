@@ -20,6 +20,7 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
+@import "leaflet";
 @import "map";
 
 @import "las";
@@ -31,4 +32,5 @@
 @import "jquery.ui.theme";
 @import "jquery.ui.slider";
 
-@import "leaflet-customs.css";
+@import "leaflet-customs";
+@import "Control.Loading";

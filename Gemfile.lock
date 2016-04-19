@@ -179,6 +179,7 @@ GEM
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    leaflet-rails (0.7.7)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -338,6 +339,7 @@ DEPENDENCIES
   jquery-ui-rails (~> 4.2.1)
   kaminari (~> 0.16.3)
   kaminari-i18n!
+  leaflet-rails (= 0.7.7)
   local_administration_model!
   momentjs-rails
   pdfjs_viewer-rails

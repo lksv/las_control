@@ -381,3 +381,14 @@ $(document).ready(
     }
   }
 );
+
+$(document).on("page:change", function () {
+ $('#mapOptions .collapser').click(function(){
+    var hidden = $('#mapOptions');
+    if (hidden.hasClass('visible')){
+      hidden.animate({"right":"-" + hidden.width() + "px"}, "slow").removeClass('visible');
+    } else {
+      hidden.animate({"right":"0px"}, "slow").addClass('visible');
+    }
+  });
+});

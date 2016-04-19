@@ -94,45 +94,28 @@ li.address-item {
 }
 
 #mapOptions {
-  width:28%;
-  //max-width: 330px;
-  float:right;
-  min-height:400px;
-  height: 70%;
-  background:#fff;
+  width:29%;
+  max-width: 350px;
+  z-index:2;
   position:absolute;
-  right:-28%;
-  z-index: 1000;
-}
-
-#mapOptions .tab {
-  width:1px;
-  height:1px;
-  position:absolute;
-  left:-40px;
-  -ms-transform:rotate(-90deg);
-  -moz-transform:rotate(-90deg);
-  -webkit-transform:rotate(-90deg);
-  transform:rotate(-90deg);
-  -ms-transform-origin:bottom right;
-  -moz-transform-origin:bottom right;
-  -webkit-transform-origin:bottom right;
-  transform-origin:bottom right;
-}
-
-#mapOptions .tab a {
-  background: #fff;
-  float: right;
-  white-space: nowrap;
-}
-
-#mapOptions.options-open {
   right:0px;
-}
+  background:#FFF;
+  color:#000;
+  padding-bottom: 30px;
 
-#mapOptions .tabble-content {
-  //margin: 5px;
-  overflow-y: visible; //why it doesnt work?
+  .collapser {
+    width: 26px;
+    height: 50px;
+    line-height: 50px;
+    margin: -25px -26px;
+    background: #FFF;
+    float: left;
+    position: absolute;
+    top: 50%;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #c0c0c0;
+  }
 }
 
 body {

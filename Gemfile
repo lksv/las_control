@@ -55,6 +55,8 @@ gem 'ruian_model',                path: '../ruian_model'
 gem 'local_administration_model', path: '../local_administration_model'
 gem 'sidekiq',                    '~> 4.0'
 
+gem 'leaflet-rails', '= 0.7.7'
+
 gem 'rails-i18n'
 gem 'haml'
 gem 'devise'

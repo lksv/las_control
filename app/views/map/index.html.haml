@@ -1,9 +1,7 @@
 = content_for :before_container do
   #mapContainer
-    #mapOptions.options-open
-      .tab
-        %a{href:"#", onclick:"$('#mapOptions').toggleClass('options-open')"}
-          %h4 Nastavení mapy
+    #mapOptions.visible
+      .collapser &gt;
 
       .tabble-content
         .col-sm-12

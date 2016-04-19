@@ -30,4 +30,13 @@
 //= require ajax-events
 //= require a-btn-click-disable
 //= require clear-input-button
+//= require leaflet
+
+//= require bootstrap-add-clear.min
+//= require leaflet-hash.min
+//= require geojson-vt
+//= require leaflet-pip.min
+//= require L.GeoJSONvtTiles
+//= require Control.Loading
+
 //x= require_treex .
