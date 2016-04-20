@@ -37,6 +37,7 @@
 //= require geojson-vt
 //= require leaflet-pip.min
 //= require L.GeoJSONvtTiles
+//= require spin.min
 //= require Control.Loading
 
 //x= require_treex .

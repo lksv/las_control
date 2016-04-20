@@ -252,7 +252,7 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
       }
       var self = this;
       this._tilesToLoad++;
-      this.fire('loading');
+      this.fire('loading', { id: url } );
       $.ajax({
         dataType: "json",
         url: url,
@@ -274,16 +274,12 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
             //console.warn('empty or invalid data', data);
           }
           self._tilesToLoad--;
-          if (!self._tilesToLoad) {
-            self.fire('load');
-          }
+          self.fire('load', { id: url });
         }
       }).error(function() {
         console.error('error loading url: ' + url);
         self._tilesToLoad--;
-        if (!self._tilesToLoad) {
-          self.fire('load');
-        }
+        self.fire('load', { id: url });
       });
 
     }, this);

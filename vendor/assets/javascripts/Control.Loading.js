@@ -93,10 +93,11 @@
                     // Otherwise, create a container for the indicator
                     container = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar');
                 }
-                this._indicator = L.DomUtil.create('a', classes, container);
+                this._indicator = null; //L.DomUtil.create('a', classes, container);
                 if (this.options.spinjs) {
-                  this._spinner = new Spinner(this.options.spin).spin();
-                  this._indicator.appendChild(this._spinner.el);
+                  this._map = map;
+                  this._spinner = new Spinner(this.options.spin).spin(this._map._container);
+                  //this._indicator.appendChild(this._spinner.el);
                 }
                 return container;
             },
@@ -154,6 +155,11 @@
             },
 
             _showIndicator: function() {
+                if (this._spinner && !this._indicator) {
+                    this._spinner.stop();
+                    this._spinner = new Spinner(this.options.spin).spin(this._map._container);
+                    return;
+                }
                 // Show loading indicator
                 L.DomUtil.addClass(this._indicator, 'is-loading');
 
@@ -169,6 +175,10 @@
             },
 
             _hideIndicator: function() {
+                if (this._spinner && !this._indicator) {
+                    this._spinner.stop();
+                    return;
+                }
                 // Hide loading indicator
                 L.DomUtil.removeClass(this._indicator, 'is-loading');
 

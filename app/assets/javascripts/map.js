@@ -280,7 +280,7 @@ legend.addTo(map);
 layers = L.control.layers(layers, overlays, { position: 'topleft' });
 layers.addTo(map);
 
-var loading = L.Control.loading({separate: true}).addTo(map);
+var loading = L.Control.loading({spinjs: true, separate: true, spin: {}}).addTo(map);
 
 var zoomControll = function zoomControllFn(zoom) {
   if (zoom < maxZoomEnabled && map.hasLayer(geojsonTileLayer)) {
