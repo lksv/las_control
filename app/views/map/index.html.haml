@@ -31,30 +31,20 @@
 
 
 
-#welcomeModal.modal.fade{"aria-labelledby" => "welcomeModal", :role => "dialog", :tabindex => "-1", styler:"z-index:1000000000"}
+#welcomeModal.modal.modal-transparent.fade{"aria-labelledby" => "welcomeModal", :role => "dialog", :tabindex => "-1", styler:"z-index:1000000000"}
   .modal-dialog{:role => "document"}
     .modal-content
-      .modal-body
-        %h3 Zajímá Vás provoz vaší obce?
-        %p
-          Na portálu Mapa.Samospravy.cz můžete přehledně sledovat, jaký nemovitý
-          majetek je zmíněn v dokumentech (na úřední desce) Vaší obce, kraje, či např.
-          městské části.
-        %p
-          Co to znamená: Vyznačené objekty na mapě sledují prodej, pronájem, stavební
-          řízení, exekuce, opravy, aj., o nichž se jedná na úředních deskách. Jediným
-          kliknutím se dostanete na příslušné dokumenty, kde je daná adresa zmíněna.
-        %p
-          Můžete si nastavit sledování Vaší oblasti na mapě a
-          budete upozorněni e-mailem, když se něco děje.
-        %p
-          Veškerý obsah má pouze informativní charakter. Dodavatel mapového 
-          informačního systému neodpovídá za správnost, úplnost a aktuálnost dat,
-          ani za korektní rozpoznání adres.
-
-
-      .modal-footer
-        %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} Rozumím
+      .modal-body.text-center
+        %button{type: "button", class: "close", data: {dismiss: "modal"}, 'aria-label' => "Close"}
+          %span{'aria-hidden': true} &times;
+        %h3
+          Zjistitě, co plánuje radnice ve vašem okolí.
+          %br
+          U zvýrazněných objektů jsou relevantní
+          %br
+          dokumenty z úředních desek.
+      /.modal-footer
+      /  %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} Rozumím
 
 
 
@@ -104,6 +94,6 @@
 
 = javascript_include_tag 'map.js'
 
-- if @show_welcome_mesage
+- if @show_welcome_mesage || ['t', 'true', '1'].include?(params[:welcome])
   :javascript
     $('#welcomeModal').modal('show');

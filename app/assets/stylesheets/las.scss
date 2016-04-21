@@ -129,6 +129,29 @@ body {
   }
 }
 
+#welcomeModal {
+  height: 400px;
+  top: calc(50% - 200px) !important;
+}
+
+// transparent modal dialog
+.modal-transparent {
+  background: transparent;
+  .modal-content {
+    //background: transparent;
+    opacity: .8;
+    filter: alpha(opacity=80);
+  }
+}
+.modal-backdrop.modal-backdrop-transparent {
+  background: #ffffff;
+}
+.modal-backdrop.modal-backdrop-transparent.in {
+  opacity: .8;
+  filter: alpha(opacity=80);
+}
+
+
 
 //used in map popup (when click on any event)
 .legendbox i {
