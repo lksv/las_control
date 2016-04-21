@@ -382,7 +382,7 @@ $(document).ready(
   }
 );
 
-$(document).on("page:change", function () {
+$(document).ready(function () {
  $('#mapOptions .collapser').click(function(){
     var hidden = $('#mapOptions');
     if (hidden.hasClass('visible')){
