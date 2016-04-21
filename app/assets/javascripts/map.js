@@ -204,8 +204,8 @@ var geojsonTileLayer = new L.geoJsonvtTiles(geojsonURL, {
 var notificationsLayerGroup = L.layerGroup([]);
 
 var overlays = {
-  "Nalezené adresy": geojsonTileLayer,
-  "Sledované oblasti": notificationsLayerGroup
+  "Nalezené dokumenty": geojsonTileLayer,
+  "Moje oblasti": notificationsLayerGroup
 };
 
 
