@@ -33,7 +33,7 @@ cs:
         url:          'URL'
         reference_url: 'Dokument odkazovánk z'
         state:        'Stav'
-        from_date:    'Původně načteno'
+        from_date:    'Zveřejněno'
         document_storage_size: 'Velikost orginálu'
         parsed_at:    'Pársováno'
         plain_text_at: 'Převedeno na text'
