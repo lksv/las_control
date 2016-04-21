@@ -11,7 +11,7 @@ class EventsController < ApplicationController
   end
 
   def tiles
-    authorize! :tiles, Event
+    authorize! :read, Event
     @zoom = params[:z].to_i # zoom
     @x = params[:x].to_i
     @y = params[:y].to_i

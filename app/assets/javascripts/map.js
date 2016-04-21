@@ -169,7 +169,7 @@ var styleFce = function styleFce(f) {
 };
 
 var geojsonURL = '/public/tiles/{z}/{x}/{y}.json';
-if (params['private'] == 'true') {
+if (params['private'] == 'true' || params['q[query]']) {
   geojsonURL = geojsonURL.replace(/^\/public/, '');
 }
 if (params['q[source_id_eq]']) {
