@@ -82,8 +82,6 @@ var defaultStyle = {
   color: 'red',
   fillColor: '#FD8D3C',
   weight: 1.0,
-  opacity: 1,
-  fillOpacity: 0.5
 };
 var hoverStyle = {
   "fillOpacity": 0.5
@@ -92,15 +90,12 @@ var focusStyle = {
   fillColor: '#FF0003',
   color: '#000000',
   weight: 2,
-  opacity: 1,
-  fillOpacity: 1
 };
 var filteredStyle = {
+  fillColor: '#FFF',
   color: 'yellow',
   weight: 1,
-  opacity: 1,
-  fillOpacity: 1,
-  color: 'yellow',
+  color: 'yellow'
 };
 
 
@@ -114,11 +109,22 @@ if (params.layers) {
 }
 
 var isFeatureFiltered = function isFeatureFiltered(feature) {
+  var properties = feature.properties || feature.tags;
+
+  //filter by date
+  if (!params.shape_id &&
+      !params['q[source_id_eq]'] &&
+      params.from_date &&
+      params.to_date) {
+    return !(properties.snippets.find(function(event) {
+      return (params.from_date < event.from_date) && (params.to_date > event.from_date);
+    }));
+  }
+
   if (!params['q[source_id_eq]']) {
     return false;
   }
 
-  var properties = feature.properties || feature.tags;
   return !properties.snippets.find(function(event) {
     return (
       (event.source_id == params['q[source_id_eq]']) &&

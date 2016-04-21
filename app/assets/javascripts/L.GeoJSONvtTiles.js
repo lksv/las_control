@@ -339,7 +339,6 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
         ctx.fillStyle = 'rgba(0,0,255,0.55)';
         ctx.lineWidth = 1;
         ctx.strokeStyle = 'black';
-        console.log('jsem zde');
       }
       ctx.beginPath();
 
