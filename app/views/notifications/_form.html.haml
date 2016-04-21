@@ -1,9 +1,11 @@
 #errorMessage
 = simple_form_for @notification, remote: true,
-  html: { class: 'form-horizontal'}, wrapper: :horizontal_form  do |f|
+  html: { class: 'form-horizontal'}, wrapper: :horizontal_input_group  do |f|
   = f.input :message, required: false, hint: "Vaše označení této oblasti."
   = f.input :gps_location, required: false, hint: 'Souřadnice můžete nastavit přetáhnutím špendlíku na mapě.'
-  = f.input :distance, required: false, input_html: { step: 10 }
+  = f.input :distance, required: false, input_html: { step: 10 } do
+    = f.input_field :distance, step: 10, class: 'form-control'
+    %span{class: 'input-group-addon'} m
   = f.button :submit, class: 'btn btn-success', data: { disable_with: "Odesílám..."}
   - if @notification.persisted?
     = link_to notification_path(@notification), class: 'btn btn-danger', method: :delete, remote: true do
@@ -14,7 +16,6 @@
     Zpět
 
 :javascript
-  console.log('11111');
   var autocomplete;
 
   var hintBase = 'Vaše označení této oblasti. ';
