@@ -7,10 +7,8 @@
   - rendered_until_idx = ne_end
 
   - link_text = h(plain_text[ne_start..ne_end-1]).gsub(/\n/, '<BR>').html_safe
-  - @events = address_block.events
-  - event_classes = @events.map { |e| "event-#{e.id}" }
-  = link_to plain_text[ne_start..ne_end-1], [@document, address_block], { class: event_classes,
-    id: "addressBlock-#{address_block.id}",
-    title: "<a href=\"#addressBlock-#{address_block.id}\">Adresy <i class=\"fa fa-link\"></a>",
-    data: { toggle: "popover", content: '<div class="inner"><i class="fa fa-spinner fa-spin"></i> Načítam...</div>', trigger: "focus", html: "true"} }
+
+  - text = plain_text[ne_start..ne_end-1]
+  - url_params = [@document, address_block]
+  = link_to_if_address_cache text, url_params, address_block
 = h(plain_text[rendered_until_idx..-1]).gsub(/\n/, '<BR>').html_safe

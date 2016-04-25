@@ -37,6 +37,20 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  .ku {
+    color: green;
+  }
+
+  .unknown-place {
+    color: red;
+  }
+
+  .popover-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 400px;
+  }
 }
 
 li.address-item {

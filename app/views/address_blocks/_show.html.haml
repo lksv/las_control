@@ -11,6 +11,7 @@
           - address.sub!(/,?\s*k\.u\.\s*(.*)/) { |t| ku = $1; '' }
         - url = map_params_to_url(event.url_location_params.merge(activeTab: 'filter'))
         = link_to address, url
+        &nbsp;
         = cuzk_url(shape)
       - else
         - not_found += 1
