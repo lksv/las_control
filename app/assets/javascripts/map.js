@@ -13,8 +13,8 @@ function resize(){
 
 
 
-var maxZoomEnabled = 13;
-var initialZoom = 13;
+var maxZoomEnabled = 14;
+var initialZoom = 14;
 
 var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
   '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -248,7 +248,17 @@ if (leafletPosition) {
   map.setView([50.08559, 14.41551], 17);
   if (location.hash.length <= 1) {
     // when no anchor is defined, try to guess position by geolocate API
-    map.locate({setView : true});
+    map.locate({setView : true})
+      .on('locationfound', function(e){
+        console.log('pozice nalezena', map.getZoom());
+        setTimeout(function() {
+          console.log('testuji zoom', map.getZoom(), maxZoomEnabled);
+          if (map.getZoom() < maxZoomEnabled) {
+            console.log('zvyzuji zoom', map.getZoom(), maxZoomEnabled);
+            map.setView([e.latitude, e.longitude], maxZoomEnabled);
+          }
+        }, 500);
+      });
   }
 }
 
