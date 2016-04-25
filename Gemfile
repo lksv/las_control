@@ -41,6 +41,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'rspec-rails', '~> 3.4'
+  gem 'ansi' #needed only for rake environment elasticsearch:import:model to see progressbar
 end
 
 group :development do

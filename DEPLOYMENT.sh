@@ -1,5 +1,5 @@
 sudo apt-get update
-sudo apt-get upgrate
+sudo apt-get upgrade
 
 sudo dpkg-reconfigure --priority=low unattended-upgrades
 
