@@ -7,7 +7,11 @@ module DocumentsHelper
   end
 
   def link_to_if_address_cache(text, url, address_block)
-    ku = address_block.events.all? { |t| t.shape_with_definition_point&.source_type == 'KatastralniUzemi' }
+    ku = (
+      address_block.events&.size > 0
+    ) && (
+      address_block.events.all? { |t| t.shape_with_definition_point&.source_type == 'KatastralniUzemi' }
+    )
 
     # do not show popover for Katastralni Uzemi
     if ku
