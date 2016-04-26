@@ -3,7 +3,7 @@ class DocumentsController < ApplicationController
 
   def index
     @q = Document.ransack(params[:q])
-    @q.sorts = 'from_date desc' if @q.sorts.empty?
+    @q.sorts = 'from_date desc' if @q.sorts.empty? && !params[:query]
 
     @collection = @q
       .result
@@ -22,6 +22,7 @@ class DocumentsController < ApplicationController
       @elasticsearch = true
       @collection = Document.elasticsearch_search(
         params[:query],
+        sort: params[:q].try(:[], :s),
         local_administration_unit_id: lau_filter
       ).page(params[:page]) #.results
       @records = @collection.records

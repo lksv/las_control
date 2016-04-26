@@ -29,9 +29,10 @@
     %tr
       %th Zdroj
       -# %th= sort_link @q, :local_administration_unit_ruian_locable_id
-      %th= @elasticsearch ? Document.human_attribute_name(:title) : sort_link(@q, :title)
+      %th= sort_link(@q, :title)
       %th{data: {toggle: 'tooltip'},
-        title: 'Jedná se o datum, kdy byl dokument načten do systému, ve vyjmečných případech se může lišit od data zveřejnění úřadem.'}= @elasticsearch ? Document.human_attribute_name(:from_date) : sort_link(@q, :from_date) #@collection.human_attribute_name(:from_date)
+        title: 'Jedná se o datum, kdy byl dokument načten do systému, ve vyjmečných případech se může lišit od data zveřejnění úřadem.'}
+        = sort_link(@q, :from_date)
       - if show_actions
         %th=t '.actions', :default => t("helpers.actions")
   %tbody
