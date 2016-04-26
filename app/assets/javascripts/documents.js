@@ -25,7 +25,7 @@ $(document).on('page:change', function () {
   });
   $('[data-toggle="popover"]').each(function(){
     $(this).popover({
-      trigger:"focus",
+      trigger:"click",
       placement: function (context, source) {
         var obj = $(source);
         $.get(obj.attr("href"),function(d) {
