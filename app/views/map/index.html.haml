@@ -94,6 +94,6 @@
 
 = javascript_include_tag 'map.js'
 
-- if @show_welcome_mesage || ['t', 'true', '1'].include?(params[:welcome])
+- if @show_welcome_mesage
   :javascript
     $('#welcomeModal').modal('show');

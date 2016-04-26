@@ -250,11 +250,8 @@ if (leafletPosition) {
     // when no anchor is defined, try to guess position by geolocate API
     map.locate({setView : true})
       .on('locationfound', function(e){
-        console.log('pozice nalezena', map.getZoom());
         setTimeout(function() {
-          console.log('testuji zoom', map.getZoom(), maxZoomEnabled);
           if (map.getZoom() < maxZoomEnabled) {
-            console.log('zvyzuji zoom', map.getZoom(), maxZoomEnabled);
             map.setView([e.latitude, e.longitude], maxZoomEnabled);
           }
         }, 500);
@@ -263,13 +260,11 @@ if (leafletPosition) {
 }
 
 function updateLeafletPosition() {
-  if (location.pathname.indexOf('/map') == 0) {
-    var mapCenter = map.getCenter();
-    var leafletPosition = JSON.stringify([[mapCenter.lat, mapCenter.lng], map.getZoom()]);
-    sessionStorage.setItem('leafletPosition', leafletPosition);
-  }
+  var mapCenter = map.getCenter();
+  var leafletPosition = JSON.stringify([[mapCenter.lat, mapCenter.lng], map.getZoom()]);
+  sessionStorage.setItem('leafletPosition', leafletPosition);
 }
-$(document).on("page:fetch", updateLeafletPosition);
+map.on('moveend', updateLeafletPosition);
 
 var hash = L.hash(map);
 
