@@ -42,4 +42,5 @@
 <%= button_to t('.cancel_my_account', :default => "Cancel my account"), registration_path(resource_name), data: { confirm: t('.are_you_sure', :default => "Are you sure?") }, :method => :delete, :class => 'button right' %>
 </div>
 
+<%= link_to 'Smluvní podmínky', terms_path %> <br/>
 <%= link_to t('devise.shared.links.back', :default => "Back"), :back %>

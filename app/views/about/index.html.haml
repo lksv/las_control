@@ -1,55 +1,58 @@
 %h1 O projektu
 
-%h3 Jak vznikl?
+%h3 K čemu web slouží?
+%p
+  Web slouží k dohledání dokumentů radnic a jejich přehlednému zobrazení v mapě.
+  Lze i projíždět mapu a sledovat zvýrazněné objekty, kde se podle úředních
+  desek něco děje. Můžete tak dohledat například záměr výstavby, prodej obecní
+  nemovitosti nebo informaci o plánovaném čištění vaší ulice.  Též můžete zadat
+  sledování vybrané oblasti. Pohlídáme pak za Vás, kdykoliv obec vydá k oblasti
+  nějaký dokument, a dáme vám o tom vědět e-mailem.
+%p
+  Cílem projektu je umožnit každému jednoduše dohledat jen to, co ho
+  z nepřeberného množství úředních dokumentů zajímá. Jsme platformou, kterou
+  radnice přehledně komunikují s občany. V současné době web prezentuje úřední
+  desky z více než 1.200 úřadů, jejichž data stahuje pomocí portálu
+  =succeed '.' do
+    %a{href: 'http://edesky.cz'} edesky.cz
+  Radnice nám bohužel zatím neposkytují dokumenty ve vhodném formátu, což je
+  jedním z důvodů omezené přesnosti vyhledávání.
+
+%h3 Chcete nám pomoci?
 
 %p
-  Prvotní impuls k projektu (OtevřenéBrno.cz) vznikl na základě jedné mé osobní zkušeností s dohledáváním informací na
-  stránkách města Brna, týkající se zápisu o garáži, o jejíž koupi jsem měl zájem.
-  Podat včas nabídku by ale znamenalo každý den kontrolovat úřední desku a projít 
-  obrovské množství dokumentů.
+  Napište vaší radnici, že máte zájem dozvídat se o dokumentech skrze náš web.
+  Obce a kraje mohou totiž zdarma požádat o administrativní rozhraní k tomuto
+  webu. Díky tomu se pak výrazně zvýší přesnost prezentovaných dat, též budou
+  moci vložit další mapové vrstvy.
+
+%h3 Jak projekt vznikl?
+
+%p
+  Prvotní impuls k projektu (OtevřenéBrno.cz) vznikl na základě jedné mé osobní
+  zkušeností s dohledáváním informací na stránkách města Brna, týkající se
+  zápisu o garáži, o jejíž koupi jsem měl zájem.  Podat včas nabídku by ale
+  znamenalo každý den kontrolovat úřední desku a projít obrovské množství
+  dokumentů.
 
 %p
   Původní verze vznikla tedy jako "důkaz", že město může svoje dokumenty a data
   poskytovat občanům v uživatelsky vstřícnější a přehlednější podobě.
 
-%p
-  V současné době web prezentuje úřední desky z více než 1200 úřadů (obce, 
-  kraje, ...) jejichž data stahuje pomocí portálu
-  =succeed '.' do
-    %a{href: 'http://edesky.cz'} edesky.cz
-
-
-/  Kromě automatického stahování dokumentů se mohou města sami aktivně zapojit a
-/  pomocí poskytnutého administrativního přístupu samy kontrolovat kvalitu a
-/  včasné zveřejnění jejich dokumentů.
-
-%h3 Přesnost prezentovaných údajů
-
-%p
-  Přesnost rozpoznání jednotlivých nemovitostí závisí na kvalitě dokumentů, které
-  jsou prezentovány na úřední desce. Portál
-  =link_to 'negaratuje správnost', terms_path
-  prezentovaných údajů.  Zpravidla je kvalita ovlivněna:
-  %ul
-    %li
-      Formátem dokumentu. Oskenovaný dokument ve formátu PDF je nutné znovu převést na text.
-    %li
-      Výrazovými schopnostmi v přirozeném jazyce. Pokud je forma zápisu příliš
-      volná, např. není uvedeno katastrální území, označení nemovitosti nemusí
-      být správně rozpoznáno.
-
-%h3 Co nabízíme obcím a krajům
-
-Obce a kraje mohou <strong>zdarma</strong> požádat o administrativní rozhraní
-ke svým datům. Díky tomu mohou: (i) výrazně zpřesnit kvalitu/přesnost prezentovaných
-dat, (ii) prezentovat na mapě další mapové vrstvy s libovolnými údaji. V případě
-zájmu nás kontaktujte.
-
 %h3 Kontakt
 
 Mgr. Lukáš Svoboda, IČ: 1365321, e-mail: kontakt@mapasamospravy.cz
 
+%h3 Podmínky použití
+
+%p
+  Pokdmínky použití jsou uvedeny ve
+  =link_to 'vlastní sekci', terms_path
+
 %h3 Poděkování
+%p
+  Tento web vznikl mj. také díky odborné, morální a finanční podpoře OSF, Nadaci
+  Vodafone, Ideasense….
 .row
   .col-md-offset-4.col-xs-12
     %p Projekt podpořil Fond Otakara Motejla a Nadace Vodafone.

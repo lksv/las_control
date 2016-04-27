@@ -12,12 +12,20 @@ class User < ActiveRecord::Base
   has_many :local_administration_unit_admins, dependent: :destroy
 
   validates :role, inclusion: { :in => Settings.roles, message: 'invalid type of role' }
+
+  validates_acceptance_of :terms_of_service,
+    allow_nil: false,
+    message: 'musí být potvrzeny',
+    on: :create
+
   after_initialize :default_role
 
   scope :subscribed, -> {
     where('confirmed_at IS NOT NULL')
       .where('email !~ ?', '^guest_.*example.com')
   }
+
+  attr_accessor :terms_of_service
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later

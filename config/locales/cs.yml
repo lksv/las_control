@@ -44,6 +44,7 @@ cs:
         remember_me:  'Zapamatovat si mě'
         password_confirmation:    'Potvrzení hesla'
         current_password: 'Současné heslo'
+        terms_of_service: 'Smluvní podmínky'
 
       notification:
         message: "Adresa"

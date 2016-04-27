@@ -2,12 +2,12 @@ class UsersController < ApplicationController
   skip_load_and_authorize_resource only: :create
   skip_authorization_check only: :create
 
-
   def create
     raise 'You are already registered!' if signed_in? || !guest_user?
     generated_password = Devise.friendly_token.first(8)
     @user = User.new(
       email: params[:user] && params[:user][:email],
+      terms_of_service: params[:user][:terms_of_service],
       password: generated_password,
       password_confirmation: generated_password,
       generated_password: generated_password
