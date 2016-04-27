@@ -76,7 +76,6 @@ class EventsController < ApplicationController
         events = events.where(
           source_id: filtered_document_ids
         )
-        Rails.logger.info(events.pluck(:id).inspect)
         events
       else
         # no filter, return all event_ids
