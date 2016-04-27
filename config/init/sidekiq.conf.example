@@ -19,7 +19,7 @@
 #   sudo service sidekiq {start,stop,restart,status}
 #
 
-description "Sidekiq Background Worker"
+description "Sidekiq Background Worker for MapaSamospravy"
 
 # This script is not meant to start on bootup, workers.conf
 # will start all sidekiq instances explicitly when it starts.
@@ -28,7 +28,7 @@ description "Sidekiq Background Worker"
 
 # change to match your deployment user
 setuid deployer
-setgid deployer
+setgid sudo
 env HOME=/home/deployer
 
 respawn
@@ -48,20 +48,12 @@ script
 # this script runs in /bin/sh by default
 # respawn as bash so we can source in rbenv
 exec /bin/bash <<'EOT'
-  # Pick your poison :) Or none if you're using a system wide installed Ruby.
-  # rbenv
-  # source /home/apps/.bash_profile
-  # OR
-  # source /home/apps/.profile
-  # OR system:
-  # source /etc/profile.d/rbenv.sh
-  #
-  # rvm
-  source /home/apps/.rvm/scripts/rvm
+  source /home/deployer/.rvm/scripts/rvm
 
   # Logs out to /var/log/upstart/sidekiq.log by default
 
-  cd /home/deployer/las/las_control
+  cd /home/deployer/las/las_control/
+  source .env
   exec bundle exec sidekiq -i ${index} -e production
 EOT
 end script

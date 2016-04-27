@@ -23,9 +23,9 @@ bind "unix:///#{app_dir}/tmp/sockets/puma.sock"
 # stdout_redirect "#{shared_dir}/log/puma.stdout.log", "#{shared_dir}/log/puma.stderr.log", true
 #
 # # Set master PID and state locations
-# pidfile "#{shared_dir}/pids/puma.pid"
-# state_path "#{shared_dir}/pids/puma.state"
-# activate_control_app
+pidfile "#{app_dir}/tmp/pids/puma.pid"
+state_path "#{app_dir}/tmp/puma.state"
+activate_control_app
 
 
 
