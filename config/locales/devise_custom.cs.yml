@@ -6,3 +6,9 @@ cs:
           attributes:
             email:
               taken: "již je používán. Pokud je e-mail Váš, přihlašte se nebo postupujte přes formulář Zapomenuté heslo."
+
+
+  devise:
+    mailer:
+      reset_password_instructions:
+        instruction: Pokud jste požádali o změnu/obnovení vašeho hesla, můžete to udělat pomocí odkazu níže.

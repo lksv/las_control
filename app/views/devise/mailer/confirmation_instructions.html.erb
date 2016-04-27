@@ -1,8 +1,8 @@
 <% require 'devise/version' %>
 
-Pěkný den,
+Dobrý den,
 
-<p>děkujeme Vám za využití služeb portálu <%= link_to 'mapa.samospravy.cz', root_url %>.</p>
+<p>děkujeme Vám za využití služeb portálu <%= link_to 'mapasamospravy.cz', root_url %>.</p>
 
 <p><%= t('.instruction', :default => "You can confirm your account email through the link below:") %></p>
 <p><%= link_to t('.action', :default => "Confirm my account"),
@@ -20,5 +20,5 @@ Pěkný den,
   <% @resource.update_column(:generated_password, nil) %>
 <% end %>
 
-Změnit heslo můžete v nastavení uživatele na webu.
+Heslo můžete změnit v nastavení uživatele na webu.
 
