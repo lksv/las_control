@@ -15,6 +15,9 @@ sudo apt-get install -y git-core
 
 sudo apt-get install -y build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev curl openssh-server redis-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate
 
+#for backup
+sudo apt-get install lftp
+
 # because of json gem:
 sudo apt-get install libgmp-dev libgmp3-dev
 

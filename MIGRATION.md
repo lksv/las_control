@@ -33,8 +33,9 @@
      rails runner 'Document.__elasticsearch__.refresh_index!'
      bundle exec rake -D elasticsearch
 
-     RAILS_ENV=production bin/rake assets:precompile
-     kill $(cat tmp/pids/server.pid )
-     rm -rf tmp/cache
      ./bin/spring stop
-     nohup rails s -b 0.0.0.0 &
+     RAILS_ENV=production bin/rake assets:precompile
+     rm -rf tmp/cache
+
+     sudo restart workers
+     sudo restart puma-manager
