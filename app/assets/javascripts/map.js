@@ -13,9 +13,6 @@ function resize(){
 
 
 
-var maxZoomEnabled = 14;
-var initialZoom = 14;
-
 var mbAttr = 'Map layer data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
   '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
   'Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -101,6 +98,11 @@ var filteredStyle = {
 
 // set window.params form query string
 decodeQParams();
+
+var maxZoomEnabled = params['q[query]'] ? 15 : 14;
+var initialZoom = 15;
+
+
 
 if (params.layers) {
   var activeLayers = params.layers.split(',').map(function(item) {
