@@ -67,7 +67,6 @@ class ApplicationController < ActionController::Base
     devise_controller? || is_a?(::PdfjsViewer::ViewerController)
   end
 
-
   def update_sanitized_params
     devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:terms_of_service, :email, :password, :password_confirmation)}
   end
