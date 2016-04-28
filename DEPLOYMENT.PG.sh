@@ -67,4 +67,17 @@ echo "    pre-up iptables-restore < /etc/iptables.rules" >> /etc/network/interfa
 
 pg_restore -h localhost -U deployer -W -a -d local_administration_model_production local_administration_model_DB.dump
 
+# restore ruian db:
+
+# 1. pg_dump -d ruian -U ob -t 'rn_*' -T 'rn_parcela' -T rn_stavebni_objekt -T rn_adresni_misto -T rn_zpusob_ochrany_pozemku -T rn_bonit_dily_parcel -T rn_zsj -Fc > ruian.dump
+sudo -u postgres psql <<EOF
+create database "ruian";
+create role ob with createdb login password 'ob';
+GRANT ALL PRIVILEGES ON DATABASE ruian TO ob;
+\c ruian
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+EOF
+
+pg_restore -h localhost -U ob -W -d ruian ruian.dump
 
