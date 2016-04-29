@@ -27,3 +27,4 @@ Rails.application.config.assets.precompile +=
     L.GeoJSONvtTiles.js
     bootstrap-add-clear.min.js
   )
+    #record-stats

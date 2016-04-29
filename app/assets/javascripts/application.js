@@ -40,4 +40,7 @@
 //= require spin.min
 //= require Control.Loading
 
+//= require google_analytics
+//x= require record-statsx
+
 //x= require_treex .
