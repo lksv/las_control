@@ -6,6 +6,8 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+require 'elasticsearch/model'
+#require 'elasticsearch/rails'
 require 'elasticsearch/rails/instrumentation'
 
 module LasControl
