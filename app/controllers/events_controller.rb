@@ -18,7 +18,8 @@ class EventsController < ApplicationController
     @q = params[:q]
 
     key = current_user_role_key + ['tiles', @zoom, @x, @y, @q].inspect
-    @tile = Rails.cache.fetch(key, expires_in: 5.days) do
+    expires_in_time = Time.now.end_of_day - Time.now
+    @tile = Rails.cache.fetch(key, expires_in: expires_in_time) do
       if (@zoom >= 15) || (@zoom == 13)
         get_tile(@zoom, @x, @y, @q, current_ability)
       else
@@ -42,7 +43,8 @@ class EventsController < ApplicationController
 
     #FIXME: remove caching when setup serving assets by nginx
     key = current_user_role_key + ['public_tiles', @zoom, @x, @y, @q].inspect
-    tile = Rails.cache.fetch(key, expires_in: 5.days) do
+    expires_in_time = Time.now.end_of_day - Time.now
+    tile = Rails.cache.fetch(key, expires_in: expires_in_time) do
       if (@zoom >= 15) || (@zoom == 13)
         get_tile(@zoom, @x, @y, @q, public_ability)
       else
