@@ -38,19 +38,19 @@
         %button{type: "button", class: "close", data: {dismiss: "modal"}, 'aria-label' => "Close"}
           %span{'aria-hidden': true} &times;
         %h3
-          Zjistitě, co plánuje radnice ve vašem okolí.
+          Podívejte se, co plánuje radnice ve vašem okolí.
           %br
-          U zvýrazněných objektů jsou relevantní
+          Kliknutím na zvýrazněné objekty se zobrazí
           %br
-          dokumenty z úředních desek.
+          relevantní dokumenty z úředních desek.
           %hr
 
           %strong Betaverze
-          \- porál funguje v testovacím režimu.
+          \- portál funguje v testovacím režimu.
           %br
           Oficiální spuštění se předpokládá
           %br
-          v druhém týdnu v květnu
+          druhý týden v květnu
       /.modal-footer
       /  %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} Rozumím
 
@@ -87,7 +87,7 @@
         %h3 Příklad
         %p
           Na adrese
-          %a{href:'http://localhost:3000/map?from_date=2015-09-24&to_date=2016-03-27#18/49.20003/16.62131'} Bratislavská 39, Brno
+          =link_to 'Bratislavská 39, Brno', map_path(from_date: '2015-09-24', to_date: '2016-03-27', anchor: '18/49.20003/16.62131')
           Pokud by byly všechny objekty označeny stejnou barvou, jedním pohledem byste nezjistili,
           že tento objekt je/byl nabízen k pronájmu.
 
