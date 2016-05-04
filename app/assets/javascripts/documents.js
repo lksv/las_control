@@ -13,6 +13,10 @@ $(document).on('page:change', function () {
   // calculate margin of fixed document info header
   var fixedOffset = $(".doc-head-info").innerHeight() + 5;
 
+  if ($(".doc-head-info").css('position') !== 'fixed') {
+    fixedOffset = 0;
+  }
+
   $("div.plain-text-row").css('margin-top', '' + fixedOffset + 'px');
   if ($(location.hash).length) {
     jQuery('html,body')

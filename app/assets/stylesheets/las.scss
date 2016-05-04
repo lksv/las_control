@@ -53,6 +53,13 @@
   }
 }
 
+@media (max-width: 768px) {
+  .documents .doc-head-info {
+    position: relative !important;
+  }
+}
+
+
 li.address-item {
   white-space: nowrap;
 }
