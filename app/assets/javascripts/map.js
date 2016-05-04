@@ -28,16 +28,16 @@ var layers = {
       type: "xyz",
       url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       subdomains: ['a', 'b', 'c'],
-      attribution: 'Map layer data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+      attribution: 'Mapový podklad &copy; <a href="http://openstreetmap.org" data-no-turbolink=true data-turbolinks=false>OpenStreetMap</a> contributors ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/" data-no-turbolink=true data-turbolinks=false>CC-BY-SA</a>',
       continuousWorld: true
     }),
     "Satelitní": L.tileLayer('https://api.tiles.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibGtzdiIsImEiOiJjaW40OHNjbzcwMHNpdzVtMWRsMzE1aDI2In0.A1H4C1Zf8bBaXkWKPEL05Q', {
-      attribution: '<a href="https://mapbox.com/about/maps/">MapBox</a> &mdash; Map layer data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      attribution: '<a href="https://mapbox.com/about/maps/" data-no-turbolink=true data-turbolinks=false>MapBox</a> &mdash; Map layer data &copy; <a href="http://www.openstreetmap.org/copyright" data-no-turbolink=true data-turbolinks=false>OpenStreetMap</a>',
       subdomains: 'abcd', maxZoom: 20, maxNativeZoom: 18,
     }),
     "Černobílá": L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" data-no-turbolink=true data-turbolinks=false>OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions" data-no-turbolink=true data-turbolinks=false>CartoDB</a>',
       subdomains: 'abcd',
       minZoom: 0,
       maxZoom: 20,
@@ -236,7 +236,7 @@ var map = new L.Map('map', {
 // just for debugging purposes
 window.map = map;
 
-map.attributionControl.setPrefix('<a href="/terms">Smluvní podmínky</a>&nbsp;&nbsp;');
+map.attributionControl.setPrefix('<a class="hidden-xs" href="/terms" data-no-turbolink=true data-turbolinks=false>Smluvní podmínky</a>');
 
 // get default map position
 var leafletPosition = window.sessionStorage && window.sessionStorage.getItem('leafletPosition');

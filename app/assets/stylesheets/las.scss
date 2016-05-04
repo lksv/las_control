@@ -110,9 +110,10 @@ li.address-item {
 #mapOptions {
   width:29%;
   max-width: 350px;
-  z-index:2;
-  position:absolute;
-  right:0px;
+  min-width: 300px;
+  z-index:   1100;
+  position:  absolute;
+  right:     0px;
   background:#FFF;
   color:#000;
   padding-bottom: 30px;
@@ -129,6 +130,20 @@ li.address-item {
     text-align: center;
     cursor: pointer;
     border: 1px solid #c0c0c0;
+  }
+}
+
+// Do not want to stack mapOptions nav tabs with .nav-justified
+// see http://stackoverflow.com/a/24643033
+@media (max-width: 768px) {
+  .no-stack.nav-justified > li {
+    display: table-cell;
+    width: 1%;
+  }
+  .no-stack.nav-justified > li > a  {
+    border-bottom: 1px solid #ddd !important;
+    border-radius: 4px 4px 0 0 !important;
+    margin-bottom: 0 !important;
   }
 }
 

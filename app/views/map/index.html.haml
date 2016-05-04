@@ -4,14 +4,20 @@
       .collapser &gt;
 
       .tabble-content
-        .col-sm-12
-          %ul#tabble-nav.nav.nav-tabs.nav-justified{role: 'tablist'}
+        .col-xs-12
+          %ul#tabble-nav.nav.nav-tabs.nav-justified.no-stack{role: 'tablist'}
             %li.active{role:"presentation"}
-              %a{href:"#search", role: 'tab', data: {toggle: 'tab'}} Hledání
+              %a{href:"#search", role: 'tab', data: {toggle: 'tab'}}
+                /%i.fa.fa-search
+                Hledání
             %li{role:"presentation"}
-              %a{href:"#filter", role: 'tab', data: {toggle: 'tab'}} Filtrování
+              %a{href:"#filter", role: 'tab', data: {toggle: 'tab'}}
+                /%i.fa.fa-filter
+                Filtrování
             %li{role:"presentation"}
-              %a{href:"#notifications", role: 'tab', data: {toggle: 'tab'}} Moje&nbsp;oblasti
+              %a{href:"#notifications", role: 'tab', data: {toggle: 'tab'}}
+                /%i.fa.fa-heart
+                Moje&nbsp;oblasti
 
           .tab-content
             #search.tab-pane.fade.in.active{role: 'tabpanel'}
