@@ -118,7 +118,7 @@ li.address-item {
   width:29%;
   max-width: 350px;
   min-width: 300px;
-  z-index:   1100;
+  z-index:   1001; // has to be more than .leaflet-top, .leaflet-bottom, e.g. 1000
   position:  absolute;
   right:     0px;
   background:#FFF;
