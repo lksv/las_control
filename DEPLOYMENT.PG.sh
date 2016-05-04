@@ -34,7 +34,7 @@ CREATE EXTENSION postgis;
 CREATE EXTENSION postgis_topology;
 EOF
 
-echo "listen_addresses = '*'" > /etc/postgresql/9.3/main/postgresql.conf
+echo "listen_addresses = '*'" >> /etc/postgresql/9.3/main/postgresql.conf
 
 cat >>/etc/postgresql/9.3/main/pg_hba.conf <<EOF
 host    all             all             81.2.251.113/32            md5
@@ -81,3 +81,13 @@ EOF
 
 pg_restore -h localhost -U ob -W -d ruian ruian.dump
 
+cat >>/etc/postgresql/9.3/main/postgresql.conf <<EOF
+# Because of `PG::UnableToSend: SSL SYSCALL error: EOF detected` error
+# see
+#   https://github.com/rails/rails/issues/20411
+#   https://github.com/rails/rails/issues/12867
+#   http://stackoverflow.com/questions/19802233/heroku-sidekiq-activerecordstatementinvalid-pgunabletosend-ssl-syscall
+tcp_keepalives_idle = 60
+tcp_keepalives_interval = 60
+tcp_keepalives_count = 9  # e.g. 9
+EOF
