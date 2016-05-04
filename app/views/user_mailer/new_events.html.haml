@@ -37,7 +37,15 @@
           Dokument:
           = link_to document.title, polymorphic_url(document)
 
-        - if events.size > 1
+        - if events.size == 1
+          Přímý odkaz do mapy:
+          - event = events.first
+          = show_event(event)
+          = surround '[', ']' do
+            = link_to 'dokument',
+              polymorphic_url(document, anchor: "addressBlock-#{event.address_block.id}"),
+              data: {:'no-turbolink' => 'true' }
+        - else # e.g. there are more events from this document in notification area
           - max_doc_ref = 10
           - if doc_events.size > max_doc_ref
             %div= "Adresa je v textu odkazována celkem #{doc_events.size} krát."
