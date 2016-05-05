@@ -91,9 +91,9 @@ li.address-item {
 }
 
 // Setting of google map autocomplete selectbox
-//.pac-container {
-//  z-index: 1000051 !important;
-//}
+.pac-container {
+  z-index: 1002 !important;
+}
 
 //put navbar dropdown on the top of map filter
 .navbar .nav > li > ul.dropdown-menu{
@@ -118,7 +118,9 @@ li.address-item {
   width:29%;
   max-width: 350px;
   min-width: 300px;
-  z-index:   1001; // has to be more than .leaflet-top, .leaflet-bottom, e.g. 1000
+  // has to be more than .leaflet-top, .leaflet-bottom, e.g. 1000
+  // but less tehn google place autocomplete (.pac-container class)
+  z-index:   1001;
   position:  absolute;
   right:     0px;
   background:#FFF;
