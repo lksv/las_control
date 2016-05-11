@@ -4,9 +4,9 @@ development:
   encoding: utf8
   database: local_administration_model_development
   pool: 15
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_LOCAL_USERNAME'] %>
+  password: <%= ENV['DB_LOCAL_PASSWORD'] %>
+  host: localhost
 
 test:
   schema_search_path: public, postgis
@@ -14,9 +14,9 @@ test:
   encoding: utf8
   database: local_administration_model_test
   pool: 10
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_LOCAL_USERNAME'] %>
+  password: <%= ENV['DB_LOCAL_PASSWORD'] %>
+  host: localhost
 
 production:
   # url: <%= ENV['DATABASE_URL'] %>
