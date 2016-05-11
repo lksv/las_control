@@ -22,27 +22,41 @@ var mbAttr = 'Map layer data &copy; <a href="http://openstreetmap.org">OpenStree
        streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
 
 */
+var defaultAttribution = 'Mapový podklad &copy; <a href="http://openstreetmap.org" data-no-turbolink=true data-turbolinks=false>OpenStreetMap</a> contributors ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/" data-no-turbolink=true data-turbolinks=false>CC-BY-SA</a>';
+
+// you can use https://leaflet-extras.github.io/leaflet-providers/preview/
+// and http://mc.bbbike.org/mc/?num=2&mt0=mapnik&mt1=mapnik-bw
+// for choose ideal map
 var layers = {
     "Základní": L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       name: "OpenStreetMap",
       type: "xyz",
       url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       subdomains: ['a', 'b', 'c'],
-      attribution: 'Mapový podklad &copy; <a href="http://openstreetmap.org" data-no-turbolink=true data-turbolinks=false>OpenStreetMap</a> contributors ' +
-        '<a href="http://creativecommons.org/licenses/by-sa/2.0/" data-no-turbolink=true data-turbolinks=false>CC-BY-SA</a>',
+      attribution: defaultAttribution,
       continuousWorld: true
     }),
     "Satelitní": L.tileLayer('https://api.tiles.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibGtzdiIsImEiOiJjaW40OHNjbzcwMHNpdzVtMWRsMzE1aDI2In0.A1H4C1Zf8bBaXkWKPEL05Q', {
       attribution: '<a href="https://mapbox.com/about/maps/" data-no-turbolink=true data-turbolinks=false>MapBox</a> &mdash; Map layer data &copy; <a href="http://www.openstreetmap.org/copyright" data-no-turbolink=true data-turbolinks=false>OpenStreetMap</a>',
       subdomains: 'abcd', maxZoom: 20, maxNativeZoom: 18,
     }),
-    "Černobílá": L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" data-no-turbolink=true data-turbolinks=false>OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions" data-no-turbolink=true data-turbolinks=false>CartoDB</a>',
-      subdomains: 'abcd',
+    "Černobílá": L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+      attribution: defaultAttribution,
+      subdomains: 'abc',
       minZoom: 0,
       maxZoom: 20,
       maxNativeZoom: 18,
     })
+
+    // "Černobílá": L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
+    //   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" data-no-turbolink=true data-turbolinks=false>OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions" data-no-turbolink=true data-turbolinks=false>CartoDB</a>',
+    //   subdomains: 'abcd',
+    //   minZoom: 0,
+    //   maxZoom: 20,
+    //   maxNativeZoom: 18,
+    // })
+    //
     //map1_eu: L.tileLayer('http://beta.map1.eu/tiles/{z}/{x}/{y}.jpg', {
     //  name: "Map1.eu",
     //  type: "xyz",
@@ -137,8 +151,8 @@ var isFeatureFiltered = function isFeatureFiltered(feature) {
 
 
 window.getColor = function getColor(d) {
-    return d > 400  ? '#ffffcc' :
-           d > 200  ? '#a1dab4' :
+    return d > 400  ? '#c7e9b4' :
+           d > 200  ? '#7fcdbb' :
            d > 100  ? '#41b6c4' :
            d > 20   ? '#2c7fb8' :
                       '#253494';
@@ -218,7 +232,7 @@ var overlays = {
 
 
 var default_layers = function default_layers() {
-  var res = [ layers['Základní'] ];
+  var res = [ layers['Černobílá'] ];
   if (initialZoom >= maxZoomEnabled) {
     res.push(geojsonTileLayer);
   }
