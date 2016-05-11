@@ -23,39 +23,52 @@ var dateRangeInit = function() {
   if (!default_to_date.isValid()) {
     default_to_date = moment();
   }
-  $("#slider-range").slider({
-    range: true,
-    min: moment().subtract(2, 'years').unix(),
-    max: moment().unix(),
-    values: [ default_from_date.unix(), default_to_date.unix() ],
-    slide: function( event, ui ) {
-      var from_date = moment(ui.values[0] * 1000);
-      var to_date = moment(ui.values[1] * 1000);
-      var input = $('#q_range');
-      input.val(
-        from_date.format('l') +  " - " + to_date.format('l')
-      );
 
-      params['from_date'] = from_date.format('YYYY-MM-DD');
-      params['to_date'] = to_date.format('YYYY-MM-DD');
-
-      window.clearTimeout(input.data('timeout'));
-      input.data("timeout", setTimeout(function () {
-        geojsonTileLayer.redraw();
-      }, 500));
-
-      var url = location.origin +
-        location.pathname + '?' +
-        $.param(params) +
-        location.hash;
-      history.pushState('', '', url)
-    }
+  var q_range = $("#q_range");
+  q_range.daterangepicker({
+    startDate: default_from_date,
+    endDate: default_to_date,
+    ranges: {
+      'Posledních 7 dní': [moment().subtract(6, 'days'), moment()],
+      'Poslední mesíc': [moment().subtract(1, 'month'), moment()],
+      'Poslední 2 měsíce': [moment().subtract(2, 'month').startOf('month'), moment()],
+      'Posledního půl roku': [moment().subtract(6, 'month').startOf('month'), moment()],
+      'Posledního rok': [moment().subtract(1, 'year'), moment()]
+    },
+    locale: {
+      format: 'DD.MM.YYYY',
+      separator: ' - ',
+      applyLabel: 'Použít',
+      cancelLabel: 'Zrušit',
+      weekLabel: 'T',
+      customRangeLabel: 'Vlastní výběr',
+    },
+    minDate: moment().subtract(2, 'years'),
+    maxDate: moment().subtract(1, 'day'),
+    showDropdowns: true
   });
-  $( "#q_range" ).val(
-    moment($("#slider-range").slider("values", 0) * 1000).format('l') +
-    " - " +
-    moment($("#slider-range").slider("values", 1) * 1000).format('l')
-  );
+  q_range.on('change', function() {
+    var picker = q_range.data('daterangepicker');
+
+    params.from_date = picker.startDate.format('YYYY-MM-DD');
+    params.to_date = picker.endDate.format('YYYY-MM-DD');
+
+    //redraw map
+    if (q_range.data('timeout')) {
+      window.clearTimeout(q_range.data('timeout'));
+    }
+    q_range.data("timeout", setTimeout(function () {
+      geojsonTileLayer.redraw();
+    }, 100));
+
+
+    //update url
+    var url = location.origin +
+      location.pathname + '?' +
+      $.param(params) +
+      location.hash;
+    history.pushState('', '', url)
+  });
 };
 
 var queryButtonOnsubmit = function() {
