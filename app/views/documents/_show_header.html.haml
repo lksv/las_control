@@ -34,6 +34,11 @@
 
   .col-xs-6
     %dl.dl-horizontal
+      %dt= Document.human_attribute_name('from_date')
+      %dd
+        %span{data: {toggle: 'tooltip'},
+          title: 'Jedná se o datum, kdy byl dokument načten do systému, ve vyjmečných případech se může lišit od data zveřejnění úřadem.',
+          x: ''}= l @document.from_date.to_date
       %dt Orginální zdroj
       %dd= link_to @document.url, @document.url
       %dt Nalezeno adres
