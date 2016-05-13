@@ -100,7 +100,7 @@ git clone git@github.com:lksv/ruian_model.git
 git clone git@github.com:lksv/local_administration_model.git
 cd local_administration_model/ && bundle install --jobs 4
 git clone git@github.com:lksv/las_control.git
-cd las_control && bundle --jobs 4
+cd las_control && bundle install --jobs 4 --without development test
 
 # Prepare .env
 ## copy / cretate .env in ~/las directory
@@ -128,3 +128,9 @@ sudo cat "deployer deployer deployer" >> /etc/postgresql/9.3/main/pg_ident.conf
 cd local_administration_model
 #modify config/database.yml
 ENV=production RAILS_ENV=production rake db:create db:migrate
+
+# setup restart of services
+cat >>/etc/crontab <<EOF
+05 1  * * * root  /usr/sbin/service puma-manager restart && /usr/sbin/service workers restart
+58 5  * * * root  /usr/sbin/service puma-manager restart && /usr/sbin/service workers restart
+EOF
