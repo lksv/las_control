@@ -33,7 +33,9 @@ var dateRangeInit = function() {
       'Poslední mesíc': [moment().subtract(1, 'month'), moment()],
       'Poslední 2 měsíce': [moment().subtract(2, 'month').startOf('month'), moment()],
       'Posledního půl roku': [moment().subtract(6, 'month').startOf('month'), moment()],
-      'Posledního rok': [moment().subtract(1, 'year'), moment()]
+      'Poslední rok': [moment().subtract(1, 'year'), moment()],
+      'Poslední 2 roky': [moment().subtract(2, 'year'), moment()],
+      'Posledních 10 let': [moment().subtract(10, 'year'), moment()]
     },
     locale: {
       format: 'DD.MM.YYYY',
@@ -43,7 +45,7 @@ var dateRangeInit = function() {
       weekLabel: 'T',
       customRangeLabel: 'Vlastní výběr',
     },
-    minDate: moment().subtract(2, 'years'),
+    minDate: moment().subtract(10, 'years'),
     maxDate: moment().subtract(1, 'day'),
     showDropdowns: true
   });
