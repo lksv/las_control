@@ -38,6 +38,7 @@
   %tbody
     - @collection.each.with_index do |resource, idx|
       - record = @elasticsearch ? @records[idx] : resource
+      - next unless record #in case that elasticsearch indexed already deleted document
 
       %tr
         %td= record.local_administration_unit.ruian_locable.nazev
