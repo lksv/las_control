@@ -24,6 +24,6 @@
 
 HOME=/home/deployer
 PROJECT_DIR= /home/deployer/las/las_control
-50 01 * * * /bin/bash -l -c 'cd /home/deployer/otevrene-brno/ && source ../env.sh && ./bin/backup.sh  >>log/backup.log 2>&1'
+50 01 * * * /bin/bash -l -c 'cd $PROJECT_DIR && source .env && ./bin/backup.sh  >>log/backup.log 2>&1'
 31 02 * * * /bin/bash -l -c 'cd $PROJECT_DIR && source .env && ./bin/cache_tiles.sh >>log/cron-cache_tiles.log 2>&1 &'
 30 07 * * * /bin/bash -l -c 'cd $PROJECT_DIR && source .env && ./bin/send_new_notification.rb >>log/cron-send_new_notification.log 2>&1 &'
