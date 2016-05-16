@@ -15,8 +15,8 @@ GIT
 
 GIT
   remote: https://github.com/lksv/dragonfly.git
-  revision: 32ceebb4f61a96dbf9f64eead7276e86e0a7f841
-  branch: store_mime_type_in_meta
+  revision: 7d426f7292ae0f4e87eb98cc276da47ab13327bf
+  branch: follow_redirect_with_cookies
   specs:
     dragonfly (1.0.11)
       addressable (~> 2.3)
