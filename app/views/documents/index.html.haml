@@ -37,8 +37,10 @@
         %th=t '.actions', :default => t("helpers.actions")
   %tbody
     - @collection.each.with_index do |resource, idx|
-      - record = @elasticsearch ? @records[idx] : resource
-      - next unless record #in case that elasticsearch indexed already deleted document
+      - record = @elasticsearch ? @records.find { |i| i.id == resource.id.to_i } : resource
+      - unless record #in case that elasticsearch indexed already deleted document
+        - Rails.logger.warn "Elasticsearch record for document #{resource.id.inspect} should be already deleted"
+        - next
 
       %tr
         %td= record.local_administration_unit.ruian_locable.nazev
