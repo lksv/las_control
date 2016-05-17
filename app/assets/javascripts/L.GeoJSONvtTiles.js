@@ -167,8 +167,8 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
   },
 
   _moueMoveJSON: function(e) {
-    var feature = this._getLatLngFeature(e.latlng);
-    if (feature) {
+    var features = this._getLatLngFeature(e.latlng, false);
+    if (features.length) {
       //document.getElementById('map').style.cursor = 'crosshair'
       $('.leaflet-container').css('cursor','pointer');
     } else {
@@ -176,7 +176,7 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
     }
   },
 
-  _getLatLngFeature: function(latlng) {
+  _getLatLngFeature: function(latlng, allPolygons) {
     var x = latlng.lng;
     var y = latlng.lat;
 
@@ -188,10 +188,10 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
     var url = this.getTileUrl(coords);
     var t = this._tilesData[url];
     if (!t) {
-      return;
+      return [];
     }
-    var layerData = leafletPip.pointInLayer([x,y], t, true);
-    return layerData[0] && layerData[0].feature;
+    var layerData =  leafletPip.pointInLayer([x,y], t, !allPolygons);
+    return layerData.length ? layerData.map(function (i) { return i.feature }) : [];
   },
 
   //_getLatLngFeature: function(e) {
@@ -226,7 +226,7 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
 
 
   _clickGeoJSON: function(e) {
-    var feature = this._getLatLngFeature(e.latlng);
+    var feature = this._getLatLngFeature(e.latlng, true);
     if (!feature) {
       return;
     }
@@ -297,7 +297,11 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
 
     //console.log('getting tile z' + params.tilePoint.z + '-' + params.tilePoint.x + '-' + params.tilePoint.y);
 
-    var features = [];
+    ctx.clearRect(0, 0, params.canvas.width, params.canvas.height);
+    if (params.zoom < this.minZoom) {
+      return;
+    }
+
 
     var urls = this.getTileUrls(bounds);
     urls.forEach(function(url) {
@@ -307,18 +311,13 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
         //console.log(params.tilePoint);
         var tile = t.getTile(params.tilePoint.z, params.tilePoint.x, params.tilePoint.y);
         if (tile) {
-          //console.log('adding feautres for url: ', url, tile.features);
-          features = features.concat(tile.features);
+          this.drawTileFeatures(tile.features, params, ctx, url);
         }
       }
     }, this);
+  },
 
-    ctx.clearRect(0, 0, params.canvas.width, params.canvas.height);
-
-    if (params.zoom < this.minZoom) {
-      return;
-    }
-
+  drawTileFeatures: function(features, params, ctx, url) {
     ctx.strokeStyle = 'red';
     ctx.lineWidth = 1;
 
@@ -326,7 +325,7 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
       var feature = features[i],
         type = feature.type;
 
-      if (this.options.filter && !this.options.filter(feature)) {
+      if (this.options.filter && !this.options.filter(feature, this, url)) {
         continue;
       }
 
@@ -340,6 +339,9 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
         ctx.lineWidth = 1;
         ctx.strokeStyle = 'black';
       }
+      //ctx.globalCompositeOperation = 'difference';
+      //ctx.globalCompositeOperation = 'exclusion';
+      ctx.globalAlpha = 0.8;
       ctx.beginPath();
 
       for (var j = 0; j < feature.geometry.length; j++) {
@@ -365,7 +367,6 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
       if (type === 3 || type === 1) ctx.fill('evenodd');
       ctx.stroke();
     }
-
   },
 
 

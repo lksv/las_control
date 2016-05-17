@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   resources :notifications
   resources :users, only: :create
 
+  get 'tiles/:z/:x/:y/document_ids'  =>  'events#document_ids', as: :tiles_document_ids
+
   get 'tiles/:z/:x/:y'  =>  'events#tiles', as: :tiles
   get 'public/tiles/:z/:x/:y'  =>  'events#public_tiles', as: :public_tiles
 

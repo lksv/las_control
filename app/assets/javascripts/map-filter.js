@@ -78,8 +78,16 @@ var queryButtonOnsubmit = function() {
     e.stopPropagation();
     e.preventDefault();
     params['q[query]'] = $('#q_query').val();
-    params['activeTab'] = 'filter'
-    location.search = $.param(params);
+    params.activeTab = 'filter';
+
+    queryFilter.setQuery(params['q[query]']);
+
+    var url = location.origin +
+      location.pathname + '?' +
+      $.param(params) +
+      location.hash;
+    history.pushState('', '', url)
+
   });
 }
 

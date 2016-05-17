@@ -11,7 +11,90 @@ function resize(){
   }
 }
 
+var QueryFilter = function() {
+  this._states = {};
+  this.query = window.params['q[query]'];
+  this.clear()
+};
 
+QueryFilter.prototype.setQuery = function(query) {
+  this.query = query;
+  window.params['q[query]'] = query;
+  this.clear();
+  geojsonTileLayer.deferedRedraw();
+};
+
+QueryFilter.prototype.clear = function() {
+  this._document_ids = {};
+  this._allData = []
+  var self = this;
+  Object.keys(this._states).forEach(function (url) {
+    var xhr = self._states[url];
+    if (xhr && xhr.readyState !== 4) {
+      xhr.abort();
+    }
+  });
+  this._states = {};
+};
+
+QueryFilter.prototype.loadUrl = function(params) {
+  var url = params.id;
+
+  if (params.filter || !this.query || !url) {
+    return;
+  }
+
+
+  var filter_url = url.replace(/\.json$/, '/document_ids.json').replace(/^\/public/, '');
+  filter_url += '?q[query]=' + this.query;
+
+  var state = this._states[url];
+  if (state) {
+    return;
+  }
+
+  var self = this;
+
+  geojsonTileLayer.fire('loading', {id: url, filter: true});
+  this._states[url] = $.ajax({
+    dataType: 'json',
+    url: filter_url,
+    success: this._ajax_loaded.bind(this, url)
+  }).error(this._ajax_error.bind(this, url));
+};
+
+QueryFilter.prototype._ajax_loaded = function(url, data) {
+  geojsonTileLayer.fire('load', { id: url, filter: true });
+  this._allData = this._allData.concat(data);
+  this._document_ids[url] = data;
+  geojsonTileLayer.deferedRedraw();
+};
+
+
+QueryFilter.prototype._ajax_error = function(url, err) {
+  geojsonTileLayer.fire('load', { id: url, filter: true });
+  alert('Došlo k chybě při načítání. Zobrazení filtru nemusí být přesné');
+};
+
+QueryFilter.prototype.isLoaded = function(url) {
+  if (this._states[url] && this._states[url].readyState === 4) {
+    return true;
+  }
+
+  if (this._states[url]) {
+    return false;
+  }
+
+  this.loadUrl({ id: url});
+};
+
+QueryFilter.prototype.getUrlData = function(url) {
+  return this._document_ids[url];
+};
+
+QueryFilter.prototype.getAllData = function() {
+  return this._allData;
+};
 
 var mbAttr = 'Map layer data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
   '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -124,8 +207,25 @@ if (params.layers) {
   });
 }
 
-var isFeatureFiltered = function isFeatureFiltered(feature) {
+var isFeatureFiltered = function isFeatureFiltered(feature, url) {
   var properties = feature.properties || feature.tags;
+
+  if (params['q[query]']) {
+    // When filtering by query but document_ids are not loaded yet
+    // do not show any data
+    if (!queryFilter.isLoaded(url)) {
+      return true;
+    }
+    //hide feature if non of the snippets has the source
+    var data = queryFilter.getUrlData(url);
+    if (!properties.snippets.find(function(event) {
+      return (
+       data.indexOf(event.source_id) !== -1
+      )
+    })) {
+      return true;
+    }
+  }
 
   //filter by date
   if (!params.shape_id &&
@@ -148,7 +248,6 @@ var isFeatureFiltered = function isFeatureFiltered(feature) {
     );
   });
 };
-
 
 window.getColor = function getColor(d) {
     return d > 400  ? '#c7e9b4' :
@@ -185,43 +284,67 @@ var styleFce = function styleFce(f) {
 };
 
 var geojsonURL = '/public/tiles/{z}/{x}/{y}.json';
-if (params['private'] == 'true' || params['q[query]']) {
+if (params['private'] == 'true') {
   geojsonURL = geojsonURL.replace(/^\/public/, '');
 }
 if (params['q[source_id_eq]']) {
   geojsonURL += '?q[source_id_eq]=' + params['q[source_id_eq]'] + '&q[source_type_eq]=' + params['q[source_type_eq]']
 }
-if (params['q[query]']) {
-  geojsonURL += '?q[query]=' + params['q[query]'];
-}
 var geojsonTileLayer = new L.geoJsonvtTiles(geojsonURL, {
   minZoom: maxZoomEnabled,
   debug: false,
   style: styleFce,
-  filter: function(feature, layer) {
-    return !isFeatureFiltered(feature);
+  filter: function(feature, layer, url) {
+    return !isFeatureFiltered(feature, url);
   },
-  featureClick: function(e, feature) {
+  featureClick: function(e, features) {
+    if (features.length === 0) {
+      return;
+    }
     var map = this._map;
 
-    var api_url = feature.properties && feature.properties.api_url;
+    var urlParams = ''
     if (params['q[query]'] || params['q[source_id_eq]']) {
-      api_url += '?event_ids=' + feature.properties.snippets.map(function(i) { return i.event_id }).join(',');
+      var data = queryFilter.getAllData();
+      urlParams += '?event_ids=' + feature.properties.snippets.filter(function(i) {
+        if (params['q[query]']) {
+          return (data.indexOf(i.source_id) !== -1);
+        } else {
+          return true;
+        }
+      }).map(function(i) {
+        return i.event_id
+      }).join(',');
     }
+
     this._popup = L.popup({maxWidth: 500}).setLatLng(e.latlng).setContent('<i class="fa fa-spinner fa-spin"></i> Načítám...').openOn(map);
 
     var self = this;
-
-    $.ajax({
-      url: api_url,
-      success: function (data) {
-        self._popup.setContent(data);
-        self._popup.update();
-        $('[data-toggle="tooltip"]').tooltip();
-      }
+    var contentData = [];
+    features.forEach(function (feature) {
+      var apiUrl = feature.properties && feature.properties.api_url;
+      if (apiUrl) {
+        apiUrl += urlParams;
+        $.ajax({
+          url: apiUrl,
+          success: function (data) {
+            contentData.push(data);
+            self._popup.setContent(contentData.join('<hr>'));
+            self._popup.update();
+            $('[data-toggle="tooltip"]').tooltip();
+          }
+        });
+      };
     });
   }
 });
+
+window.queryFilter = new QueryFilter();
+geojsonTileLayer.on('loading', function(params) {
+  queryFilter.loadUrl(params);
+});
+
+
 
 var notificationsLayerGroup = L.layerGroup([]);
 

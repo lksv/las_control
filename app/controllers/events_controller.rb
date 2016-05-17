@@ -1,7 +1,9 @@
 require 'geo_convertor'
 
 class EventsController < ApplicationController
+
   skip_authorization_check only: [:index, :public_tiles]
+  before_filter :set_tiles_params, :validate_zoom, only: [:tiles, :public_tiles, :document_ids]
 
   caches_page :public_tiles, gzip: true
 
@@ -12,50 +14,78 @@ class EventsController < ApplicationController
 
   def tiles
     authorize! :read, Event
-    @zoom = params[:z].to_i # zoom
-    @x = params[:x].to_i
-    @y = params[:y].to_i
-    @q = params[:q]
 
     key = current_user_role_key + ['tiles', @zoom, @x, @y, @q].inspect
-    expires_in_time = Time.now.end_of_day - Time.now
     @tile = Rails.cache.fetch(key, expires_in: expires_in_time) do
-      if (@zoom >= 15) || (@zoom == 13)
-        get_tile(@zoom, @x, @y, @q, current_ability)
-      else
-        '{"type":"FeatureCollection","features":[]}'
-      end
+      get_tile(@zoom, @x, @y, @q, current_ability)
     end
     render json: @tile
   end
 
   def public_tiles
-    # FIXME - remove it, just now for testing geojson-vt
-    headers['Access-Control-Allow-Origin'] = '*'
-    headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
-    headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token'
-    headers['Access-Control-Max-Age'] = "1728000"
+    key = current_user_role_key + ['public_tiles', @zoom, @x, @y, @q].inspect
+    # caching here is only for development environment.
+    # In production cache whole page nginx
+    @tile = Rails.cache.fetch(key, expires_in: expires_in_time) do
+      @tile = get_tile(@zoom, @x, @y, @q, public_ability)
+    end
+    expires_in(expires_in_time, public: true)
+    render json: @tile
+  end
 
+  # GET http://localhost:3000/tiles/13/4423/2775/document_ids.json?q[query]=praha
+  #
+  def document_ids
+    authorize! :read, Event
+    bbox = GeoConvertor.tile2bounding_box(@zoom, @x, @y)
+
+    key = current_user_role_key + ['tiles', @zoom, @x, @y, @q, 'document_ids'].inspect
+    res = Rails.cache.fetch(key, expires_in: expires_in_time) do
+
+      document_ids = Rails.cache.fetch(
+        current_user_role_key + ['tiles', @zoom, @x, @y, 'ids'].inspect,
+        expires_in: expires_in_time
+      ) do
+        Event
+          .accessible_by(current_ability)
+          .joins(:shape).merge(Shape.in_bounding_box(bbox))
+          .group(:source_id).pluck(:source_id)
+      end
+
+      query = params[:q].try(:[], :query)
+      Rails.logger.debug(query.inspect);
+      if query.blank?
+        Rails.logger.warn('Query is blank!');
+        document_ids
+      else
+        Document.elasticsearch_search(
+          query,
+          fields: ['id'],
+          ids: document_ids
+        ).per(document_ids.size).results.map { |i| i.id.to_i }
+      end
+    end
+    expires_in(expires_in_time, public: true)
+
+    render json: res
+  end
+
+  private
+
+  def expires_in_time
+    Time.now.end_of_day - Time.now
+  end
+
+  def validate_zoom
+    render(status: 422, json: {message: 'Not allowed zoom'}) unless @zoom == 13
+  end
+
+  def set_tiles_params
     @zoom = params[:z].to_i # zoom
     @x = params[:x].to_i
     @y = params[:y].to_i
     @q = params[:q]
-
-    #FIXME: remove caching when setup serving assets by nginx
-    key = current_user_role_key + ['public_tiles', @zoom, @x, @y, @q].inspect
-    expires_in_time = Time.now.end_of_day - Time.now
-    tile = Rails.cache.fetch(key, expires_in: expires_in_time) do
-      if (@zoom >= 15) || (@zoom == 13)
-        get_tile(@zoom, @x, @y, @q, public_ability)
-      else
-        '{"type":"FeatureCollection","features":[]}'
-      end
-    end
-    expires_in(12.hours, public: true)
-    render json: tile
   end
-
-  private
 
   def get_tile(zoom, x, y, query, ability)
     bbox = GeoConvertor.tile2bounding_box(zoom, x, y)
