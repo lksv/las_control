@@ -28,12 +28,14 @@ QueryFilter.prototype.clear = function() {
   this._document_ids = {};
   this._allData = []
   var self = this;
+  this._ignoreAborted = true;
   Object.keys(this._states).forEach(function (url) {
     var xhr = self._states[url];
     if (xhr && xhr.readyState !== 4) {
       xhr.abort();
     }
   });
+  this._ignoreAborted = false;
   this._states = {};
 };
 
@@ -73,6 +75,9 @@ QueryFilter.prototype._ajax_loaded = function(url, data) {
 
 QueryFilter.prototype._ajax_error = function(url, err) {
   geojsonTileLayer.fire('load', { id: url, filter: true });
+  if (this._ignoreAborted) {
+    return
+  }
   alert('Došlo k chybě při načítání. Zobrazení filtru nemusí být přesné');
 };
 
