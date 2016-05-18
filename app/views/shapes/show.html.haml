@@ -31,7 +31,7 @@
         = l(source.from_date.to_date, format: :long)
         - if source.document_storage
           = surround '[', ']' do
-            = link_to 'Archiv orginálu', source.document_storage.url
+            = link_to 'Originální dokument', source.document_storage.url
 
       %span.legendbox
         %i{style: "background:#{source.legend_color}",
