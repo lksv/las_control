@@ -308,28 +308,26 @@ var geojsonTileLayer = new L.geoJsonvtTiles(geojsonURL, {
     }
     var map = this._map;
 
-    var urlParams = ''
-    if (params['q[query]'] || params['q[source_id_eq]']) {
-      var data = queryFilter.getAllData();
-      urlParams += '?event_ids=' + feature.properties.snippets.filter(function(i) {
-        if (params['q[query]']) {
-          return (data.indexOf(i.source_id) !== -1);
-        } else {
-          return true;
-        }
-      }).map(function(i) {
-        return i.event_id
-      }).join(',');
-    }
-
     this._popup = L.popup({maxWidth: 500}).setLatLng(e.latlng).setContent('<i class="fa fa-spinner fa-spin"></i> Načítám...').openOn(map);
 
     var self = this;
     var contentData = [];
+    var documentIds = queryFilter.getAllData();
     features.forEach(function (feature) {
       var apiUrl = feature.properties && feature.properties.api_url;
       if (apiUrl) {
-        apiUrl += urlParams;
+        if (params['q[query]'] || params['q[source_id_eq]']) {
+          apiUrl += '?event_ids=' + feature.properties.snippets.filter(function(i) {
+            if (params['q[query]']) {
+              return (documentIds.indexOf(i.source_id) !== -1);
+            } else {
+              return true;
+            }
+          }).map(function(i) {
+            return i.event_id
+          }).join(',');
+        }
+
         $.ajax({
           url: apiUrl,
           success: function (data) {
