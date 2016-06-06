@@ -15,6 +15,10 @@ Run this command to display usage instructions:
 
      bundle exec rake -D elasticsearch
 
+Set Result windows size:
+
+     curl -XPUT "http://localhost:9200/documents_production/_settings" -d '{ "index" : { "max_result_window" : 300000 } }'
+
 
 Remove all elasticsearch data:
 
