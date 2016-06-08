@@ -1,5 +1,5 @@
 <li>
-<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
     <%= user_signed_in? ? current_user.email : t(:user, scope: [:las, :nav_bar], default: 'User') %>
     <span class="caret"></span>
   </a>
