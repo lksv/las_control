@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "samospráva na mapě" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Podívejte se, co plánuje radnice ve Vašem okolí." %>">
+    <meta property="og:image" content="http://mapasamospravy.cz/mapasamospravy.png" />
     <meta property="fb:admins" content="<%=ENV['FB_ADMINS']%>" />
 
     <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
