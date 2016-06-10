@@ -5,7 +5,9 @@
     <title><%= content_for?(:title) ? yield(:title) : "samospráva na mapě" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Podívejte se, co plánuje radnice ve Vašem okolí." %>">
     <meta property="og:image" content="http://mapasamospravy.cz/mapasamospravy.png" />
+    <meta property="fb:app_id" content="<%=ENV["FB_APP_ID"]%>" />
     <meta property="fb:admins" content="<%=ENV['FB_ADMINS']%>" />
+    <meta property="og:url" content="http://mapasamospravy.cz/" />
 
     <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
 
