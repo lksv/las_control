@@ -1,0 +1,19 @@
+- if resource && current_user && (current_user.lau_admin?(resource) || current_user.admin?)
+  = form_for(@income_email_address,
+    url:  create_incomming_email_local_administration_unit_path(resource),
+    html: { role: :form, :class => 'form-inline' }) do |f|
+    - if @income_email_address.errors.any?
+      #error_explanation
+        %h4 Požadavek nelze uložit:
+        %ul
+          - @income_email_address.errors.full_messages.each do |message|
+            %li= message
+
+    .form-group
+      = f.label :email, :class => 'sr-only'
+      = f.email_field :email, placeholder: 'Vlžte e-mail', required: true, class: 'form-control'
+    .form-group
+      = f.label :description, :class => 'sr-only'
+      = f.text_field :description, placeholder: 'Popis', class: 'form-control'
+    = f.submit 'Přidat', :class => 'btn btn-default'
+

@@ -1,4 +1,4 @@
--if resource && current_user && (current_user.lau_admin?(resource) || current_user.admin?)
+-if resource && current_user && (current_user.lau_permitted?(resource) || current_user.admin?)
   -unless resource.local_administration_unit_admins.any? { |x| x.persisted? }
     %h3 Seznam oprávněných uživatelů je prázdný
   - else
@@ -22,20 +22,4 @@
             %td
               - if can? :destroy, lau_admin
                 = link_to t('.destroy', :default => t("helpers.links.destroy")), [resource, lau_admin], :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
-  = form_for(@local_administration_unit_admin,
-    url:  create_las_admin_local_administration_unit_path(resource),
-    html: { role: :form, :class => 'form-inline' }) do |f|
-    - if @local_administration_unit_admin.errors.any?
-      #error_explanation
-        %h4 Požadavek nelze uložit:
-        %ul
-          - @local_administration_unit_admin.errors.full_messages.each do |message|
-            %li= message
-    .form-group
-      = f.label :email, :class => 'sr-only'
-      = f.email_field :email, placeholder: 'Vlžte e-mail uživatele', class: 'form-control'
-    .form-group
-      = f.label :role, :class => 'sr-only'
-      = f.select :role, [['Administrátor', 'admin'], ['Operátor', 'operator']], {}, class: 'form-control'
-    = f.submit 'Přidat', :class => 'btn btn-default'
-
+  = render 'lau_admins_add_form'

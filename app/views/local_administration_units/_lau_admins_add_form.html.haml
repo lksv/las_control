@@ -1,0 +1,18 @@
+-if resource && current_user && (current_user.lau_admin?(resource) || current_user.admin?)
+  = form_for(@local_administration_unit_admin,
+    url:  create_las_admin_local_administration_unit_path(resource),
+    html: { role: :form, :class => 'form-inline' }) do |f|
+    - if @local_administration_unit_admin.errors.any?
+      #error_explanation
+        %h4 Požadavek nelze uložit:
+        %ul
+          - @local_administration_unit_admin.errors.full_messages.each do |message|
+            %li= message
+    .form-group
+      = f.label :email, :class => 'sr-only'
+      = f.email_field :email, placeholder: 'Vlžte e-mail uživatele', class: 'form-control'
+    .form-group
+      = f.label :role, :class => 'sr-only'
+      = f.select :role, [['Administrátor', 'admin'], ['Operátor', 'operator']], {}, class: 'form-control'
+    = f.submit 'Přidat', :class => 'btn btn-default'
+

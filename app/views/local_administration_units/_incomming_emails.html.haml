@@ -1,8 +1,8 @@
--if resource && current_user && (current_user.lau_admin?(resource) || current_user.admin?)
+-if resource && current_user && (current_user.lau_permitted?(resource) || current_user.admin?)
   -unless resource.income_email_addresses.any? { |x| x.persisted? }
-    %h3 Seznam e-mailových adres, ze kterých se přidávají dokuemnty je prázdý
+    %h3 Zatím není definována žádná e-mailová adresa pro automaticý import dokumentů
   - else
-    %h3 Seznam e-mailových adres, ze kterých se příjmají dokumenty
+    %h3 Seznam e-mailových adresc, ze kterých se příjmají dokumenty
     %table.table.table-striped
       %thead
         %tr
@@ -18,21 +18,5 @@
             %td
               - if can? :destroy, email_address
                 = link_to t('.destroy', :default => t("helpers.links.destroy")), [resource, email_address], :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
-  = form_for(@income_email_address,
-    url:  create_incomming_email_local_administration_unit_path(resource),
-    html: { role: :form, :class => 'form-inline' }) do |f|
-    - if @income_email_address.errors.any?
-      #error_explanation
-        %h4 Požadavek nelze uložit:
-        %ul
-          - @income_email_address.errors.full_messages.each do |message|
-            %li= message
 
-    .form-group
-      = f.label :email, :class => 'sr-only'
-      = f.email_field :email, placeholder: 'Vlžte e-mail', required: true, class: 'form-control'
-    .form-group
-      = f.label :description, :class => 'sr-only'
-      = f.text_field :description, placeholder: 'Popis', class: 'form-control'
-    = f.submit 'Přidat', :class => 'btn btn-default'
-
+  = render 'incomming_emails_form'
