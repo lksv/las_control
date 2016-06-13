@@ -1,0 +1,19 @@
+.row
+  .col-xs-12.plain-text-document
+    - case @document.status
+    - when 'success'
+      = render 'highlited'
+    - when 'created', 'processing'
+      .alert.alert-info{role: 'alert'}
+        %h3 Dokument se stále zpracovává
+        %p
+          Běžně jsou dokumenty zpracovány do jedné hodiny, ve vyjmečných
+          případech ovšem zpracování dokumetu může trvat i celý den.
+      = render 'highlited'
+    - when 'errored'
+      .alert.alert-danger{role: 'alert'}
+        %h3 Vyskytla se chyba při zpracování dokumentu
+        %p Dokument bohužel neumíme zpracovat:(
+
+    - else
+      - raise "Unknown status #{@document.status.inspect} for document #{@document.id}"

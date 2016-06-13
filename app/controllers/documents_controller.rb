@@ -1,5 +1,32 @@
 class DocumentsController < ApplicationController
   skip_authorization_check only: [:index, :show]
+  load_and_authorize_resource :document
+
+  def new
+    @document = Document.new(
+      from_date: Date.today,
+      local_administration_unit: current_user
+        .local_administration_unit_admins.first&.local_administration_unit,
+      tags: 'upload'
+    )
+    @document.assign_attributes(current_ability.attributes_for(action_name.to_sym, Document))
+  end
+
+  def create
+    @document = Document.new(document_params)
+
+    respond_to do |format|
+      if (@document.document_storage || @document.valid_url?) && @document.save
+        format.html { redirect_to @document, notice: 'Dokument byl vytvořen a zařazen do fronty na zpracování.' }
+        format.json { render :show, status: :created, location: @document }
+      else
+        puts @document.errors.full_messages
+        format.html { render :new }
+        format.json { render json: @document.errors, status: :unprocessable_entity }
+      end
+    end
+
+  end
 
   def index
     @q = Document.ransack(params[:q])
@@ -36,5 +63,19 @@ class DocumentsController < ApplicationController
       address_blocks: { events: :shape_with_definition_point }
     ).accessible_by(current_ability).find(params[:id])
     authorize! :show, @document
+  end
+
+  private
+
+
+  def document_params
+    params.require(:document).permit(
+      :title,
+      :local_administration_unit_id,
+      :official_notice_board_category_id,
+      :url,
+      :document_storage,:from_date,
+      :file_number
+    )
   end
 end

@@ -1,0 +1,4 @@
+.row.plain-text-row
+  - if @document.document_storage_exists?
+    #pdfViewColumn.col-xs-12.collapse
+      %iframe{width: '100%', height: '500px', src: pdfjs.full_path(file: @document.document_storage.url) }

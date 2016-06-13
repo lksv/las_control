@@ -37,6 +37,8 @@ cs:
         document_storage_size: 'Velikost orginálu'
         parsed_at:    'Pársováno'
         plain_text_at: 'Převedeno na text'
+        official_notice_board_category: 'Kategorie'
+        file_number:   'Číslo jednací'
 
       user:
         email:        'E-mail'

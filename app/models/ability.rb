@@ -16,6 +16,14 @@ class Ability
           user.lau_permitted?(document.local_administration_unit)
         )
       end
+
+      can :create, Document, local_administration_unit_id: user.local_administration_unit_admins.first&.local_administration_unit&.id
+      can [:edit], Document do |document|
+        user.local_administration_unit_admins.pluck(
+          :local_administration_unit_id
+        ).include?(document.local_administration_unit_id)
+      end
+
       can [:update], User, id: user.id
       can [:read, :options], LocalAdministrationUnit
 

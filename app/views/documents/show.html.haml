@@ -27,28 +27,5 @@
         %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} OK
 
 
-.row.plain-text-row
-
-  - if @document.document_storage_exists?
-    #pdfViewColumn.col-xs-12.collapse
-      %iframe{width: '100%', height: '500px', src: pdfjs.full_path(file: @document.document_storage.url) }
-
-.row
-  .col-xs-12.plain-text-document
-    - case @document.status
-    - when 'success'
-      = render 'highlited'
-    - when 'created', 'processing'
-      .alert.alert-info{role: 'alert'}
-        %h3 Dokument se stále zpracovává
-        %p
-          Běžně jsou dokumenty zpracovány do jedné hodiny, ve vyjmečných
-          případech ovšem zpracování dokumetu může trvat i celý den.
-      = render 'highlited'
-    - when 'errored'
-      .alert.alert-danger{role: 'alert'}
-        %h3 Vyskytla se chyba při zpracování dokumentu
-        %p Dokument bohužel neumíme zpracovat:(
-
-    - else
-      - raise "Unknown status #{@document.status.inspect} for document #{@document.id}"
+= render "show_document_pdf"
+= render "show_document_highlited"
