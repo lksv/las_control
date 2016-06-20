@@ -5,15 +5,17 @@ class DocumentsController < ApplicationController
   def new
     @document = Document.new(
       from_date: Date.today,
-      local_administration_unit: current_user
-        .local_administration_unit_admins.first&.local_administration_unit,
+      local_administration_unit: current_user&.local_administration_unit_admins&.first&.local_administration_unit,
       tags: 'upload'
     )
     @document.assign_attributes(current_ability.attributes_for(action_name.to_sym, Document))
   end
 
   def create
-    @document = Document.new(document_params)
+    @document = Document.new(
+      current_ability.attributes_for(action_name.to_sym, Document).merge(document_params)
+    )
+    @document.created_by = current_user
 
     respond_to do |format|
       if (@document.document_storage || @document.valid_url?) && @document.save
@@ -74,7 +76,12 @@ class DocumentsController < ApplicationController
       :local_administration_unit_id,
       :official_notice_board_category_id,
       :url,
-      :document_storage,:from_date,
+
+      :document_storage,
+      :retained_document_storage,
+      :remove_document_storage,
+
+      :from_date,
       :file_number
     )
   end

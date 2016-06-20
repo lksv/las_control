@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160326184100) do
+ActiveRecord::Schema.define(version: 20160614152900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,37 +32,45 @@ ActiveRecord::Schema.define(version: 20160326184100) do
 
   create_table "documents", force: :cascade do |t|
     t.integer  "local_administration_unit_id"
-    t.string   "title",                        limit: 512
-    t.string   "url",                          limit: 2048
-    t.string   "reference_url",                limit: 2048
-    t.string   "edesky_plain_text_url",        limit: 2048
+    t.string   "title",                             limit: 512
+    t.string   "url",                               limit: 2048
+    t.string   "reference_url",                     limit: 2048
+    t.string   "edesky_plain_text_url",             limit: 2048
     t.datetime "from_date"
-    t.string   "document_storage_uid",         limit: 2048
-    t.string   "document_storage_name",        limit: 2048
+    t.string   "document_storage_uid",              limit: 2048
+    t.string   "document_storage_name",             limit: 2048
     t.string   "document_storage_mime_type"
     t.string   "document_storage_size"
-    t.string   "text_storage_uid",             limit: 2048
-    t.string   "text_storage_name",            limit: 2048
+    t.string   "text_storage_uid",                  limit: 2048
+    t.string   "text_storage_name",                 limit: 2048
     t.string   "text_storage_mime_type"
     t.string   "text_storage_size"
-    t.integer  "edesky_attachment_id",         limit: 8
-    t.integer  "edesky_document_id",           limit: 8
+    t.integer  "edesky_attachment_id",              limit: 8
+    t.integer  "edesky_document_id",                limit: 8
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state",                                     default: "created", null: false
+    t.string   "state",                                          default: "created", null: false
     t.string   "message"
     t.datetime "parsed_at"
     t.datetime "plain_text_at"
     t.boolean  "published"
     t.datetime "pii_public_until"
     t.integer  "events_count"
+    t.string   "tags",                                           default: [],                     array: true
+    t.string   "file_number"
+    t.integer  "official_notice_board_category_id"
+    t.integer  "created_by_id"
   end
 
+  add_index "documents", ["created_by_id"], name: "index_documents_on_created_by_id", using: :btree
   add_index "documents", ["document_storage_name"], name: "index_documents_on_document_storage_name", using: :btree
   add_index "documents", ["document_storage_uid"], name: "index_documents_on_document_storage_uid", using: :btree
   add_index "documents", ["edesky_attachment_id"], name: "index_documents_on_edesky_attachment_id", using: :btree
   add_index "documents", ["edesky_document_id"], name: "index_documents_on_edesky_document_id", using: :btree
+  add_index "documents", ["file_number"], name: "index_documents_on_file_number", using: :btree
   add_index "documents", ["local_administration_unit_id"], name: "index_documents_on_local_administration_unit_id", using: :btree
+  add_index "documents", ["official_notice_board_category_id"], name: "index_documents_on_official_notice_board_category_id", using: :btree
+  add_index "documents", ["tags"], name: "index_documents_on_tags", using: :gin
 
   create_table "events", force: :cascade do |t|
     t.integer  "source_id"
@@ -74,6 +82,7 @@ ActiveRecord::Schema.define(version: 20160326184100) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "removed_by_id"
+    t.boolean  "entity_address"
   end
 
   add_index "events", ["shape_id"], name: "index_events_on_shape_id", using: :btree
@@ -134,6 +143,15 @@ ActiveRecord::Schema.define(version: 20160326184100) do
   end
 
   add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
+
+  create_table "official_notice_board_categories", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "category_id", default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "official_notice_board_categories", ["category_id"], name: "index_official_notice_board_categories_on_category_id", unique: true, using: :btree
 
 # Could not dump table "shapes" because of following StandardError
 #   Unknown type 'geometry' for column 'definition_point'

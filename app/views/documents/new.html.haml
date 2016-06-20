@@ -6,6 +6,8 @@
     = f.input :title, required: true, label: 'Název dokumentu'
     = f.association :official_notice_board_category, required: true
     = f.input :local_administration_unit_id, as: :hidden
+    = f.input :file_number
+
 
     - switch_id = "edit_document_#{@document.id || 'new'}"
     - active_second = false
@@ -28,9 +30,7 @@
                 Nahrát dokument ze souboru
           .panel-collapse.collapse{id: "#{switch_id}_second", class: !active_second ? nil : "in"}
             .panel-body
-              = f.input :document_storage, as: :file, label: 'Vyberte dokument'
-
-    = f.input :file_number
+              = f.input :document_storage, as: :file, label: 'Vyberte dokument', required: true
 
     = f.input :from_date, as: :date
     // = f.input :published

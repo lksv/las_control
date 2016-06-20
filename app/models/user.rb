@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   has_many :notifications, dependent: :destroy
   has_many :local_administration_unit_admins, dependent: :destroy
 
+  has_many :documents, foreign_key: :created_by_id
+
   validates :role, inclusion: { :in => Settings.roles, message: 'invalid type of role' }
 
   validates_acceptance_of :terms_of_service,
