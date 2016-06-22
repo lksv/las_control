@@ -1,0 +1,9 @@
+.row
+  .col-xs-12
+    %h3= @document.title
+
+  = render 'form'
+
+- if @document.persisted? and @document.url.present?
+  = render "show_document_pdf"
+  = render "show_document_highlited"

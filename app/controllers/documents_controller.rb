@@ -13,7 +13,7 @@ class DocumentsController < ApplicationController
 
   def create
     @document = Document.new(
-      current_ability.attributes_for(action_name.to_sym, Document).merge(document_params)
+      current_ability.attributes_for(action_name.to_sym, Document).merge(document_create_params)
     )
 
     if @document.url.present? and @document.document_storage
@@ -33,7 +33,18 @@ class DocumentsController < ApplicationController
         format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end
+  end
 
+  def update
+    respond_to do |format|
+      if @document.update(document_params)
+        format.html { redirect_to @document, notice: 'Změny v dokumentu uloženy.' }
+        format.json { render :show, status: :ok, location: @document }
+      else
+        format.html { render :edit }
+        format.json { render json: @document.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def index
@@ -83,12 +94,24 @@ class DocumentsController < ApplicationController
       :official_notice_board_category_id,
       :url,
 
+      :from_date,
+      :file_number
+    )
+  end
+
+  def document_create_params
+    params.require(:document).permit(
+      :title,
+      :local_administration_unit_id,
+      :official_notice_board_category_id,
+      :url,
+
+      :from_date,
+      :file_number,
+
       :document_storage,
       :retained_document_storage,
       :remove_document_storage,
-
-      :from_date,
-      :file_number
     )
   end
 end

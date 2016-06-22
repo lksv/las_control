@@ -12,6 +12,19 @@
         %span.divider /
         = link_to lau.title, lau
 
+
+= render 'lau_admins'
+
+%br
+%hr
+
+= render 'incomming_emails'
+
+%br
+%hr
+
+%h2 Přehled nižších správních celků
+
 - cache(cache_key_local_administration_units) do
   %table.table.table-striped
     %thead
@@ -41,12 +54,4 @@
               'q[local_administration_unit_id_eq]' => resource.id,
               'q[created_at_gt]' => week_ago)
 
-%br
-%hr
 
-= render 'lau_admins'
-
-%br
-%hr
-
-= render 'incomming_emails'

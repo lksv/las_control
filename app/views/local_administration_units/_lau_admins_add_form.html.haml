@@ -10,7 +10,7 @@
             %li= message
     .form-group
       = f.label :email, :class => 'sr-only'
-      = f.email_field :email, placeholder: 'Vlžte e-mail uživatele', class: 'form-control'
+      = f.email_field :email, placeholder: 'Vložte e-mail uživatele', class: 'form-control'
     .form-group
       = f.label :role, :class => 'sr-only'
       = f.select :role, [['Administrátor', 'admin'], ['Operátor', 'operator']], {}, class: 'form-control'

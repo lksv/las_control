@@ -10,7 +10,7 @@
           %th Uživatel
           %th Oprávění
           %th Naposledy přihlášen
-          %th= t '.actions', :default => t("helpers.actions")
+          %th Akce
       %tbody
         - resource.local_administration_unit_admins.each do |lau_admin|
           - next unless lau_admin.persisted?
@@ -21,5 +21,5 @@
             %td= lau_admin.user&.last_sign_in_at
             %td
               - if can? :destroy, lau_admin
-                = link_to t('.destroy', :default => t("helpers.links.destroy")), [resource, lau_admin], :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
+                = link_to 'Smazat', [resource, lau_admin], :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
   = render 'lau_admins_add_form'

@@ -14,7 +14,9 @@
         %dd= link_to 'edesky.cz', "http://edesky.cz/dokument/#{@document.edesky_document_id}", target: '_blank'
 
     -if current_user && current_user.lau_permitted?(@document.local_administration_unit)
-      %h4 Metadata
+      %h4
+        Metadata
+        .small (vidí jen oprávnění uživatelé)
       %dl.dl-horizontal
         %dt Viditelnost
         %dd
@@ -30,6 +32,9 @@
         %dd= t(@document.status, scope: [:las, :document, :status], default: @document.status)
         %dt Zpracováno
         %dd= @document.parsed_at ? l(@document.parsed_at) : '-'
+        - if @document.created_by
+          %dt Dokument přidal
+          %dd= @document.created_by.email
 
 
   .col-xs-6
@@ -68,3 +73,6 @@
         = link_to 'Zobraz na mapě jen tento dokument',
           map_path('q[source_id_eq]' => @document.id, 'q[source_type_eq]' => 'Document', activeTab: 'filter', anchor: location_params),
           :class => 'btn btn-success'
+
+      - if current_user && current_user.lau_permitted?(@document.local_administration_unit)
+        = link_to 'Upravit dokument', edit_document_path(@document), class: 'btn btn-danger'

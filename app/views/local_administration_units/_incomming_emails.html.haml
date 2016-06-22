@@ -8,7 +8,7 @@
         %tr
           %th E-mail
           %th Popis
-          %th= t '.actions', :default => t("helpers.actions")
+          %th Akce
       %tbody
         - resource.income_email_addresses.each do |email_address|
           - next unless email_address.persisted?
@@ -17,6 +17,6 @@
             %td= email_address.description
             %td
               - if can? :destroy, email_address
-                = link_to t('.destroy', :default => t("helpers.links.destroy")), [resource, email_address], :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
+                = link_to 'Smazat', [resource, email_address], :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
 
   = render 'incomming_emails_form'

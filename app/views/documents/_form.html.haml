@@ -1,0 +1,37 @@
+= simple_form_for @document do |f|
+  = f.input :title, required: true, label: 'Název dokumentu'
+  = f.association :official_notice_board_category, required: true
+  = f.input :local_administration_unit_id, as: :hidden
+  = f.input :file_number
+
+
+  - switch_id = "edit_document_#{@document.id || 'new'}"
+  - active_second = false
+
+  - unless @document.persisted?
+    .control-group
+      .panel-group{id: switch_id}
+        .panel.panel-default
+          .panel-heading{role: 'tab', id: 'first'}
+            %h4.panel-title
+              %a{role: 'button', data: {toggle: 'collapse', parent: "##{switch_id}", removeoncollapse: true}, href: "##{switch_id}_first"}
+                %i.icon-chevron-right
+                Nahrát dokument pomocí odkazu (URL)
+          .panel-collapse.collapse{id: "#{switch_id}_first", class: active_second ? nil : "in"}
+            .panel-body
+              = f.input :url, label: 'Adresa dokumentu (URL)'
+        .panel.panel-default
+          .panel-heading{role: 'tab', id: 'second'}
+            %h4.panel-title
+              %a{role: 'button', data: {toggle: 'collapse', parent: "##{switch_id}", removeoncollapse: true}, href: "##{switch_id}_second"}
+                %i.icon-chevron-right
+                Nahrát dokument ze souboru
+          .panel-collapse.collapse{id: "#{switch_id}_second", class: !active_second ? nil : "in"}
+            .panel-body
+              = f.input :document_storage, as: :file, label: 'Vyberte dokument', required: true
+
+  = f.input :from_date, as: :date
+  // = f.input :published
+  // = f.input :tags, as: :select, collection: Document.all_tags, input_html: { multiple: true }
+  = f.submit class: 'btn btn-success'
+  = link_to "Zrušit", documents_path, class: "btn btn-primary"

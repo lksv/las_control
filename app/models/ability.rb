@@ -18,7 +18,8 @@ class Ability
       end
 
       can :create, Document, local_administration_unit_id: user.local_administration_unit_admins.first&.local_administration_unit&.id
-      can [:edit], Document do |document|
+      can [:edit, :update], Document do |document|
+        document.created_by &&
         user.local_administration_unit_admins.pluck(
           :local_administration_unit_id
         ).include?(document.local_administration_unit_id)

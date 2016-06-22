@@ -2,6 +2,23 @@
 <li><%= link_to 'Mapa', map_path %></li>
 <li><%= link_to 'Dokumenty', documents_path %></li>
 <!-- <li>< %= link_to 'Územní  státní správa', local_administration_units_path %></li> -->
+
+<% if current_user && current_user.local_administration_unit_admins.present? %>
+  <li>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+      Administrace
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><%= link_to "Přidat dokument", new_document_path %></li>
+       <li role="separator" class="divider"></li>
+      <% current_user.local_administration_unit_admins.each do |laua| %>
+        <li><%= link_to "Nastavení pro #{laua.local_administration_unit.nazev}",  local_administration_units_path(id: laua.local_administration_unit_id) %></li>
+      <% end %>
+    </ul>
+  </li>
+<% end %>
+
 <li><%= link_to 'O projektu', about_path %></li>
 <li class="spinner">
   <p class="navbar-text">
