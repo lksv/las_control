@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20160614152900) do
   end
 
   add_index "events", ["shape_id"], name: "index_events_on_shape_id", using: :btree
+  add_index "events", ["source_id"], name: "events_source_id_idx", using: :btree
   add_index "events", ["source_type", "source_id"], name: "index_events_on_source_type_and_source_id", using: :btree
 
   create_table "income_email_addresses", force: :cascade do |t|

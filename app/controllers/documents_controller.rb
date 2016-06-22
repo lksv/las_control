@@ -15,6 +15,12 @@ class DocumentsController < ApplicationController
     @document = Document.new(
       current_ability.attributes_for(action_name.to_sym, Document).merge(document_params)
     )
+
+    if @document.url.present? and @document.document_storage
+      flash.alert = "Přiložený dokument byl ignorován a bude stažen ze zadané URL"
+      @document.document_storage = nil
+    end
+
     @document.created_by = current_user
 
     respond_to do |format|
