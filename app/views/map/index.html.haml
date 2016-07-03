@@ -49,8 +49,13 @@
           Kliknutím na zvýrazněné objekty se zobrazí
           %br
           relevantní dokumenty z úředních desek.
-      /.modal-footer
-      /  %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} Rozumím
+      .modal-footer
+        %div{ :style => 'float:left' }
+          %input#disable_welcome_dialog_checkbox{ :type => "checkbox" }
+          %span
+            příště nezobrazovat
+        %div{ :style => 'float:right' }
+          %button.btn.btn-primary{ "data-dismiss" => "modal", :type => "button", :onclick => "disableWelcomeModalDialog()" } Rozumím
 
 
 
@@ -102,4 +107,14 @@
 
 - if @show_welcome_mesage
   :javascript
-    $('#welcomeModal').modal('show');
+    var disable_welcome_modal = localStorage.getItem('disable-welcome-window');
+
+    if (!disable_welcome_modal) {
+      $('#welcomeModal').modal('show');
+    }
+
+    function disableWelcomeModalDialog() {
+      if (document.getElementById('disable_welcome_dialog_checkbox').checked) {
+        localStorage.setItem('disable-welcome-window', true);
+      }
+    }
