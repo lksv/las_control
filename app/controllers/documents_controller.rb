@@ -15,6 +15,7 @@ class DocumentsController < ApplicationController
     @document = Document.new(
       current_ability.attributes_for(action_name.to_sym, Document).merge(document_create_params)
     )
+    @document.source_uid = "upload:#{current_user.id}:#{DateTime.now.to_i}"
 
     if @document.url.present? and @document.document_storage
       flash.alert = "Přiložený dokument byl ignorován a bude stažen ze zadané URL"

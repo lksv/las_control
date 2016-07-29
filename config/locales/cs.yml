@@ -39,6 +39,7 @@ cs:
         plain_text_at: 'Převedeno na text'
         official_notice_board_category: 'Kategorie'
         file_number:   'Číslo jednací'
+        published:     'Veřejně dostupný dokument'
 
       user:
         email:        'E-mail'

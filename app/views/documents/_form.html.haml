@@ -1,8 +1,7 @@
 = simple_form_for @document do |f|
   = f.input :title, required: true, label: 'Název dokumentu'
-  = f.association :official_notice_board_category, required: true
+  /= f.association :official_notice_board_category, required: true
   = f.input :local_administration_unit_id, as: :hidden
-  = f.input :file_number
 
 
   - switch_id = "edit_document_#{@document.id || 'new'}"
@@ -31,6 +30,11 @@
               = f.input :document_storage, as: :file, label: 'Vyberte dokument', required: true
 
   = f.input :from_date, as: :date
+  = f.input :file_number
+  = f.input :published
+
+  %br
+
   // = f.input :published
   // = f.input :tags, as: :select, collection: Document.all_tags, input_html: { multiple: true }
   = f.submit class: 'btn btn-success'

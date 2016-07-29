@@ -541,7 +541,14 @@ $(document).ready(
       $('#tabble-nav a[href="#' + params.activeTab + '"]').tab('show');
     }
   }
-);
+)
+
+$(document).ready(function () {
+  $('.new-notification-set-tab').on('click', function() {
+    console.log('menim tab');
+    $('#tabble-nav a[href="#notifications"]').tab('show');
+  });
+});
 
 $(document).ready(function () {
  $('#mapOptions .collapser').click(function(){
