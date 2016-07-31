@@ -26,11 +26,12 @@
                 %br
                 %br
                 %hr
-                %p
-                  Zadejte oblat, kterou chcete sledovat a my Vás budeme e-mailem
-                  informovat o nových událstech v této oblasti.
-                = link_to 'Zadat oblast', new_notification_path,
-                  remote: true, class: 'new-notification-set-tab btn btn-success btn-lg center-block multitime'
+                .alert.alert-info
+                  .text-center
+                    Víte že, můžete zadat oblast, kterou chcete sledovat a my Vás budeme e-mailem
+                    informovat o nových událostech v této oblasti.
+                  = link_to 'Zadat oblast', new_notification_path,
+                    remote: true, class: 'new-notification-set-tab btn btn-success btn-default center-block multitime'
 
             #filter.tab-pane.fade{role: 'tabpanel'}
               = render 'filter'
