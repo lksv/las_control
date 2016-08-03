@@ -1,8 +1,40 @@
+#localAdministrationUnitAdminsHelp.modal.fade{"aria-labelledby" => "localAdministrationUnitAdminsHelp", :role => "dialog", :tabindex => "-1", styler:"z-index:1000000000"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-body
+        %button{type: "button", class: "close", data: {dismiss: "modal"}, 'aria-label' => "Close"}
+          %span{'aria-hidden': true} &times;
+        %h3 Administrace a import dokumentů
+        %p
+          Vyjmenovaní uživatelé vidí v navigační liště navíc položku "Administrace".
+          Přes toto menu se mohou dostat k ručnímu vložení dokumentů.
+
+        %h3 Jaký je rozdíl mezi administrátorem a operátorem
+        %p Administrativní rozhraní umožnuje dva druhy oprávnění: Operátor a Administrátor.
+        %p
+          Operátor má oprávnění pouze importovat nové dokumenty a těmto
+          následně upravovat metadata (titulek, datum zveřejnění, jednací číslo aj.).
+        %p
+          Administrátor může vše co operátor a navíc může přidávat a odebírat
+          uživatelelům oprávnění operátora a administrátora.
+        %p
+          Pozor, pokud administrátor sám sobě zurší administrativní oprávnění,
+          již si ho nemůže zpět sám přidat.
+
+      .modal-footer
+        %div{ :style => 'float:right' }
+          %button.btn.btn-primary{ "data-dismiss" => "modal", :type => "button"} Rozumím
+
 -if resource && current_user && (current_user.lau_permitted?(resource) || current_user.admin?)
   -unless resource.local_administration_unit_admins.any? { |x| x.persisted? }
     %h3 Seznam oprávněných uživatelů je prázdný
   - else
-    %h3 Seznam oprávněných uživatelů
+    %h3
+      Seznam oprávněných uživatelů
+      %a.label.label-info{href: '#', 'data-toggle' => 'modal', 'data-target' => '#localAdministrationUnitAdminsHelp'}
+        \...nápověda
+    %p.help-block
+      Vyjmenovaní uživatelé mají právo vkládat dokumenty ručně.
     %table.table.table-striped
       %thead
         %tr

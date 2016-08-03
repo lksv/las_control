@@ -1,6 +1,58 @@
+#incommingEmailsHelp.modal.fade{"aria-labelledby" => "localAdministrationUnitAdminsHelp", :role => "dialog", :tabindex => "-1", styler:"z-index:1000000000"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-body
+        %button{type: "button", class: "close", data: {dismiss: "modal"}, 'aria-label' => "Close"}
+          %span{'aria-hidden': true} &times;
+        %h3 Přidávání nových dokumentů zaslaných e-mailem
+        %p
+          Často je už na úřadě zaveden postup, kdy každý dokument před
+          zveřejněním absolvuje předem známý postup (workflow):
+          Někdo dokument vytvoří/připraví, někdo ho schválí, další anonymizuje
+          a jako poslední krok ho někdo další vystaví na web úřadu. Přitom 
+          předání dokumentu přitom často probíhá e-mailem.
+        %p
+          Aby byl dokument zobrazen i na mapasamospravy.cz stačí, když s žádostí
+          o vystavení dokumentu na web přidáte do kopie i adresu
+          = ENV['IMPORT_MAIL_USER_PROPAGATE']
+          a dokument(y) se automaticky importují i na mapasamospravy.cz
+
+        %h3 Jaký formát má mít e-mail
+        %p
+          E-mail sám o sobě může mít libovolný formát. Importují se všechny
+          přílohy, které jsou ve formátu .pdf, .doc, .docx, .html, .odt, .txt (a další
+          běžně používané typy dokumentů na úředních deskách).
+
+        %p
+          Jako název dokuemntu se použije jeho jméno přílohy.
+        %p
+          Můžete zadat datum zveřejnění dokumentu a to ve formátu:
+        %blockquote
+          %p
+            Datum: DD.MM.RRRR
+        %p
+          Tedy například:
+        %blockquote
+          %p
+            Datum: 31.12.2015
+        %p
+          Všechny přílohy budou importovány s tímto datem. Pokud datum nezadáte,
+          použije se aktuální datum.
+
+      .modal-footer
+        %div{ :style => 'float:right' }
+          %button.btn.btn-primary{ "data-dismiss" => "modal", :type => "button"} Rozumím
+
 -if resource && current_user && (current_user.lau_permitted?(resource) || current_user.admin?)
   -unless resource.income_email_addresses.any? { |x| x.persisted? }
     %h3 Zatím není definována žádná e-mailová adresa pro automaticý import dokumentů
+    %p.help-block
+      Dokumenty do systému nemusíte vkládat ručně přes web. Můžete je  posílat
+      e-mailem na adresu:
+      = ENV['IMPORT_MAIL_USER_PROPAGATE']
+      Všechny přílohy se automaticky přidají do systému pod váš úřad.
+      %a{href: '#', 'data-toggle' => 'modal', 'data-target' => '#incommingEmailsHelp'}
+        \...chci vědět víc
   - else
     %h3 Seznam e-mailových adres, ze kterých se příjmají dokumenty
     %table.table.table-striped
