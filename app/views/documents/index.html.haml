@@ -56,10 +56,10 @@
         - if show_actions
           %td
             -# = link_to t('.show', :default => t("helpers.links.show")), [resource], :class => 'btn btn-default btn-xs'
-            - if can? :update, resource
-              = link_to t('.edit', :default => t("helpers.links.edit")), [:edit, resource], :class => 'btn btn-default btn-xs'
-            - if can? :destroy, resource
-              = link_to t('.destroy', :default => t("helpers.links.destroy")), [resource], :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
+            - if can? :update, record
+              = link_to t('.edit', :default => t("helpers.links.edit")), [:edit, record], :class => 'btn btn-default btn-xs'
+            - if can? :destroy, record
+              = link_to t('.destroy', :default => t("helpers.links.destroy")), [record], :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
 
 
 = paginate @collection
