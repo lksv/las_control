@@ -29,7 +29,7 @@ class DocumentsController < ApplicationController
         format.html { redirect_to @document, notice: 'Dokument byl vytvořen a zařazen do fronty na zpracování.' }
         format.json { render :show, status: :created, location: @document }
       else
-        puts @document.errors.full_messages
+        Rails.logger.warn @document.errors.full_messages
         format.html { render :new }
         format.json { render json: @document.errors, status: :unprocessable_entity }
       end
