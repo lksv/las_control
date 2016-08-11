@@ -1,5 +1,5 @@
 //resize map to "full window size" - from stackoverflow
-var mapmargin = 50;
+var mapmargin = parseInt($('main').css('margin-top'), 10);
 $('#map').css("height", ($(window).height() - mapmargin));
 $(window).on("resize", resize);
 resize();
@@ -545,7 +545,6 @@ $(document).ready(
 
 $(document).ready(function () {
   $('.new-notification-set-tab').on('click', function() {
-    console.log('menim tab');
     $('#tabble-nav a[href="#notifications"]').tab('show');
   });
 });

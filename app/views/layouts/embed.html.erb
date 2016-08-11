@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "samospráva na mapě" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Podívejte se, co plánuje radnice ve Vašem okolí." %>">
+    <meta property="og:image" content="http://mapasamospravy.cz/mapasamospravy.png" />
+    <meta property="fb:app_id" content="<%=ENV["FB_APP_ID"]%>" />
+    <meta property="fb:admins" content="<%=ENV['FB_ADMINS']%>" />
+    <meta property="og:url" content="http://mapasamospravy.cz/" />
+
+    <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+    <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_API_KEY']}&libraries=places&language=cs" %>
+
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <main role="main" class="<%= controller_name %> <%= action_name %>" style="margin-top: 0">
+      <%= render 'layouts/messages' %>
+      <%= content_for?(:before_container) ? yield(:before_container) : '' %>
+      <div class="container">
+         <%= yield %>
+      </div>
+      <script>
+        var hidden = $('#mapOptions');
+        if (hidden) {
+          hidden.css('right', "-" + hidden.width() + "px");
+        }
+      </script>
+    </main>
+    <!-- %= javascript_include_tag 'record-stats', 'data-turbolinks-track' => true % -->
+  </body>
+</html>
