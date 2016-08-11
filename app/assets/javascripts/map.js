@@ -1,6 +1,9 @@
-//resize map to "full window size" - from stackoverflow
-var mapmargin = 50;
-$('#map').css("height", ($(window).height() - mapmargin));
+// resize map to "full window size" - from stackoverflow
+var mapmargin = parseInt($('main').css('margin-top'), 10);
+setTimeout(function(){
+  $('#map').css("height", ($(window).height() - mapmargin));
+});
+
 $(window).on("resize", resize);
 resize();
 function resize(){
@@ -545,7 +548,6 @@ $(document).ready(
 
 $(document).ready(function () {
   $('.new-notification-set-tab').on('click', function() {
-    console.log('menim tab');
     $('#tabble-nav a[href="#notifications"]').tab('show');
   });
 });

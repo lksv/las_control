@@ -35,6 +35,8 @@ Rails.application.routes.draw do
 
   get 'map', to: 'map#index'
 
+  get 'embed/:local_administration_unit', to: 'map#embed', as: :lau_embed
+
   get 'about' => 'about#index'
   get 'terms' => 'about#terms'
 
