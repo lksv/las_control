@@ -26,5 +26,7 @@ Rails.application.config.assets.precompile +=
     leaflet-pip.min.js
     L.GeoJSONvtTiles.js
     bootstrap-add-clear.min.js
+
+    embed-application.js
   )
     #record-stats
