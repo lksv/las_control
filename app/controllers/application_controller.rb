@@ -12,6 +12,13 @@ class ApplicationController < ActionController::Base
   before_filter :logging_in
   before_action :set_raven_context
 
+  rescue_from CanCan::AccessDenied do |exception|
+    render file: "#{Rails.root}/public/403",
+           formats: [:html],
+           status: 403,
+           layout: false
+  end
+
   def current_user_role_key
     return 'anonymous' unless current_user
     [
