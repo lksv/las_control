@@ -246,10 +246,10 @@ var isFeatureFiltered = function isFeatureFiltered(feature, url) {
   }
 
   // filter by local_administration_unit.id
-  if (params['q[las_id]']) {
-    var filter_las_id = params['q[las_id]'];
+  if (params['q[lau_id_eq]']) {
+    var filter_lau_id = params['q[lau_id_eq]'];
     return !properties.snippets.find(function(event) {
-      return (event.las_id == filter_las_id);
+      return (event.lau_id == filter_lau_id);
     });
   }
 
@@ -327,12 +327,12 @@ var geojsonTileLayer = new L.geoJsonvtTiles(geojsonURL, {
     features.forEach(function (feature) {
       var apiUrl = feature.properties && feature.properties.api_url;
       if (apiUrl) {
-        if (params['q[query]'] || params['q[source_id_eq]'] || params['q[las_id]']) {
+        if (params['q[query]'] || params['q[source_id_eq]'] || params['q[lau_id_eq]']) {
           apiUrl += '?event_ids=' + feature.properties.snippets.filter(function(i) {
             if (params['q[query]']) {
               return (documentIds.indexOf(i.source_id) !== -1);
-            } if (params['q[las_id]']) {
-              return (params['q[las_id]'] == i.las_id)
+            } if (params['q[lau_id_eq]']) {
+              return (params['q[lau_id_eq]'] == i.lau_id)
             }else {
               return true;
             }
