@@ -16,7 +16,9 @@ class LocalAdministrationUnitsController < ApplicationController
   def options
     authorize! :options, LocalAdministrationUnit
     response = LocalAdministrationUnit.to_sorted_array(
-      LocalAdministrationUnit.accessible_by(current_ability).to_a
+      LocalAdministrationUnit.accessible_by(current_ability)
+                             .select(:ruian_locable_type, :lau_nazev, :id)
+                             .to_a
     )
     query = params[:query]
     locable_type_query = nil
