@@ -25,11 +25,34 @@
       <div class="container">
          <%= yield %>
       </div>
+
+      <div id="embed-logo">
+        <a id="origin-link" href="#">MapaSamospravy.cz</a>
+      </div>
+
       <script>
         var hidden = $('#mapOptions');
         if (hidden) {
           hidden.css('right', "-" + hidden.width() + "px");
+          hidden.removeClass('visible');
         }
+
+        $('#origin-link').on('click', function() {
+          window.open("http://mapasamospravy.cz/" + location.hash);
+        });
+
+        $(document).ready(function () {
+          $('#embed-logo').css('padding', '0');
+          $('#embed-logo').css('width', '0');
+
+          $('body').hover(
+           function() {
+             $('#embed-logo').animate({ "width": "135", "padding": "0 15px" }, 'slow');
+           }, function() {
+             $('#embed-logo').animate({ "width": "0", "padding" : '0' }, 'slow');
+           }
+         );
+        });
       </script>
     </main>
     <!-- %= javascript_include_tag 'record-stats', 'data-turbolinks-track' => true % -->

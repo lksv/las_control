@@ -23,10 +23,6 @@ class MapController < ApplicationController
     @notifications = current_user&.notifications
     @notifications ||= guest_user? ? current_or_guest_user.notifications : []
 
-    @local_administration_unit = LocalAdministrationUnit.find(
-      params[:local_administration_unit]
-    )
-
     # Show welcome message only first time
     @show_welcome_mesage = ['t', 'true', '1'].include?(params[:welcome])
 

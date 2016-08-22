@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get :options,                     on: :collection
     resources :income_email_addresses
     resources :local_administration_unit_admins
+    get :location,                    on: :member
   end
   resources :events do
     get 'tiles',                      on: :collection
@@ -35,7 +36,11 @@ Rails.application.routes.draw do
 
   get 'map', to: 'map#index'
 
-  get 'embed/:local_administration_unit', to: 'map#embed', as: :lau_embed
+  get 'local_administration_units/:lau', to: 'local_administration_units#las'
+
+  get 'embed-generator', to: 'embed_generator#index'
+
+  get 'embed', to: 'map#embed', as: :lau_embed
 
   get 'about' => 'about#index'
   get 'terms' => 'about#terms'
