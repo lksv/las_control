@@ -437,7 +437,7 @@ legend.onAdd = function (map) {
       '<i style="background:' + getColor(grades[i] + 1) + '; margin: 1px; font-weight: bold; text-align: center;">';
     if (i == -1) { legend += '+'; }
     if (i == grades.length - 1) { legend += '-'; }
-    legend += '</i><br>';
+    legend += '</i><br style="clear:left;">';
   }
   div.innerHTML =
     '<div><div style="display: inline-block; vertical-align: middle; padding-right: 5px;">' +
