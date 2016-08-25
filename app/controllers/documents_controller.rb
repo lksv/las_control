@@ -64,6 +64,8 @@ class DocumentsController < ApplicationController
       LocalAdministrationUnit.new
     @query = params[:query]
 
+    @categories = Document.tags_cloud.map(&:first)
+
     # Use Elasticserch if query param is used
     if params[:query].present?
       @elasticsearch = true

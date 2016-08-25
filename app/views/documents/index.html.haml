@@ -8,10 +8,10 @@
 
 .row
   %form{method: 'get', action: '/documents'}
-    .form-group.col-xs-5
+    .form-group.col-xs-4
       %label{class: 'sr-only', for:"query"}Hledaný výraz
       %input{id: 'query', name: 'query', class: 'form-control', placeholder: 'Hledaný výraz...', value: @query}
-    .form-group.col-sm-5
+    .form-group.col-sm-4
       %label{class: 'sr-only', for:"las"}Samospráva
       %input{class: 'form-control select2-ajax',
         id: 'las',
@@ -20,8 +20,18 @@
         data: { id: @local_administration_unit.id,
           text: @local_administration_unit.title,
           url: '/local_administration_units/options.json', placeholder: 'Územní Samospráva, např.: Olomouc'}}
-
-    %button{class: 'btn btn-success', type: 'submit'}Hledat
+    .form-group.col-xs-3
+      / - test = params[:q].try(:[], :tags_array_contains)
+      %label{class: 'sr-only', for: 'category'}Kategorie
+      %select{class: 'js-states form-control',
+        id: 'category',
+        name: 'q[tags_filter][]',
+        multiple: 'multiple',
+        placeholder: 'Vyberte kategorie'}
+        / data: { id: test, text: test}}
+        = options_for_select(@categories)
+    .form-group.col-xs-1.text-right
+      %button{class: 'btn btn-success', type: 'submit'}Hledat
 
 
 %table.table.table-striped
@@ -51,7 +61,9 @@
             .text-muted.text-right= resource.highlight&.plain_text&.first&.html_safe
           - else
             = link_to resource.title, record
-        %td=l record.from_date.to_date, format: :long
+          - record.tags.each do |tag|
+            %span{ class: 'label label-success label-as-badge'}= tag
+        %td{ class: 'text-nowrap'}=l record.from_date.to_date, format: :long
 
         - if show_actions
           %td
@@ -64,3 +76,14 @@
 
 = paginate @collection
 
+- initData = params[:q].try(:[], :tags_array_contains)
+
+:javascript
+  $("#category").select2();
+
+  /* $("#category").select2({
+    initSelection: function (elm, callback) {
+      callback({id: elm.data('initValue')});
+    },
+    data: null
+  }); */
