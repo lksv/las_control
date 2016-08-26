@@ -31,17 +31,18 @@
 - else
   - @q = OpenStruct.new(params[:q])
   = simple_form_for :q, url: map_path(), method: :get, html: {id: 'filter_form', class: 'form-horizontal'},wrapper: :horizontal_input_group do |f|
-    = f.input :range, label: 'Datum mezi', required: false
-    = f.input :query, label: 'Dokument obsahuje', placeholder: 'prodej, pronájem, ...', required: false do
-      = f.input_field :query, class: "form-control clear-button"
+    = f.input :range, label: 'Datum', required: false
+    = f.input :lau_id, label: 'Obec', required: false,
+      input_html: { value: @filter_selected_las.id, class: 'select2-ajax', data: { id: @filter_selected_las.id, text: @filter_selected_las.lau_nazev, url: '/local_administration_units/options.json', placeholder: 'např.: Olomouc' } }
+    = f.input :query, label: 'Hledat', required: false do
+      = f.input_field :query, class: "form-control clear-button", placeholder: 'v obsahu dokumentu'
       %span.input-group-btn
         %button{id: 'query_button', class: 'btn btn-default', type: 'submit'}
           %i{class:'fa fa-search'}
-
 
     .hidden-xs
       %br
       %p
         Dokumenty sbíráme kompletně od 1.1.2016.
-        Pro některé obce jsou staženy dokumenty i starší, ale nemůžeme 
+        Pro některé obce jsou staženy dokumenty i starší, ale nemůžeme
         zaručit jejich kompletnost.

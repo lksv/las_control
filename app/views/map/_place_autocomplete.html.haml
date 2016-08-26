@@ -6,7 +6,7 @@
 
 
 - q = params[:q]
-- if ( (params[:event_id] && params[:shape_id]) || (q && q[:source_id_eq] && q[:source_type_eq]) || (q && q[:query].present?))
+- if ( (params[:event_id] && params[:shape_id]) || (q && q[:source_id_eq] && q[:source_type_eq]) || (q && (q[:query].present? || q[:lau_id_eq].present?)))
   %br
   %strong Upozornění:
   Máte definovaný filtr, proto nevidíte všechny události.
