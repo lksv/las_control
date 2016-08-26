@@ -13,6 +13,10 @@ class MapController < ApplicationController
       return
     end
 
+    @filter_selected_las = LocalAdministrationUnit.new
+    lau_id = params.try(:[],:q).try(:[], :lau_id_eq)
+    @filter_selected_las = LocalAdministrationUnit.find(lau_id) unless lau_id.to_s.empty?
+
     @show_welcome_mesage = !cookies[:welcome_message_displayed]
     cookies[:welcome_message_displayed] = { value: true, expires: 1.day.from_now.beginning_of_day }
   end
