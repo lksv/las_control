@@ -41,6 +41,7 @@
 //= require L.GeoJSONvtTiles
 //= require spin.min
 //= require Control.Loading
+//= require scrollnav
 
 //= require google_analytics
 //x= require record-statsx

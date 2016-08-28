@@ -1,5 +1,5 @@
 class AboutController < ApplicationController
-  skip_authorization_check only: [:index, :intro, :terms]
+  skip_authorization_check only: [:index, :intro, :terms, :offers]
 
   def index
   end

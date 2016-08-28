@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
   get 'about' => 'about#index'
   get 'terms' => 'about#terms'
+  get 'offers' => 'about#offers'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
