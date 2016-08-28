@@ -13,9 +13,7 @@ class MapController < ApplicationController
       return
     end
 
-    @filter_selected_las = LocalAdministrationUnit.new
-    lau_id = params.try(:[],:q).try(:[], :lau_id_eq)
-    @filter_selected_las = LocalAdministrationUnit.find(lau_id) unless lau_id.to_s.empty?
+    set_filter_selected_las
 
     @show_welcome_mesage = !cookies[:welcome_message_displayed]
     cookies[:welcome_message_displayed] = { value: true, expires: 1.day.from_now.beginning_of_day }
@@ -27,9 +25,19 @@ class MapController < ApplicationController
     @notifications = current_user&.notifications
     @notifications ||= guest_user? ? current_or_guest_user.notifications : []
 
+    set_filter_selected_las
+
     # Show welcome message only first time
     @show_welcome_mesage = ['t', 'true', '1'].include?(params[:welcome])
 
     render :index, layout: 'embed'
+  end
+
+  private
+
+  def set_filter_selected_las
+    @filter_selected_las = LocalAdministrationUnit.new
+    lau_id = params.try(:[],:q).try(:[], :lau_id_eq)
+    @filter_selected_las = LocalAdministrationUnit.find(lau_id) unless lau_id.to_s.empty?
   end
 end
