@@ -240,17 +240,24 @@ var isFeatureFiltered = function isFeatureFiltered(feature, url) {
       !params['q[source_id_eq]'] &&
       params.from_date &&
       params.to_date) {
-    return !(properties.snippets.find(function(event) {
+    date_not_match = !(properties.snippets.find(function(event) {
       return (params.from_date < event.from_date) && (params.to_date > event.from_date);
     }));
+
+    if (date_not_match) {
+      return true;
+    }
   }
 
   // filter by local_administration_unit.id
   if (params['q[lau_id_eq]']) {
-    var filter_lau_id = params['q[lau_id_eq]'];
-    return !properties.snippets.find(function(event) {
-      return (event.lau_id == filter_lau_id);
+    lau_not_match = properties.snippets.find(function(event) {
+      return (event.lau_id != params['q[lau_id_eq]']);
     });
+
+    if (lau_not_match) {
+      return true;
+    }
   }
 
   if (!params['q[source_id_eq]']) {
