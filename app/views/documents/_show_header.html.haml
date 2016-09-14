@@ -64,7 +64,7 @@
       - if @document.document_storage_exists?
         = link_to '#', class: 'btn btn-success toggle-pdf-view multitime' do
           %span Zobrazit
-          %span.collapse Skrtý
+          %span.collapse Skrýt
           orginál
 
       - location = Shape.joins(:events).merge(@events).where(events: {source_id: @document.id, source_type: 'Document'}).location
