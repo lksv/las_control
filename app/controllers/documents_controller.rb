@@ -61,7 +61,7 @@ class DocumentsController < ApplicationController
     lau_filter = params[:q] ? params[:q][:local_administration_unit_id_eq] : nil
     @local_administration_unit =
       LocalAdministrationUnit.find_by(id: lau_filter) ||
-      LocalAdministrationUnit.new
+      LocalAdministrationUnit.new(lau_nazev: '', ruian_locable_type: 'Obec')
     @query = params[:query]
 
     # Use Elasticserch if query param is used
