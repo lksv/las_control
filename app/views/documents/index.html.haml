@@ -6,6 +6,14 @@
 
 - show_actions = @collection.find { |resource| can?(:update, resource) || can?(:destroy, resource) }
 
+- if @link_to_results
+  .row
+    .col-lg-12.text-center
+      %label{style: 'font-size: 1.3em'}Výsledky vašeho vyhledávání si můžete
+      %a{href: @link_to_results, class: 'btn btn-info'}Prohlédnout na mapě
+  %br
+
+
 .row
   %form{method: 'get', action: '/documents'}
     .form-group.col-xs-5
@@ -22,7 +30,6 @@
           url: '/local_administration_units/options.json', placeholder: 'Územní Samospráva, např.: Olomouc'}}
 
     %button{class: 'btn btn-success', type: 'submit'}Hledat
-
 
 %table.table.table-striped
   %thead
@@ -43,7 +50,7 @@
         - next
 
       %tr
-        %td= record.local_administration_unit.ruian_locable.nazev
+        %td{class: 'text-nowrap'}= record.local_administration_unit.ruian_locable.nazev
         %td
           -if resource.respond_to?(:highlight)
             = link_to record do
@@ -51,7 +58,7 @@
             .text-muted.text-right= resource.highlight&.plain_text&.first&.html_safe
           - else
             = link_to resource.title, record
-        %td=l record.from_date.to_date, format: :long
+        %td{class: 'text-nowrap'}=l record.from_date.to_date, format: :long
 
         - if show_actions
           %td
@@ -63,4 +70,3 @@
 
 
 = paginate @collection
-
