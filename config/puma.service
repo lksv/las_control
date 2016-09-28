@@ -1,0 +1,18 @@
+[Unit]
+Description=Puma HTTP Server
+After=network.target
+
+# Uncomment for socket activation (see below)
+# Requires=puma.socket
+
+[Service]
+# Foreground process (do not use --daemon in ExecStart or config.rb)
+Type=simple
+User=deployer
+WorkingDirectory=/home/deployer/las/las_control
+# Environment=PUMA_DEBUG=1
+ExecStart=/bin/bash -lc 'source .env; bundle exec puma -C config/puma.rb'
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -6,6 +6,7 @@ sudo dpkg-reconfigure --priority=low unattended-upgrades
 # in case of locale problems ``` perl: warning: Setting locale failed.```
 sudo locale-gen en_US.UTF-8 cs_CZ.UTF-8
 sudo dpkg-reconfigure locales
+sudo dpkg-reconfigure tzdata  # vybrat prahu
 
 #basic
 sudo apt-get install htop iotop
@@ -131,6 +132,8 @@ ENV=production RAILS_ENV=production rake db:create db:migrate
 
 # setup restart of services
 cat >>/etc/crontab <<EOF
-05 1  * * * root  /usr/sbin/service puma-manager restart && /usr/sbin/service workers restart
-58 5  * * * root  /usr/sbin/service puma-manager restart && /usr/sbin/service workers restart
+# 05 1  * * * root  /usr/sbin/service puma-manager restart && /usr/sbin/service workers restart
+# 58 5  * * * root  /usr/sbin/service puma-manager restart && /usr/sbin/service workers restart
+05 1  * * * root  /bin/systemctl restart puma.service && /bin/systemctl restart sidekiq.service
+58 5  * * * root  /bin/systemctl restart puma.service && /bin/systemctl restart sidekiq.service
 EOF
