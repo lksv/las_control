@@ -29,11 +29,11 @@
           text: @local_administration_unit.title,
           url: '/local_administration_units/options.json', placeholder: 'Územní Samospráva, např.: Olomouc'}}
     .form-group.col-xs-3
-      - test = params[:q].try(:[], :tags_array_contains)
+      / - test = params[:q].try(:[], :tags_array_contains)
       %label{class: 'sr-only', for: 'category'}Kategorie
       %select{class: 'js-states form-control',
         id: 'category',
-        name: 'q[with_all_tags][]',
+        name: 'q[tags_filter][]',
         multiple: 'multiple',
         placeholder: 'Vyberte kategorie'}
         / data: { id: test, text: test}}
@@ -68,9 +68,13 @@
             .text-muted.text-right= resource.highlight&.plain_text&.first&.html_safe
           - else
             = link_to resource.title, record
+<<<<<<< HEAD
           - record.tags.each do |tag|
             %span{ class: 'label label-success label-as-badge'}= tag
+        %td{ class: 'text-nowrap'}=l record.from_date.to_date, format: :long
+=======
         %td{class: 'text-nowrap'}=l record.from_date.to_date, format: :long
+>>>>>>> 69a4496d54868d9fcacc03aa21607ae4caaeea09
 
         - if show_actions
           %td
@@ -82,6 +86,7 @@
 
 
 = paginate @collection
+<<<<<<< HEAD
 
 - initData = params[:q].try(:[], :tags_array_contains)
 
@@ -94,3 +99,5 @@
     },
     data: null
   }); */
+=======
+>>>>>>> 69a4496d54868d9fcacc03aa21607ae4caaeea09

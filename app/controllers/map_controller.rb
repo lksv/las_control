@@ -39,5 +39,7 @@ class MapController < ApplicationController
     @filter_selected_las = LocalAdministrationUnit.new
     lau_id = params.try(:[],:q).try(:[], :lau_id_eq)
     @filter_selected_las = LocalAdministrationUnit.find(lau_id) unless lau_id.to_s.empty?
+    with_all_tags = params[:q].try(:[], :with_all_tags)
+    @filter_tag = Struct.new(:id, :text).new(with_all_tags, with_all_tags)
   end
 end

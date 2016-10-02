@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
   get 'tiles/:z/:x/:y'  =>  'events#tiles', as: :tiles
   get 'public/tiles/:z/:x/:y'  =>  'events#public_tiles', as: :public_tiles
+  get 'categories/options' => 'categories#options', as: :categories_options
 
   get 'map', to: 'map#index'
 

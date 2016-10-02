@@ -7,6 +7,7 @@ jQuery.fn.ajaxSelect = (options) ->
     multiple: false
     allow_clear: true
     per: 20
+    minimumInputLength: $(@).data('minimumInputLength') || 3
 
   placeholder = $(@).data('placeholder')
   defaults.placeholder = placeholder if placeholder
@@ -22,7 +23,6 @@ jQuery.fn.ajaxSelect = (options) ->
       m
     placeholder: settings.placeholder
     allowClear: settings.allow_clear
-    minimumInputLength: 3
     multiple: settings.multiple
     processResults: (data) ->
       { results: data }

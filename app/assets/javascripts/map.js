@@ -249,6 +249,18 @@ var isFeatureFiltered = function isFeatureFiltered(feature, url) {
     }
   }
 
+  // filter by category
+  if (params['q[with_all_tags]']) {
+    tag_not_match = properties.snippets.find(function(event) {
+      console.log(params['q[with_all_tags]'], event.tags);
+      return (event.tags.indexOf(params['q[with_all_tags]']) !== -1);
+    });
+
+    if (!tag_not_match) {
+      return true
+    }
+  }
+
   // filter by local_administration_unit.id
   if (params['q[lau_id_eq]']) {
     lau_not_match = properties.snippets.find(function(event) {

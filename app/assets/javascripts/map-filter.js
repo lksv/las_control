@@ -89,6 +89,23 @@ var lauChangeInit = function() {
   });
 }
 
+var tagsChangeInit = function() {
+  var q_lau_id = $("#q_with_all_tags");
+  q_lau_id.on('change', function() {
+    params['q[with_all_tags]'] = $('#q_with_all_tags').val();
+
+    geojsonTileLayer.redraw();
+
+    //update url
+    var url = location.origin +
+      location.pathname + '?' +
+      $.param(params) +
+      location.hash;
+    history.pushState('', '', url)
+  });
+}
+
+
 var queryButtonOnsubmit = function() {
   $('#filter_form').submit(function(e) {
     e.stopPropagation();
@@ -113,4 +130,5 @@ $(document).on("page:change", cancelFce)
 $(document).on("page:change", filterDocuments)
 $(document).on("page:change", dateRangeInit)
 $(document).on("page:change", lauChangeInit)
+$(document).on("page:change", tagsChangeInit)
 $(document).on("page:change", queryButtonOnsubmit)
