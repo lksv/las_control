@@ -2,7 +2,8 @@ class LocalAdministrationUnitsController < ApplicationController
   before_action :set_local_administration_unit, only: [
     :show,
     :create_las_admin,
-    :create_incomming_email
+    :create_incomming_email,
+    :location
   ]
 
   #load_and_authorize_resource
@@ -15,9 +16,7 @@ class LocalAdministrationUnitsController < ApplicationController
 
   def options
     authorize! :options, LocalAdministrationUnit
-    response = LocalAdministrationUnit.to_sorted_array(
-      LocalAdministrationUnit.accessible_by(current_ability).to_a
-    )
+    response = LocalAdministrationUnit.to_sorted_array
     query = params[:query]
     locable_type_query = nil
     locable_type_query = 'Obec' if query.sub!(/^obec\s*/i, '')
@@ -38,6 +37,10 @@ class LocalAdministrationUnitsController < ApplicationController
 
   def show
     redirect_to local_administration_units_path(id: params[:id])
+  end
+
+  def location
+    render json: @local_administration_unit.location.reverse
   end
 
   def create_las_admin

@@ -44,7 +44,7 @@
 
     = simple_form_for @user || User.new, url: user_simple_register_path, remote: true,
       html: { class: 'form-inline'}, wrapper: :inline_form do |f|
-      = f.input :terms_of_service, as: :boolean, label: '<a href="/terms">Slouhlasím se smluvními podmínkami</a>'.html_safe
+      = f.input :terms_of_service, as: :boolean, label: '&nbsp;<a href="/terms">Souhlasím se smluvními podmínkami</a>'.html_safe
       = f.input :email, label: false, as: :email, error: false, placeholder: 'můj e-mail...'
       = f.button :submit, value: 'Odeslat'
 

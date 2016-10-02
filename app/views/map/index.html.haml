@@ -1,6 +1,6 @@
 = content_for :before_container do
   #mapContainer
-    #mapOptions.visible
+    #mapOptions.visible{ class: 'visible' }
       .collapser &gt;
 
       .tabble-content
@@ -23,9 +23,10 @@
             #search.tab-pane.fade.in.active{role: 'tabpanel'}
               = render 'place_autocomplete'
               - if current_or_guest_user.notifications.empty? && !current_user
-                %br
-                %br
-                %hr
+                .hidden-xs
+                  %br
+                  %br
+                  %hr
                 .alert.alert-info
                   .text-center
                     Víte že, můžete zadat oblast, kterou chcete sledovat a my Vás budeme e-mailem
@@ -37,7 +38,7 @@
               = render 'filter'
 
             #notifications.tab-pane.fade{role: 'tabpanel'}
-              %h2.content-title Sledované oblasti
+              %h3.content-title Sledované oblasti
               #notifications-content
                 = render 'notifications/list'
 

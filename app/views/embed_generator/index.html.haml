@@ -1,0 +1,113 @@
+- content_for :title, 'Generátr vzhledu vložené mapy'
+- content_for :description, 'Vložte mapu přímo do Vašich webových stránek'
+
+.page-header
+  %h1 Vložení mapy do Vašich stránek
+
+.row
+  %p
+    Tato stránka slouží k vložení interaktivní mapy do Vašich webových stránek.
+    Začněte tím, že zvolíte <b>Vaši samosprávu</b>.
+    Vložená mapa bude zobrazovat pouze dokumenty, které se vztahují k vybrané samosprávě.
+
+%br
+
+.row
+  .form-group.col-lg-2
+    %label{for:"las"}Samospráva
+  .form-group.col-lg-6
+    %input{class: 'form-control select2-ajax has-error',
+      id: 'las',
+      name: 'q[local_administration_unit_id_eq]',
+      data: { url: '/local_administration_units/options.json', placeholder: 'Územní Samospráva, např.: Olomouc'}}
+.row
+  .form-group.col-lg-2
+    %label{for:"zoom"}Měřítko mapy
+  .form-group.col-lg-6
+    %select{ name: 'zoom', id: 'zoom', class: 'form-control' }
+      %option{value: '14'}= "Malé"
+      %option{value: '16'}= "Střední"
+      %option{value:'18'}= "Velké"
+.row
+  .form-group.col-lg-2
+    %label{for:'window-size'}Velikost okna
+  .form-group.col-lg-6
+    %select{ name: 'window-size', id: 'window-size', class: 'form-control'}
+      %option{value: '{"width": "320", "height": "240"}'}= "Malé"
+      %option{value: '{"width": "560", "height": "315"}', selected: 'true'}= "Střední"
+      %option{value: '{"width": "800", "height": "600"}'}= "Velké"
+.row
+  .form-group.col-lg-2
+    %label{}Odkaz
+  .form-group.col-lg-10
+    %code{id: 'link-result'}
+.row
+  .form-group.col-lg-2
+    %label{}HTML kód
+  .form-group.col-lg-10
+    %code{id: 'code-sample' }
+
+.row
+  .col-lg-10.col-lg-offset-2
+    %iframe{ width:'560', height:'315', id: 'iframe-sample', style: 'display:none;' }
+
+:javascript
+  $(document).ready(function () {
+    $('#las').change(function() {
+       if (getLink()) {
+        $('#las').removeClass('has-error');
+       }
+       else {
+        $('#las').addClass('has-error');
+       }
+    });
+
+    $('#zoom').change(function() {
+      getLink();
+    });
+
+    $('#window-size').change(function() {
+      getLink();
+    });
+  });
+
+  function getLink() {
+    zoom = $('#zoom').val();
+    id = $('#las').val();
+
+    if (id == "") {
+      return false;
+    }
+
+    iframe_size_json = $('#window-size').val();
+    iframe_size = $.parseJSON(iframe_size_json);
+
+    width = iframe_size.width
+    height = iframe_size.height
+
+    latitude = 0;
+    longitude = 0;
+
+    $.ajax({
+    method: "GET",
+      url: "/local_administration_units/" + id + "/location"
+    })
+    .done(function(geo_data) {
+      latitude = geo_data.shift();
+      longitude = geo_data.shift();
+
+      link = 'http://mapasamospravy.cz/embed?q[lau_id_eq]=' + id + '#' + zoom + '/' + latitude + '/' + longitude;
+
+      $('#link-result').text(link);
+      $('#iframe-sample').prop('src', link);
+      $('#iframe-sample').prop('width', width);
+      $('#iframe-sample').prop('height', height);
+      $('#iframe-sample').fadeIn();
+
+      source = '<iframe width="' + width +'" height="' + height + '" src="' + link + '"></iframe>'
+
+      $('#code-sample').text(source);
+    });
+
+    return true;
+  }

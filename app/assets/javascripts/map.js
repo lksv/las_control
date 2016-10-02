@@ -1,6 +1,9 @@
-//resize map to "full window size" - from stackoverflow
-var mapmargin = 50;
-$('#map').css("height", ($(window).height() - mapmargin));
+// resize map to "full window size" - from stackoverflow
+var mapmargin = parseInt($('main').css('margin-top'), 10);
+setTimeout(function(){
+  $('#map').css("height", ($(window).height() - mapmargin));
+});
+
 $(window).on("resize", resize);
 resize();
 function resize(){
@@ -237,9 +240,24 @@ var isFeatureFiltered = function isFeatureFiltered(feature, url) {
       !params['q[source_id_eq]'] &&
       params.from_date &&
       params.to_date) {
-    return !(properties.snippets.find(function(event) {
+    date_not_match = !(properties.snippets.find(function(event) {
       return (params.from_date < event.from_date) && (params.to_date > event.from_date);
     }));
+
+    if (date_not_match) {
+      return true;
+    }
+  }
+
+  // filter by local_administration_unit.id
+  if (params['q[lau_id_eq]']) {
+    lau_not_match = properties.snippets.find(function(event) {
+      return (event.lau_id != params['q[lau_id_eq]']);
+    });
+
+    if (lau_not_match) {
+      return true;
+    }
   }
 
   if (!params['q[source_id_eq]']) {
@@ -316,11 +334,13 @@ var geojsonTileLayer = new L.geoJsonvtTiles(geojsonURL, {
     features.forEach(function (feature) {
       var apiUrl = feature.properties && feature.properties.api_url;
       if (apiUrl) {
-        if (params['q[query]'] || params['q[source_id_eq]']) {
+        if (params['q[query]'] || params['q[source_id_eq]'] || params['q[lau_id_eq]']) {
           apiUrl += '?event_ids=' + feature.properties.snippets.filter(function(i) {
             if (params['q[query]']) {
               return (documentIds.indexOf(i.source_id) !== -1);
-            } else {
+            } if (params['q[lau_id_eq]']) {
+              return (params['q[lau_id_eq]'] == i.lau_id)
+            }else {
               return true;
             }
           }).map(function(i) {
@@ -424,7 +444,7 @@ legend.onAdd = function (map) {
       '<i style="background:' + getColor(grades[i] + 1) + '; margin: 1px; font-weight: bold; text-align: center;">';
     if (i == -1) { legend += '+'; }
     if (i == grades.length - 1) { legend += '-'; }
-    legend += '</i><br>';
+    legend += '</i><br style="clear:left;">';
   }
   div.innerHTML =
     '<div><div style="display: inline-block; vertical-align: middle; padding-right: 5px;">' +
@@ -545,7 +565,6 @@ $(document).ready(
 
 $(document).ready(function () {
   $('.new-notification-set-tab').on('click', function() {
-    console.log('menim tab');
     $('#tabble-nav a[href="#notifications"]').tab('show');
   });
 });

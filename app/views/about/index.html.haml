@@ -9,74 +9,182 @@
         js.src = "//connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v2.6&appId=1088600117878613";
           fjs.parentNode.insertBefore(js, fjs);
           }(document, 'script', 'facebook-jssdk'));</script>
-
     <div class="fb-like" data-href="https://www.facebook.com/mapasamospravy" data-width="200" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
   </div>
 
-%h1 O&nbsp;projektu
 
-%h3 K čemu web slouží?
-%p
-  Web slouží k dohledání dokumentů radnic a jejich přehlednému zobrazení v mapě.
-  Lze i projíždět mapu a sledovat zvýrazněné objekty, kde se podle úředních
-  desek něco děje. Můžete tak dohledat například záměr výstavby, prodej obecní
-  nemovitosti nebo informaci o plánovaném čištění Vaší ulice. Můžete také zadat
-  sledování vybrané oblasti. Pohlídáme pak za Vás, kdykoliv obec vydá k oblasti
-  nějaký dokument, a dáme Vám o tom vědět e-mailem.
-%p
-  Cílem projektu je umožnit každému, jednoduše dohledat jen to, co ho
-  z nepřeberného množství úředních dokumentů zajímá. Jsme platformou, kterou
-  radnice přehledně komunikují s občany. V současné době web prezentuje úřední
-  desky z více než 1.200 úřadů, jejichž data stahuje pomocí portálu
-  =succeed '.' do
-    %a{href: 'http://edesky.cz'} edesky.cz
-  Radnice nám bohužel zatím neposkytují dokumenty ve vhodném formátu, což je
-  jedním z důvodů omezené přesnosti vyhledávání.
+.page-header
+  %h1 O&nbsp;projektu
 
-%h3 Chcete nám pomoci?
+.col-md-3{role: 'complementary'}
+  %nav.bs-docs-sidebar.hidden-print.hidden-sm.hidden-xs.affix.scroll-nav
+    %ul.nav.bs-docs-sidenav
+      %li
+        %a{href: '#kcemu'}K čemu web slouží?
+      %li
+        %a{href: '#jakfunguje'}Jak funguje?
+      %li
+        %a{href: '#vznik'}Jak projekt vznikl?
+      %li
+        %a{href: '#spoluprace'}Chcete spolupracovat?
+      %li
+        %a{href: '#pripravujeme'}Připravované novinky
+      %li
+        %a{href: '#napsalionas'}Napsali o nás
+      %li
+        %a{href: '#credits'}Spolupracovníci a zásluhy
+      %li
+        %a{href: '#kontakt'}Kontakt
+      %li
+        %a{href: '#podminky'}Podmínky použití
+      %li
+        %a{href: '#podekovani'}Poděkování
 
-%p
-  Napište Vaší radnici, že máte zájem dozvídat se o dokumentech skrze náš web.
-  Obce a kraje mohou totiž zdarma požádat o administrativní rozhraní k tomuto
-  webu. Díky tomu se pak výrazně zvýší přesnost prezentovaných dat, též budou
-  moci vložit další mapové vrstvy.
+.col-md-9{role: 'main'}
+  .bs-docs-section
+    %h1{id:'kcemu'} K čemu web slouží?
+    %p
+      Web slouží k dohledání dokumentů radnic a jejich přehlednému zobrazení v mapě.
 
-%h3 Jak projekt vznikl?
+      Portál je určený pro všechny občany, kteří potřebují sledovat dokumenty
+      radnic. Jednotlivci, realitní kanceláře, úředníci a zástupci města mohou na
+      portálu jednoduše najít, co je z nepřeberného množství úředních dokumentů
+      zajímá; například informace o záměru výstavby, prodeje nebo pronájmu obecní
+      nemovitosti.
 
-%p
-  Prvotní impuls k projektu (OtevřenéBrno.cz) vznikl na základě jedné mé osobní
-  zkušenosti s dohledáváním informací na stránkách města Brna, týkající se
-  zápisu o garáži, o jejíž koupi jsem měl zájem.  Podat včas nabídku by ale
-  znamenalo každý den kontrolovat úřední desku a projít obrovské množství
-  dokumentů.
+    %p
+      V současné době web prezentuje úřední desky z více než 1.200 úřadů,
+      jejichž data stahuje pomocí portálu
+      =succeed '.' do
+        %a{href: 'http://edesky.cz'} edesky.cz
 
-%p
-  Původní verze vznikla tedy jako "důkaz", že město může svoje dokumenty a data
-  poskytovat občanům v uživatelsky vstřícnější a přehlednější podobě.
+  .bs-docs-section
+    %h1{id:'jakfunguje'} Jak funguje?
+    %p
+      Webové stránky mají podobu mapy, zahrnující celou Českou Republiku, v níž
+      jsou barevně vyznačeny nemovitosti či parcely, které jsou zmíněny v dokumentech
+      měst a dochází tak u nich k nějakým změnám (prodej, pronájem, opravy atd.).
+      Kliknutím na konkrétní zvýrazněný objekt se otevře příslušný dokument radnice,
+      v němž se o vámi vybraném objektu jedná. Rychle a jednoduše tak najdete
+      informaci, která vás zajímá.
+    %p
+      Pro dlouhodobější sledování konkrétní městské části na mapě vám nabízíme
+      možnost zadat sledování vybrané oblasti. Kdykoliv obec vydá k oblasti nový
+      dokument, automaticky obdržíte e-mailovou zprávu se specifikací události.
 
-%h3 Kontakt
+  .bs-docs-section
+    %h1{id:'vznik'} Jak projekt vznikl?
+    %p
+      Prvotní impuls k projektu (OtevřenéBrno.cz) vznikl na základě osobní
+      zkušenosti s dohledáváním informací na stránkách města Brna, konkrétně zápisu
+      garáže, o jejíž koupi jsem měl zájem. Podat včas nabídku by ale znamenalo každý
+      den kontrolovat úřední desku a procházet obrovské množství dokumentů. Zdlouhavý
+      a časově náročný proces mě odradil a přiměl mě přemýšlet, jestli by se
+      dokumenty města nedaly zpřístupnit uživatelsky vstřícnějším a přehlednějším
+      způsobem.
 
-Mgr. Lukáš Svoboda, IČ: 1365321, e-mail: kontakt@mapasamospravy.cz
 
-%h3 Podmínky použití
+  .bs-docs-section
+    %h1{id: 'spoluprace'} Chcete spolupracovat?
+    %p Vítáme spolupráci s jednotlivci i radnicemi!
+    %ul
+      %li
+        Do našeho týmu rádi <string>přivítáme vývojáře</strong>, kterého zajímá
+        problematika otevřených dat, chce si vyzkoušet práci na projektu a
+        přispět svou prací na zkvalitnění obecně prospěšného webu.
+      %li
+        Používáte průběžně stránky a  máte konkrétní představu, co od webu
+        potřebujete? Uvítáme vaše připomínky a nápady.
+      %li
+        Sponzorské dary jsou vítané! Portál vznikl jako neziskový projekt na
+        podporu otevřených dat a zlepšení komunikace měst s občany, proto každý
+        sponzorský dar oceňujeme a vnímáme jako možnost, jak zlepšovat a rozšiřovat
+        služby portálu občanům i městům. Každý příspěvek zveřejníme v sekci sponzoři.
+      %li
+        Hledáme nadšené aktivisty, kteří by portál testovali a zkoušeli funkčnost v
+        případě inovace stránek.
+      %li
+        Líbí se vám vyhledávání prostřednictvím mapy a přejete si, aby Vaše město
+        vkládalo do mapy další dokumenty? Napište radnici a my jim zdarma
+        zprostředkujeme
+        =link_to 'administrativní rozhraní', offers_path
+        k portálu. Radnice potom budou moci samy vkládat další dokumenty a události
+        do mapy. Zjednoduší se komunikace radnice s jejími občany, zvýší se přesnost
+        prezentovaných dat a přibydou nové mapové vrstvy, které zlepší vaši
+        informovanost o vašem městě.
 
-%p
-  Podmínky použití jsou uvedeny ve
-  =succeed '.' do
-    =link_to 'vlastní sekci', terms_path
+  .bs-docs-section
+    %h1{id: 'pripravujeme'} Připravované novinky
+    %ul
+      %li
+        %strong Kategorizce dokumentů.
+        Snažíme se automaticky přiřadit dokument do kategorie (prodej, pronájem,
+        stavební přízení, exekuce, ….) a umožnit podle kategorie dokumenty na mapě
+        zobrazovat/filtrovat. Stejně tak půjde nastavit upozornění e-mailem pouze na
+        nové dokumenty zadaného typu ve vaší sledované oblasti.
+      %li
+        %strong Možnost filtrovat adresy lidí a firem.
+        V dokumentech jsou kromě adres o které se skutečně jedná i další adresy,
+        které zobrazujeme, ale které již nemusí být pro většinu uživatelů relevantí.
+        Jedná se o adresy lidí a firem. Ty budou standardne odfiltrované a jejich
+        zoprazení v případě nutnosti půjde zapnout v záložce Filtr.
+      %li
+        %strong Vizualizace dalších mapových podkladů.
+        Samosprávy často mají k dispozici velké množství dalších geo-dat. Např.
+        uzavírky a výkopové práce, cenovou mapu, … ale tyto data jsou často běžnému
+        uživateli skryty hluboko na webu daného města. Chceme pridat možnost importu
+        libovolných geodat a tyto data zobrazovat v dalších vrstvách.
 
-%h3 Poděkování
-%p
-  Tento web vznikl mj. také díky odborné, morální a finanční podpoře Fondu Otakara
-  Motejla spravovaného Nadací Open Society Fund Praha, Nadaci Vodafone, Ideasense….
-.row
-  .col-md-offset-4.col-xs-12
-    %p Projekt podpořil Fond Otakara Motejla a Nadace Vodafone.
+  .bs-docs-section
+    %h1{id: 'napsalionas'} Napsali o nás
+    %ul
+      %li
+        %a{href:'http://denikreferendum.cz/clanek/23139-novy-portal-umoznuje-snadno-vyhledavat-uredni-dokumenty-z-radnic'} Deník Referendum
+        Nový portál umožňuje snadno vyhledávat úřední dokumenty z radnic - 8.6.2016
+      %li
+        %a{href:'https://zpravy.aktualne.cz/domaci/brnan-vymyslel-novou-aplikaci-uzavirka-nebo-novy-supermarket/r~c339fe6e2d8011e683920025900fea04/?redirected=1472371682'} Aktualne.cz
+        Má se u nás místo parku stavět supermarket? Aplikace lidem prozradí plány jejich radnice - 11.6.2016
+      %li
+        %a{href:'http://praha.idnes.cz/uz-nemusite-denne-sledovat-uredni-desky-web-prozradi-plany-radnic-1cv-/metro.aspx?c=A160614_174015_praha-metro_lupo'} praha.idnes.cz
+        Už nemusíte denně sledovat úřední desky. Web prozradí plány radnic - 15.6.2016
+      %li
+        %a{href:'http://www.denik.cz/z_domova/co-se-deje-na-sousednim-pozemku-nova-aplikace-spojuje-udaje-z-urednich-desek-20160616.html'} Deník.cz
+        Co se děje na sousedním pozemku? Poradí aplikace. Spojuje údaje z úředních desek - 16.6.2016
+      %li
+        %a{href:'http://www.fbadvokati.cz/novinky/verejne-pravo/data-z-urednich-desek-na-mape-co-se-kde-planuje-stavet'} fbadvotakti.cz
+        Data z úředních desek na mapě: co se kde plánuje stavět? - 22.8.2016
 
-.row
-  .col-xs-2.col-xs-offset-4.vcenter
-    %a{href: 'http://www.motejl.cz/'}
-      =image_tag 'fond_om.gif', {alt: 'Fond Otakara Motejla'}
-  .col-xs-2.vcenter
-    %a{href: "http://nadacevodafone.cz/"}
-      = image_tag "VF_CR_foundation_CZ_pos.jpg", {alt: "Nadace Vodafone"}
+  .bs-docs-section
+    %h1{id: 'credits'} Spolupracovníci a zásluhy
+    %dl.dl-horizontal
+      %dt Lukáš Svoboda
+      %dd Autor
+      %dt Ondřej Hošák
+      %dd Práce na vývoji backendu a frontendu.
+
+  .bs-docs-section
+    %h1{id: 'Kontakt'} Kontakt
+    Mgr. Lukáš Svoboda, IČ: 1365321, e-mail: kontakt@mapasamospravy.cz
+
+  .bs-docs-section
+    %h1{id: 'podminky'} Podmínky použití
+    %p
+      Podmínky použití jsou uvedeny ve
+      =succeed '.' do
+        =link_to 'vlastní sekci', terms_path
+
+  .bs-docs-section
+    %h1{id: 'podekovani'} Poděkování
+    %p
+      Tento web vznikl mj. také díky odborné, morální a finanční podpoře Fondu Otakara
+      Motejla spravovaného Nadací Open Society Fund Praha, Nadaci Vodafone, Ideasense….
+    .row
+      .col-md-offset-4.col-xs-12
+        %p Projekt podpořil Fond Otakara Motejla a Nadace Vodafone.
+    .row
+      .col-xs-2.col-xs-offset-4.vcenter
+        %a{href: 'http://www.motejl.cz/'}
+          =image_tag 'fond_om.gif', {alt: 'Fond Otakara Motejla'}
+      .col-xs-2.vcenter
+        %a{href: "http://nadacevodafone.cz/"}
+          = image_tag "VF_CR_foundation_CZ_pos.jpg", {alt: "Nadace Vodafone"}

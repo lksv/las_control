@@ -61,10 +61,28 @@ class DocumentsController < ApplicationController
     lau_filter = params[:q] ? params[:q][:local_administration_unit_id_eq] : nil
     @local_administration_unit =
       LocalAdministrationUnit.find_by(id: lau_filter) ||
-      LocalAdministrationUnit.new
+      LocalAdministrationUnit.new(lau_nazev: '', ruian_locable_type: 'Obec')
     @query = params[:query]
 
     @categories = Document.tags_cloud.map(&:first)
+    unless lau_filter.to_s.empty?
+      route_params = {
+        q: {
+          lau_id_eq: params[:q][:local_administration_unit_id_eq],
+          query: params[:query]
+        }
+      }
+
+      @link_to_results = url_for(
+        controller: 'map',
+        params: route_params,
+        anchor: '16/' +
+                @local_administration_unit.location[1].to_s +
+                '/' +
+                @local_administration_unit.location[0].to_s
+      )
+
+    end
 
     # Use Elasticserch if query param is used
     if params[:query].present?
@@ -74,6 +92,7 @@ class DocumentsController < ApplicationController
         sort: params[:q].try(:[], :s),
         local_administration_unit_id: lau_filter
       ).page(params[:page]) #.results
+
       @records = @collection.records
     else
       @elasticsearch = false

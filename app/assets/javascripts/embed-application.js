@@ -13,7 +13,6 @@
 //= require polyfil
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require bootstrap
 //= require spinner
 //= require select2
@@ -41,7 +40,6 @@
 //= require L.GeoJSONvtTiles
 //= require spin.min
 //= require Control.Loading
-//= require scrollnav
 
 //= require google_analytics
 //x= require record-statsx

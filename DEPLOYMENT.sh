@@ -1,11 +1,12 @@
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get dist-upgrade
 
 sudo dpkg-reconfigure --priority=low unattended-upgrades
 
 # in case of locale problems ``` perl: warning: Setting locale failed.```
 sudo locale-gen en_US.UTF-8 cs_CZ.UTF-8
 sudo dpkg-reconfigure locales
+sudo dpkg-reconfigure tzdata  # vybrat prahu
 
 #basic
 sudo apt-get install htop iotop
@@ -24,13 +25,16 @@ sudo apt-get install libgmp-dev libgmp3-dev
 # because of pg gem:
 sudo apt-get install libpq-dev
 
+# for tre-ruby gem
+sudo apt-get install tre-agrep libtre5 libtre-dev
+
 sudo apt-get install postgresql
 sudo apt-get install postgresql-9.3-postgis-2.1 postgresql-9.3-postgis-2.1-scripts postgis
 sudo apt-get install libgdal1-dev #optionaly for raser support
 
 
 #node
-sudo apt-get instsall nodejs-legacy
+sudo apt-get install nodejs
 
 #..and maybe:
 sudo apt-get -y install build-essential openssl libreadline6 libreadline6-dev curl git-core \
@@ -131,6 +135,8 @@ ENV=production RAILS_ENV=production rake db:create db:migrate
 
 # setup restart of services
 cat >>/etc/crontab <<EOF
-05 1  * * * root  /usr/sbin/service puma-manager restart && /usr/sbin/service workers restart
-58 5  * * * root  /usr/sbin/service puma-manager restart && /usr/sbin/service workers restart
+# 05 1  * * * root  /usr/sbin/service puma-manager restart && /usr/sbin/service workers restart
+# 58 5  * * * root  /usr/sbin/service puma-manager restart && /usr/sbin/service workers restart
+05 1  * * * root  /bin/systemctl restart puma.service && /bin/systemctl restart sidekiq.service
+58 5  * * * root  /bin/systemctl restart puma.service && /bin/systemctl restart sidekiq.service
 EOF

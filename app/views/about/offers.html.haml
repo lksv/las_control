@@ -1,0 +1,52 @@
+- content_for :title, 'Nabízíme zdarma vaší samosprávě'
+- content_for :description, 'Snadná spolupráce Mapysamosprávy s Vaší obcí'
+
+%h1 Nabízíme pro Vaši samosprávu
+
+%nav.scroll-nav
+  %ul
+    %li
+      %a{href: '#embed'}Mapa na stránkách obce
+    %li
+      %a{href: '#administration'}Administrativní rozhraní
+
+
+.bs-docs-section
+  %h3{id: 'embed'} Vložení mapy do stránek vaší obce
+  Můžete si vložit mapu přímo na Vaše stránky. K tomu Vám poslouží
+  =succeed ',' do
+    = link_to 'generátor vzhledu', embed_generator_path
+  kterým jednoduše nastavíte, jak má mapa na Vašich stránkách vypadat.
+
+.bs-docs-section
+  %h3{id: 'administration'} Administrativní rozhraní
+  %p
+    Většinu dokumentů obce dávají na úřední desky. Zápisy ze zastupitelstva a rady,
+    ale často bývají umístěny zvlášť na stránkách obce.
+
+
+
+
+#carousel-offers.carousel.slide{"data-ride" => "carousel"}
+  / Indicators
+  %ol.carousel-indicators
+    %li.active{"data-slide-to" => "0", "data-target" => "#carousel-offers"}
+    %li{"data-slide-to" => "1", "data-target" => "#carousel-offers"}
+    %li{"data-slide-to" => "2", "data-target" => "#carousel-offers"}
+  / Wrapper for slides
+  .carousel-inner{:role => "listbox"}
+    .item.active
+      =image_tag 'administrace.png', {alt: 'Administrace'}
+      .carousel-caption
+        Menu administrace
+    .item
+      =image_tag 'new_document.png', {alt: 'Nový dokument'}
+      .carousel-caption
+        Formulář pro přidání dokumentu
+  / Controls
+  %a.left.carousel-control{"data-slide" => "prev", :href => "#carousel-offers", :role => "button"}
+    %span.glyphicon.glyphicon-chevron-left{"aria-hidden" => "true"}
+    %span.sr-only Předchozí
+  %a.right.carousel-control{"data-slide" => "next", :href => "#carousel-offers", :role => "button"}
+    %span.glyphicon.glyphicon-chevron-right{"aria-hidden" => "true"}
+    %span.sr-only Další

@@ -18,6 +18,8 @@ scope.subscribed.find_each do |user|
     last_send_by_mail = Time.now
     UserMailer.new_events(user).deliver_now
     user.notifications.update_all(last_send_by_mail: last_send_by_mail)
+    sleep 6 # prevent: Too many login attempts
+    # 6 seconds => 95 mails in 10 minutes
   rescue => err
     Rails.logger.error "Cannot deliver notification to #{user.email}: #{err}"
     Rails.logger.error err.backtrace.join("\n")
