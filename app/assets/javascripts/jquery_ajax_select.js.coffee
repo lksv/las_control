@@ -18,7 +18,16 @@ jQuery.fn.ajaxSelect = (options) ->
   this.select2
     theme: "bootstrap"
     initSelection: (elm, callback) ->
-      callback({"id":elm.data("id"), "text":elm.data("text")})
+      if options.multiple
+        data = []
+        $.each elm.val().split(","), (i, id) ->
+          data.push
+            id: id
+            text: id
+
+        callback(data)
+      else
+        callback({"id":elm.data("id"), "text":elm.data("text")})
     escapeMarkup: (m) ->
       m
     placeholder: settings.placeholder

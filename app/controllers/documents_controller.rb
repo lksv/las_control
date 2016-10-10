@@ -64,7 +64,6 @@ class DocumentsController < ApplicationController
       LocalAdministrationUnit.new(lau_nazev: '', ruian_locable_type: 'Obec')
     @query = params[:query]
 
-    @categories = Document.tags_cloud.map(&:first)
     unless lau_filter.to_s.empty?
       route_params = {
         q: {
