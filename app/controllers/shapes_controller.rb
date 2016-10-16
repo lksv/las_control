@@ -16,6 +16,10 @@ class ShapesController < ApplicationController
         .includes(:address_block, source: :local_administration_unit)
     end
 
-    render layout: false
+    respond_to do |format|
+      format.html { render layout: false }
+      format.xml  { render xml: @events }
+      format.json { render json: @events }
+    end
   end
 end

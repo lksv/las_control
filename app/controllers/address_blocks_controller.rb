@@ -4,6 +4,10 @@ class AddressBlocksController < ApplicationController
 
   def show
     @events = @address_block.events.accessible_by(current_ability)
-    render layout: false
+    respond_to do |format|
+      format.html { render layout: false }
+      format.xml  { render xml: @events }
+      format.json { render json: @events }
+    end
   end
 end
