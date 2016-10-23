@@ -71,11 +71,6 @@ sudo -u deployer -H -i sh -c "rvm use --default ruby-2.3.0"
 sudo -u deployer -i sh -c "curl -Lo- https://bit.ly/janus-bootstrap | bash"
 
 
-#generate key
-#..and paste it to the github project -> setting -> Deployed Keys (for more see https://help.github.com/articles/managing-deploy-keys#deploy-keys)
-#..or in case of submodules to the global setting
-sudo -u deployer -i sh -c 'ssh-keygen -t rsa -C "lukas.svoboda@gmail.com"; echo "Put this public key to the github"; cat ~/.ssh/id_rsa.pub'
-
 #setting swap:
 # #https://www.digitalocean.com/community/articles/how-to-add-swap-on-ubuntu-12-04
 # dd if=/dev/zero of=/swapfile bs=1024 count=1024k
@@ -120,10 +115,10 @@ cd local_administration_model && ln -s ../.env
 
 
      sudo -u postgres psql
-     create role deployer with createdb login password 'serepes';
-     ALTER USER myuser WITH SUPERUSER;
+     create role deployer with createdb login password 'password';
+     ALTER USER deployer WITH SUPERUSER;
 
-sudo cat "deployer deployer deployer" >> /etc/postgresql/9.3/main/pg_ident.conf
+sudo echo "deployer deployer deployer" >> /etc/postgresql/9.3/main/pg_ident.conf
 
 # Prepare DB
 cd local_administration_model
