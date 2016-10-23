@@ -40,7 +40,7 @@ class MapController < ApplicationController
     lau_id = params.try(:[],:q).try(:[], :lau_id_eq)
     @filter_selected_las = LocalAdministrationUnit.find(lau_id) unless lau_id.to_s.empty?
     @tags_filter = params[:q].try(:[], :tags_filter) #| Document.tags_cloud.map(&:first)
-    @tags_filter_values = @tags_filter.split(',').reduce({}) do |memo, tag|
+    @tags_filter_values = @tags_filter.to_s.split(',').reduce({}) do |memo, tag|
       name = Category.new(tag).name
       memo[tag] = name if name
       memo
