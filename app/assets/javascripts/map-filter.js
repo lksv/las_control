@@ -90,9 +90,9 @@ var lauChangeInit = function() {
 }
 
 var tagsChangeInit = function() {
-  var q_lau_id = $("#q_with_all_tags");
+  var q_lau_id = $("#q_tags_filter");
   q_lau_id.on('change', function() {
-    params['q[with_all_tags]'] = $('#q_with_all_tags').val();
+    params['q[tags_filter]'] = $('#q_tags_filter').val();
 
     geojsonTileLayer.redraw();
 

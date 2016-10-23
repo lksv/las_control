@@ -1,14 +1,10 @@
 class CategoriesController < ApplicationController
   skip_authorization_check only: [:options]
 
-  CATEGORY_MAPPING = {
-    'doprava' => 'doprava a uzavírky'
-  }.freeze
-
   def options
     res = Document.tags_cloud.map(&:first).map do |tag|
       {
-        text: CATEGORY_MAPPING[tag] || tag,
+        text: Category.new(tag).name,
         id: tag
       }
     end

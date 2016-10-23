@@ -33,9 +33,7 @@
           = surround '[', ']' do
             = link_to 'Originální dokument', source.document_storage.url
 
-      %span.legendbox
-        %i{style: "background:#{source.legend_color}",
-          toggle: 'tooltip', title: 'Barva legendy. Dokumenty jsou odlišeny podle počtu adres v nich nalezených.'} &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+      = render 'shared/categories_legend', categories: source.categories
       %br
 
       - if events.size > 1

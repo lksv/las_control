@@ -39,7 +39,12 @@ class MapController < ApplicationController
     @filter_selected_las = LocalAdministrationUnit.new
     lau_id = params.try(:[],:q).try(:[], :lau_id_eq)
     @filter_selected_las = LocalAdministrationUnit.find(lau_id) unless lau_id.to_s.empty?
-    with_all_tags = params[:q].try(:[], :with_all_tags)
-    @filter_tag = Struct.new(:id, :text).new(with_all_tags, with_all_tags)
+    @tags_filter = params[:q].try(:[], :tags_filter) #| Document.tags_cloud.map(&:first)
+    @tags_filter_values = @tags_filter.split(',').reduce({}) do |memo, tag|
+      name = Category.new(tag).name
+      memo[tag] = name if name
+      memo
+    end
+
   end
 end

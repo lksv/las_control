@@ -1,0 +1,4 @@
+%span.legendbox:
+  - categories.each do |category|
+    %span{class: 'label label-as-badge', style: "background: #{category.color}"}= category.name
+

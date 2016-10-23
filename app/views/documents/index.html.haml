@@ -31,10 +31,10 @@
       %label{class: 'sr-only', for: 'category'}Kategorie
       %input{class: 'form-control select2-ajax',
         id: 'category',
-        multiple: true,
-        name: 'q[with_any_tags]',
-        value: params[:q].try(:[], :with_any_tags),
-        data: { ajax_url: '/categories/options.json', placeholder: 'Vyberte kategorie' }}
+        name: 'q[tags_filter]',
+        value: @tags_filter,
+        data: { ajax_url: '/categories/options.json', placeholder: 'Vyberte kategorie',
+        init: @tags_filter_values.to_json, minimumInputLength: 0, multiple: '1' }}
 
     .form-group.col-xs-1.text-right
       %button{class: 'btn btn-success', type: 'submit'}Hledat
@@ -66,8 +66,7 @@
             .text-muted.text-right= resource.highlight&.plain_text&.first&.html_safe
           - else
             = link_to resource.title, record
-          - record.tags.each do |tag|
-            %span{ class: 'label label-success label-as-badge'}= tag
+          = render 'shared/categories_legend', categories: record.categories
         %td{class: 'text-nowrap'}=l record.from_date.to_date, format: :long
 
         - if show_actions

@@ -80,7 +80,12 @@ class DocumentsController < ApplicationController
                 '/' +
                 @local_administration_unit.location[0].to_s
       )
+    end
 
+    @tags_filter = params[:q].try(:[], :tags_filter) #| Document.tags_cloud.map(&:first)
+    @tags_filter_values = @tags_filter.split(',').reduce({}) do |memo, tag|
+      memo[tag] = Category.new(tag).name
+      memo
     end
 
     # Use Elasticserch if query param is used

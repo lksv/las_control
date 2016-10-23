@@ -4,7 +4,7 @@ jQuery.fn.ajaxSelect = (options) ->
   defaults =
     url: $(@).data('url')
     placeholder: "Search for a record"
-    multiple: false
+    multiple: $(@).data('multiple')
     allow_clear: true
     per: 20
     minimumInputLength: $(@).data('minimumInputLength') || 3
@@ -12,18 +12,17 @@ jQuery.fn.ajaxSelect = (options) ->
   placeholder = $(@).data('placeholder')
   defaults.placeholder = placeholder if placeholder
 
-
   settings = $.extend(defaults, options)
 
   this.select2
     theme: "bootstrap"
     initSelection: (elm, callback) ->
-      if options.multiple
+      if settings.multiple
         data = []
         $.each elm.val().split(","), (i, id) ->
           data.push
             id: id
-            text: id
+            text: elm.data('init')[id]
 
         callback(data)
       else

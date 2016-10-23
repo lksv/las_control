@@ -1,9 +1,6 @@
 var initSelect = function() {
   $( ".select2-ajax" ).each( function() {
-      multiple = $(this).prop('multiple') || false;
-      $(this).ajaxSelect({
-        multiple: multiple,
-      });
+      $(this).ajaxSelect();
   });
 };
 

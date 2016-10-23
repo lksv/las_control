@@ -39,3 +39,34 @@ ruian_db:
   password: <%= ENV['DB_RUIAN_PASSWORD'] %>
   host: <%= ENV['DB_RUIAN_HOST'] %>
 
+
+document_data_development:
+  schema_search_path: public
+  adapter: postgresql
+  encoding: utf8
+  database: document_data_development
+  pool: 10
+  username: <%= ENV['DB_LOCAL_USERNAME'] %>
+  password: <%= ENV['DB_LOCAL_PASSWORD'] %>
+  host: localhost
+
+document_data_production:
+  schema_search_path: public
+  adapter: postgresql
+  encoding: utf8
+  database: document_data_production
+  pool: 10
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+
+document_data_test:
+  schema_search_path: public
+  adapter: postgresql
+  encoding: utf8
+  database: document_data_test
+  pool: 10
+  username: <%= ENV['DB_LOCAL_USERNAME'] %>
+  password: <%= ENV['DB_LOCAL_PASSWORD'] %>
+  host: localhost
+

@@ -12,6 +12,10 @@
       - if @document.edesky_document_id
         %dt Staženo z
         %dd= link_to 'edesky.cz', "http://edesky.cz/dokument/#{@document.edesky_document_id}", target: '_blank'
+      - if @document.categories
+        %dt Kategorie
+        %dd
+          = render 'shared/categories_legend', categories: @document.categories
 
     -if current_user && current_user.lau_permitted?(@document.local_administration_unit)
       %h4
