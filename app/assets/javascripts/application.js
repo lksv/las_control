@@ -33,6 +33,7 @@
 //= require a-btn-click-disable
 //= require clear-input-button
 //= require leaflet
+//= require categories_legend
 
 //= require bootstrap-add-clear.min
 //= require leaflet-hash.min

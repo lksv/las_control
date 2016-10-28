@@ -476,6 +476,9 @@ legend.onAdd = function (map) {
 };
 legend.addTo(map);
 
+var category_legend = CategoryLegend.load_window_content();
+category_legend.addTo(map);
+
 layers = L.control.layers(layers, overlays, { position: 'topleft' });
 layers.addTo(map);
 
