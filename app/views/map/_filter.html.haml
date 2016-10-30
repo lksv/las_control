@@ -36,7 +36,7 @@
       input_html: { value: @filter_selected_las.id, class: 'select2-ajax', data: { id: @filter_selected_las.id, text: @filter_selected_las.lau_nazev, url: '/local_administration_units/options.json', placeholder: 'např.: Olomouc' } }
     = f.input :tags_filter, label: 'Kategorie', required: false,
       input_html: { value: @tags_filter, class: 'select2-ajax', data: { url: '/categories/options.json', minimumInputLength: 0, multiple: true,
-      init: @tags_filter_values } }
+      init: @tags_filter_values, placeholder: 'Vyberte kategorie' } }
     = f.input :query, label: 'Hledat', required: false do
       = f.input_field :query, class: "form-control clear-button", placeholder: 'v obsahu dokumentu'
       %span.input-group-btn
