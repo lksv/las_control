@@ -450,32 +450,6 @@ var hash = L.hash(map);
 
 L.control.scale().addTo(map);
 
-var legend = L.control({position: 'bottomleft'});
-legend.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'info legend'),
-  grades = [20, 100, 200, 400];
-
-  // loop through our density intervals and generate a label with a colored square for each interval
-  var legend = '';
-  for (var i = -1; i < grades.length; i++) {
-    legend +=
-      '<i style="background:' + getColor(grades[i] + 1) + '; margin: 1px; font-weight: bold; text-align: center;">';
-    if (i == -1) { legend += '+'; }
-    if (i == grades.length - 1) { legend += '-'; }
-    legend += '</i><br style="clear:left;">';
-  }
-  div.innerHTML =
-    '<div><div style="display: inline-block; vertical-align: middle; padding-right: 5px;">' +
-    legend +
-    '</div>' +
-    '<div style="display: inline-block; vertical-align: middle; text-align: center;">' +
-    'Relevance<br>dokumentu<br>' +
-    '(<a href="#" data-toggle="modal" data-target="#legendHelpModal">více...</a>)' +
-    '</div> </div>';
-  return div;
-};
-legend.addTo(map);
-
 var category_legend = CategoryLegend.load_window_content();
 category_legend.addTo(map);
 
