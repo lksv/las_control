@@ -19,6 +19,10 @@ jQuery.fn.ajaxSelect = (options) ->
     initSelection: (elm, callback) ->
       if settings.multiple
         data = []
+        if elm.val() == ""
+          callback(data);
+          return;
+
         $.each elm.val().split(","), (i, id) ->
           data.push
             id: id
