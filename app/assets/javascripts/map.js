@@ -290,14 +290,6 @@ var isFeatureFiltered = function isFeatureFiltered(feature, url) {
   });
 };
 
-window.getColor = function getColor(d) {
-    return d > 400  ? '#c7e9b4' :
-           d > 200  ? '#7fcdbb' :
-           d > 100  ? '#41b6c4' :
-           d > 20   ? '#2c7fb8' :
-                      '#253494';
-}
-
 var styleFce = function styleFce(f) {
   var style = defaultStyle;
   style.fillColor = f.tags.legend_color || '#fff';
