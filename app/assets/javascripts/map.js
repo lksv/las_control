@@ -300,10 +300,12 @@ window.getColor = function getColor(d) {
 
 var styleFce = function styleFce(f) {
   var style = defaultStyle;
-  style.fillColor = f.tags.legend_color || '#fff';
-  if (style.fillColor == '#fff') {
-    console.log(f.tags);
-  }
+
+  all_tags = [];
+  f.tags.snippets.map(function(elm) { all_tags = all_tags.concat(elm.tags); })
+
+  style.fillColor = CategoryLegend.get_color_by_tags(all_tags);
+
   if (params.shape_id && (f.tags.id == params.shape_id)) {
     // highlight focus element
     return focusStyle;
