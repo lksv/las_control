@@ -258,9 +258,7 @@ var isFeatureFiltered = function isFeatureFiltered(feature, url) {
       window.tags_filter = params['q[tags_filter]'];
     }
 
-    tag_not_match = properties.snippets.find(function(event) {
-      return window.tags_filter_regexp.test(event.tags);
-    });
+    tag_not_match = window.tags_filter_regexp.test(properties.all_tags);
 
     if (!tag_not_match) {
       return true
@@ -291,12 +289,20 @@ var isFeatureFiltered = function isFeatureFiltered(feature, url) {
 };
 
 var styleFce = function styleFce(f) {
+  var properties = f.properties || f.tags;
   var style = defaultStyle;
 
-  all_tags = [];
-  f.tags.snippets.map(function(elm) { all_tags = all_tags.concat(elm.tags); })
-
-  style.fillColor = CategoryLegend.get_color_by_tags(all_tags);
+  var tags_filter = params['q[tags_filter]'];
+  var cached_color = properties.color_cache[tags_filter];
+  if (cached_color) {
+    style.fillColor = cached_color;
+  } else {
+    var tag = tags_filter.split(',').find(function(tag) {
+      return properties.all_tags.includes(tag);
+    });
+    style.fillColor = category_legend.tag2color(tag);
+    properties.color_cache[tags_filter] = style.fillColor;
+  }
 
   if (params.shape_id && (f.tags.id == params.shape_id)) {
     // highlight focus element
@@ -444,8 +450,9 @@ var hash = L.hash(map);
 
 L.control.scale().addTo(map);
 
-var category_legend = CategoryLegend.load_window_content();
-category_legend.addTo(map);
+var category_legend = new CategoryLegend();
+category_legend_window = category_legend.load_window_content();
+category_legend_window.addTo(map);
 
 layers = L.control.layers(layers, overlays, { position: 'topleft' });
 layers.addTo(map);
