@@ -14,13 +14,21 @@ CategoryLegend.prototype.fill_categories_legend_list = function(div) {
       var html = '';
 
       $(data).each(function(index, item) {
-        html += '<label style="font-weight:normal">'
+        var element_id = 'category-legend-' + item.key
         if (item.key != 'unknown') {
-          html += '<input class="category-legend-checkbox" style="margin-left:5px;" type="checkbox" data-text="' + item.label + '" name="' + item.key + '" value="' + item.key + '"/>';
+          html += '<input class="category-legend-checkbox" type="checkbox" id="'+ element_id + '" data-text="' + item.label + '" name="' + item.key + '" value="' + item.key + '"/>';
+          html += '<label for="' + element_id + '" style="font-weight:normal;">'
+          html += '<span style="padding-left:5px;">' + item.label + '</span>'
+          html += '</label>'
+          // dynamically add css style because of :before styling
+          var style = $('<style>label[for=' + element_id+ ']:before { background-color: ' + item.color + '; }</style>');
+          $('html > head').append(style);
         }
-        html += '<i style="background:' + item.color +'; margin: 1px; font-weight: bold; text-align: center;"></i>';
-        html += '<span style="padding-left:5px;">' + item.label + '</span>'
-        html += '</label>'
+        else {
+          html += '<i style="background:' + item.color +'; margin-right: 10px; font-weight: bold; text-align: center; width: 16px; height: 16px;"></i>';
+          html += '<span style="padding-left:5px;">' + item.label + '</span>'
+        }
+
         html += '<br style="clear:left;">'
 
         that.color_map[item.key] = item.color;
@@ -43,7 +51,7 @@ CategoryLegend.prototype.load_window_content = function(map) {
     var div = L.DomUtil.create('div', 'info legend');
 
     div.innerHTML =
-      '<div>' +
+      '<div id="category-legend-window">' +
         '<div style="font-weight: bold; font-size: 0.9em;padding-bottom:3px;">Kategorie</div>' +
         '<div style="display: inline-block; vertical-align: middle; padding-right: 5px;">' +
           '<div id="category_legend_loading">' +
