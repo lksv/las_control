@@ -267,6 +267,8 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
             style: {color:'yellow'}
           });
           if (data && data.features && data.features.length) {
+            self.prepareFeatureData(data);
+
             self._tileIndexes[url] = geojsonvt(data, self.options.tileOptions);
             //console.log(self.options.updateInterval);
             self.deferedRedraw();
@@ -369,6 +371,17 @@ L.GeoJsonvtTiles =  L.TileLayer.Canvas.extend({
     }
   },
 
+  prepareFeatureData: function(data) {
+      data.features.forEach(function(feature) {
+      var properties = feature.properties || feature.tags;
+      properties.color_cache = {};
+      var all_tags = [];
+      properties.snippets.forEach(function(snippet) {
+        all_tags = all_tags.concat(snippet.tags);
+      });
+      properties.all_tags = all_tags;
+    });
+  },
 
   ///////////////////////////////////////
   // coppied from https://gist.github.com/mourner/8825883

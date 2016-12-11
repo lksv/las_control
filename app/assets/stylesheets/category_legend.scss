@@ -1,0 +1,41 @@
+// copied from http://www.hongkiat.com/blog/css3-checkbox-radio/
+
+#category-legend-window label {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  padding-left: 25px;
+  margin-right: 15px;
+  font-size: 13px;
+}
+
+#category-legend-window input[type=checkbox] {
+  display: none;
+}
+
+#category-legend-window label:before {
+  content: "";
+  display: inline-block;
+
+  width: 16px;
+  height: 16px;
+
+  margin-right: 10px;
+  position: absolute;
+  left: 0;
+  bottom: 1px;
+  box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
+}
+
+#category-legend-window .checkbox label:before {
+  border-radius: 3px;
+}
+
+#category-legend-window input[type=checkbox]:checked + label:before {
+  content: "\2713";
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+  font-size: 15px;
+  color: #f3f3f3;
+  text-align: center;
+    line-height: 15px;
+}
