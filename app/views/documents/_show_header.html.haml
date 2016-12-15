@@ -44,7 +44,7 @@
         %span{data: {toggle: 'tooltip'},
           title: 'Jedná se o datum, kdy byl dokument načten do systému, ve vyjmečných případech se může lišit od data zveřejnění úřadem.',
           x: ''}= l @document.from_date.to_date
-      %dt Orginální zdroj
+      %dt Originální zdroj
       %dd= link_to @document.url, @document.url
       %dt Nalezeno adres
       %dd= @document.events.accessible_by(current_ability).count
@@ -65,7 +65,7 @@
         = link_to '#', class: 'btn btn-success toggle-pdf-view multitime' do
           %span Zobrazit
           %span.collapse Skrýt
-          orginál
+          originál
 
       - location = Shape.joins(:events).merge(@events).where(events: {source_id: @document.id, source_type: 'Document'}).location
       - if location
