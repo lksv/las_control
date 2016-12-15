@@ -1,5 +1,5 @@
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get dist-upgrade
 
 sudo dpkg-reconfigure --priority=low unattended-upgrades
 
@@ -25,13 +25,16 @@ sudo apt-get install libgmp-dev libgmp3-dev
 # because of pg gem:
 sudo apt-get install libpq-dev
 
+# for tre-ruby gem
+sudo apt-get install tre-agrep libtre5 libtre-dev
+
 sudo apt-get install postgresql
 sudo apt-get install postgresql-9.3-postgis-2.1 postgresql-9.3-postgis-2.1-scripts postgis
 sudo apt-get install libgdal1-dev #optionaly for raser support
 
 
 #node
-sudo apt-get instsall nodejs-legacy
+sudo apt-get install nodejs
 
 #..and maybe:
 sudo apt-get -y install build-essential openssl libreadline6 libreadline6-dev curl git-core \
