@@ -2,6 +2,8 @@ class DocumentsController < ApplicationController
   skip_authorization_check only: [:index, :show]
   load_and_authorize_resource :document
 
+  caches_page :public_show, gzip: true
+
   def new
     @document = Document.new(
       from_date: Date.today,
@@ -39,6 +41,7 @@ class DocumentsController < ApplicationController
   def update
     respond_to do |format|
       if @document.update(document_params)
+        expire_page action: "show", id: @document.id
         format.html { redirect_to @document, notice: 'Změny v dokumentu uloženy.' }
         format.json { render :show, status: :ok, location: @document }
       else
@@ -105,8 +108,14 @@ class DocumentsController < ApplicationController
     authorize! :show, @document
   end
 
-  private
+  def public_show
+    @document = Document.includes(
+      address_blocks: { events: :shape_with_definition_point }
+    ).accessible_by(public_ability).find(params[:id])
+    render :show
+  end
 
+  private
 
   def document_params
     params.require(:document).permit(

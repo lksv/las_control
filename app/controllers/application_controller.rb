@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   check_authorization unless: :public_controller?
 
   helper_method :current_or_guest_user, :guest_user?
+  helper_method :cached_document_path, :cached_shape_path
+
 
   before_filter :logging_in
   before_action :set_raven_context
@@ -120,5 +122,45 @@ class ApplicationController < ActionController::Base
         email: current_user.email
       )
     end
+  end
+
+  # Returns path (url) to document#public_show or document#show depending on
+  # user roles. E.g. for non priviledged uses the page is cached.
+  #
+  def cached_document_path(document, options = {})
+    if current_user.nil?
+      return public_show_document_path(document, options)
+    end
+
+    lau = document.local_administration_unit
+    if current_user.lau_permitted?(lau)
+      return polymorphic_path(document, options)
+    end
+
+    public_show_document_path(document, options)
+  end
+
+  # Returns path (url) to Shape#public_show or Shape#show depending on
+  # user roles. E.g. for non priviledged uses the page is cached.
+  #
+  def cached_shape_path(shape, options = {})
+    if current_user.nil?
+      return public_show_shape_path(shape, options)
+    end
+
+    if current_user.admin? || current_user.local_administration_unit_admins.count > 0
+      return polymorphic_path(shape, options)
+    end
+
+    # exists_lau_permitted_event = shape.events
+    #   .joins(:document)
+    #   .joins("local_administration_unit_admins ON local_administration_unit_admins.local_administration_unit_id = docuemnts.local_administration_unit")
+    #   .where('local_administration_unit_admins.user_id', current_user).exists?
+    #
+    # if exists_lau_permitted_event
+    #   return polymorphic_path(shape, options)
+    # end
+
+    public_show_document_path(shape, options)
   end
 end

@@ -24,7 +24,7 @@
         - short_title = truncate(source.title.to_s, length: 70)
         - data = { :'no-turbolink' => 'true' }
         - data.update({ toggle: 'tooltip', title: source.title }) if short_title != source.title
-        = link_to short_title, polymorphic_path(source, anchor: anchor), data: data
+        = link_to short_title, cached_document_path(source, anchor: anchor), data: data
     %dd
       %span.from-date
         Ze dne:
@@ -43,7 +43,7 @@
         Přímý odkaz na jednotlivé výskyty:
         - events.each_with_index do |event, idx|
           = link_to "#{idx + 1}. ",
-            polymorphic_path(source, anchor: "addressBlock-#{event.address_block.id}"),
+            cached_document_path(source, anchor: "addressBlock-#{event.address_block.id}"),
             data: {:'no-turbolink' => 'true' }
         %br
 

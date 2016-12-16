@@ -7,7 +7,10 @@ $(document).on('page:change', function () {
 
 
   // following code is important only for documents#show view
-  if ($('main.documents.show').length == 0) {
+  if (
+    $('main.documents.show').length == 0 &&
+    $('main.documents.public_show').length == 0
+  ) {
     return
   }
   // calculate margin of fixed document info header

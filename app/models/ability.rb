@@ -7,7 +7,7 @@ class Ability
     if user.admin?
       can :manage, :all
     else
-      can [:read], Document, Document.lau_permitted(user) do |document|
+      can [:read, :public_show], Document, Document.lau_permitted(user) do |document|
         by_time = Time.now
         (
           document.published &&
@@ -74,7 +74,7 @@ class Ability
         can? :read, address_block.source
       end
 
-      can [:read], Shape #TODO, really? or allow only the ones with readable events?
+      can [:read, :public_show], Shape #TODO, really? or allow only the ones with readable events?
       can :manage, Notification, { user_id: user.id }
     end
   end

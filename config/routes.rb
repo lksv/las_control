@@ -13,7 +13,9 @@ Rails.application.routes.draw do
 
   resources :documents do
     resources :address_blocks
+    get :public_show,                 on: :member
   end
+
   resources :local_administration_units do
     post 'create_incomming_email',    on: :member
     post 'create_las_admin',          on: :member
@@ -25,7 +27,10 @@ Rails.application.routes.draw do
   resources :events do
     get 'tiles',                      on: :collection
   end
-  resources :shapes
+  resources :shapes do
+    get :public_show,                 on: :member
+  end
+
   resources :notifications
   resources :users, only: :create
 

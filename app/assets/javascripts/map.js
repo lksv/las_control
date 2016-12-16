@@ -335,6 +335,8 @@ var geojsonTileLayer = new L.geoJsonvtTiles(geojsonURL, {
       var apiUrl = feature.properties && feature.properties.api_url;
       if (apiUrl) {
         if (params['q[query]'] || params['q[source_id_eq]'] || params['q[lau_id_eq]']) {
+          // TODO unfortunatelly, params cannot be cached,
+          // e.g. cannot use cahed apiUrl '/public_show'
           apiUrl += '?event_ids=' + feature.properties.snippets.filter(function(i) {
             if (params['q[query]']) {
               return (documentIds.indexOf(i.source_id) !== -1);
@@ -346,6 +348,11 @@ var geojsonTileLayer = new L.geoJsonvtTiles(geojsonURL, {
           }).map(function(i) {
             return i.event_id
           }).join(',');
+        } else {
+          // use cached url (if the user is not priviledged, admin lau_admin)
+          if (params['private'] != 'true') {
+            apiUrl += '/public_show';
+          }
         }
 
         $.ajax({
