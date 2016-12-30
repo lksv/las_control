@@ -2,9 +2,9 @@
 
 ROOTDIR=/home/deployer/las/las_control
 DIR=`date +%F`
-BACKUPFILE_FILES="/tmp/mapasamospravy_dir_backup_`date +%F`.tar.bz2"
-BACKUPFILE_DB="/tmp/mapasamospravy_db_backup_`date +%F`.dump"
-BACKUPFILE_LOG="/tmp/mapasamospravy_backup_`date +%F`.log"
+BACKUPFILE_FILES="/tmp/mapasamospravy_dir_backup_`date +%F-%H-%M-%S`.tar.bz2"
+BACKUPFILE_DB="/tmp/mapasamospravy_db_backup_`date +%F-%H-%M-%S`.dump"
+BACKUPFILE_LOG="/tmp/mapasamospravy_backup_`date +%F-%H-%M-%S`.log"
 
 tar -cvjP \
   --exclude $ROOTDIR/tmp \
