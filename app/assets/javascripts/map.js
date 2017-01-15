@@ -374,6 +374,16 @@ geojsonTileLayer.on('loading', function(params) {
   queryFilter.loadUrl(params);
 });
 
+geojsonTileLayer.on('load', function(p) {
+  if (
+      (params['openPopup'] == 'true') &&
+      (this._tilesToLoad == 0) &&
+      (Object.keys(this._tileIndexes).length != 0)
+    ) {
+    this._clickGeoJSON({ latlng: map.getCenter() })
+    params['openPopup'] = null;
+  }
+});
 
 
 var notificationsLayerGroup = L.layerGroup([]);

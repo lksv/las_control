@@ -1,0 +1,45 @@
+<%=
+  @shapes ||= [ @shape ]
+
+  @shapes.map do |shape|
+    #events = shape.events.to_a & @events
+
+    events_by_docs = @events.group_by(&:source).sort_by { |source, events| source.created_at }.reverse
+
+    documents = {}
+    documents = events_by_docs.map do |document, events|
+      current_events = events & @events.to_a
+      next if current_events.empty?
+      anchor = "addressBlock-#{events.first.address_block_id}"
+      {
+        id: document.id,
+        tags: document.tags,
+        lau: {
+          id: document.local_administration_unit_id,
+          name: document.local_administration_unit.lau_nazev
+        },
+        title: document.title.to_s,
+        from_date: document.from_date.to_date,
+        color: document.legend_color,
+        events: current_events.map.with_index do |event, idx|
+          {
+            id: event.id,
+            address_block_id: event.address_block_id
+            # document_url: cached_document_path(document, anchor: "addressBlock-#{event.address_block.id}"),
+            # url: (event.url_location_params ? map_params_to_url(event.url_location_params) : nil)
+          }
+        end
+      }
+    end
+
+    {
+      shape_id: shape.id,
+      source_id: shape.source_id,
+      source_type: shape.source_type,
+      address: shape.address_cache,
+      cuzk_url: shape.cuzk_url_cache,
+      documents: documents
+    }
+
+  end.to_json.html_safe
+%>

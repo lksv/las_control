@@ -74,7 +74,7 @@ class Ability
         can? :read, address_block.source
       end
 
-      can [:read, :public_show], Shape #TODO, really? or allow only the ones with readable events?
+      can [:read, :public_show, :by_parcel_stavobj], Shape #TODO, really? or allow only the ones with readable events?
       can :manage, Notification, { user_id: user.id }
     end
   end

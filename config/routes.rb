@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   end
   resources :shapes do
     get :public_show,                 on: :member
+    get 'by_parcel_stavobj/:parcela_id'  => 'shapes#by_parcel_stavobj', on: :collection
+    get 'by_parcel_stavobj/:parcela_id/:stavebni_objekt_id'  => 'shapes#by_parcel_stavobj', on: :collection
   end
 
   resources :notifications

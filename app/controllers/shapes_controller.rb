@@ -1,7 +1,7 @@
 class ShapesController < ApplicationController
   load_and_authorize_resource
 
-  caches_page :public_show, gzip: true
+  caches_page [:by_parcel_stavobj, :public_show], gzip: true
 
   # Some shapes has got a lot of events see
   # http://localhost:3000/shapes/3581, e.g. event of address:
@@ -15,7 +15,7 @@ class ShapesController < ApplicationController
       @events = @shape
         .events
         .accessible_by(current_ability)
-        .includes(:address_block, source: :local_administration_unit)
+        .includes(source: :local_administration_unit)
     end
 
     respond_to do |format|
@@ -25,16 +25,41 @@ class ShapesController < ApplicationController
     end
   end
 
+  def by_parcel_stavobj
+    if params[:stavebni_objekt_id].present?
+      @shapes = Shape.where(
+        "(source_type = 'Parcela' AND source_id = ?) OR " \
+          "(source_type = 'AdresniMisto' and stavebni_objekt_id = ?)",
+        params[:parcela_id],
+        params[:stavebni_objekt_id]
+      )
+    else
+      @shapes = Shape.where(
+        "(source_type = 'Parcela' AND source_id = ?)",
+        params[:parcela_id]
+      )
+    end
+
+    @events = Event
+      .where('shape_id IN (?)', @shapes.select(:id))
+      .accessible_by(public_ability)
+      .includes(source: :local_administration_unit)
+
+    respond_to do |format|
+      format.html { render :show, layout: false }
+      format.json { render :show, layout: false }
+    end
+  end
+
   def public_show
     @events = @shape
       .events
       .accessible_by(public_ability)
-      .includes(:address_block, source: :local_administration_unit)
+      .includes(source: :local_administration_unit)
 
     respond_to do |format|
       format.html { render :show, layout: false }
-      format.xml  { render :show, xml: @events }
-      format.json { render :show, json: @events }
+      format.json { render :show, layout: false }
     end
   end
 end
