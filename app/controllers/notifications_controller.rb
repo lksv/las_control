@@ -23,6 +23,14 @@ class NotificationsController < ApplicationController
   end
 
   def edit
+    @tags_filter = @notification.tags.join(',')
+
+    @tags_filter_values = @notification.tags.reduce({}) do |memo, tag|
+      name = Category.new(tag).name
+      memo[tag] = name if name
+      memo
+    end
+
     respond_to do |format|
       format.html {}
       format.js {}
@@ -83,7 +91,7 @@ class NotificationsController < ApplicationController
   private
 
   def notification_params
-    params.require(:notification).permit(:message, :gps_location, :lat, :lng, :distance)
+    params.require(:notification).permit(:message, :gps_location, :lat, :lng, :distance, :tags)
   end
 
 

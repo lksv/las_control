@@ -1,8 +1,11 @@
 #errorMessage
 = simple_form_for @notification, remote: true,
-  html: { class: 'form-horizontal'}, wrapper: :horizontal_input_group  do |f|
+  html: { id: 'notification_form', class: 'form-horizontal'}, wrapper: :horizontal_input_group  do |f|
   = f.input :message, required: false, hint: "Vaše označení této oblasti."
   = f.input :gps_location, required: false, hint: 'Souřadnice můžete nastavit přetáhnutím špendlíku na mapě.'
+  = f.input :tags, label: 'Kategorie', required: false,
+    input_html: { value: @tags_filter, class: 'select2-ajax', data: { url: '/categories/options.json', minimumInputLength: 0, multiple: true,
+    init: @tags_filter_values, placeholder: 'Vyberte kategorie' } }
   = f.input :distance, required: false, input_html: { step: 10 } do
     = f.input_field :distance, step: 10, class: 'form-control'
     %span{class: 'input-group-addon'} m
@@ -19,6 +22,8 @@
   var autocomplete;
 
   var hintBase = 'Vaše označení této oblasti. ';
+
+  $('#notification_form .select2-ajax').ajaxSelect(); // page:partial-load does not work
 
   var autocompleteOn = function() {
     var input = document.getElementById('notification_message');
