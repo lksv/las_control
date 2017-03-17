@@ -128,6 +128,13 @@ cd local_administration_model
 #modify config/database.yml
 ENV=production RAILS_ENV=production rake db:create db:migrate
 
+
+sudo apt-get install letsencrypt
+# sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+# sudo letsencrypt certonly --webroot -w /home/deployer/las/las_control/public/ -d mapasamospravy.cz -d www.mapasamospravy.cz
+# #check it by: https://www.ssllabs.com/ssltest/analyze.html?d=mapasamospravy.cz
+
+
 # setup restart of services
 cat >>/etc/crontab <<EOF
 # 05 1  * * * root  /usr/sbin/service puma-manager restart && /usr/sbin/service workers restart
@@ -135,3 +142,5 @@ cat >>/etc/crontab <<EOF
 05 1  * * * root  /bin/systemctl restart puma.service && /bin/systemctl restart sidekiq.service
 58 5  * * * root  /bin/systemctl restart puma.service && /bin/systemctl restart sidekiq.service
 EOF
+
+
